@@ -1,9 +1,9 @@
-// test_DuneRoiBuildingService.cxx
+// test_KeepAllRoiBuildingService.cxx
 //
 // David Adams
-// May 2016
+// September 2016
 //
-// Test DuneRoiBuildingService.
+// Test KeepAllRoiBuildingService.
 //
 
 #include <string>
@@ -13,7 +13,6 @@
 #include <iomanip>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "dune/ArtSupport/ArtServiceHelper.h"
-#include "dune/Utilities/SignalShapingServiceDUNE.h"
 #include "dune/DuneInterface/AdcRoiBuildingService.h"
 
 #undef NDEBUG
@@ -34,8 +33,8 @@ typedef vector<unsigned int> IndexVector;
 
 //**********************************************************************
 
-int test_DuneRoiBuildingService(int a_LogLevel =1) {
-  const string myname = "test_DuneRoiBuildingService: ";
+int test_KeepAllRoiBuildingService(int a_LogLevel =1, bool explicitFcl =true) {
+  const string myname = "test_KeepAllRoiBuildingService: ";
 #ifdef NDEBUG
   cout << myname << "NDEBUG must be off." << endl;
   abort();
@@ -43,19 +42,24 @@ int test_DuneRoiBuildingService(int a_LogLevel =1) {
   string line = "-----------------------------";
 
   cout << myname << line << endl;
+  cout << myname << "Arguments: " << endl;
+  cout << myname << "     LogLevel: " << a_LogLevel << endl;
+  cout << myname << "  explicitFcl: " << explicitFcl << endl;
+
+  cout << myname << line << endl;
   cout << myname << "Create top-level FCL." << endl;
-  string fclfile = "test_DuneRoiBuildingService.fcl";
+  string fclfile = "test_KeepAllRoiBuildingService.fcl";
   ofstream fout(fclfile.c_str());
   fout << "#include \"services_dune.fcl\"" << endl;
-  fout << "services:      @local::dune35t_services" << endl;
-  fout << "services.AdcRoiBuildingService: {" << endl;
-  fout << "  service_provider: DuneRoiBuildingService" << endl;
-  fout << "  NSigmaStart:  4.0" << endl;
-  fout << "  NSigmaEnd:    1.0" << endl;
-  fout << "  PadLow:         5" << endl;
-  fout << "  PadHigh:       10" << endl;
-  fout << "  LogLevel:       " << a_LogLevel << endl;
-  fout << "}" << endl;
+  fout << "services: @local::dune35t_services" << endl;
+  if ( explicitFcl ) {
+    fout << "services.AdcRoiBuildingService: {" << endl;
+    fout << "  service_provider: KeepAllRoiBuildingService" << endl;
+    fout << "  LogLevel:       " << a_LogLevel << endl;
+    fout << "}" << endl;
+  } else {
+    fout << "services.AdcRoiBuildingService:  @local::adcroi_keepall" << endl;
+  }
   fout.close();
 
   cout << myname << "Fetch art service helper." << endl;
@@ -63,17 +67,6 @@ int test_DuneRoiBuildingService(int a_LogLevel =1) {
   ash.print();
 
   if ( ash.serviceStatus() == 0 ) {
-
-    cout << myname << line << endl;
-    cout << myname << "Add supporting services." << endl;
-    assert( ash.addService("ExptGeoHelperInterface", fclfile, true) == 0 );
-    assert( ash.addService("Geometry", fclfile, true) == 0 );
-    assert( ash.addService("LArPropertiesService", fclfile, true) == 0 );
-    assert( ash.addService("DetectorClocksService", fclfile, true) == 0 );
-    assert( ash.addService("DetectorPropertiesService", fclfile, true) == 0 );
-    assert( ash.addService("LArFFT", fclfile, true) == 0 );
-    assert( ash.addService("SignalShapingServiceDUNE", fclfile, true) == 0 );
-    ash.print();
 
     cout << myname << line << endl;
     cout << myname << "Add ROI building service." << endl;
@@ -107,22 +100,12 @@ int test_DuneRoiBuildingService(int a_LogLevel =1) {
   AdcSignalVector& sigs = acd.samples;
   AdcSignalVector sigsin = sigs;
 
-  //cout << myname << "Fetch FFT service." << endl;
-  //art::ServiceHandle<util::LArFFT> hfft;
-  //unsigned int fftsize = hfft->FFTSize();
-  //cout << myname << "Resizing signal vector to FFT size " << fftsize
-       //<< " as required for convolution." << endl;
-  //sigs.resize(fftsize, 0.0);
-  //cout << myname << "Samples size: " << acd.samples.size() << endl;
-
-  cout << myname << "Fetch shaping service." << endl;
-  ServiceHandle<util::SignalShapingServiceDUNE> hsss;
-  cout << myname << "Decon noise: " << hsss->GetDeconNoise(acd.channel) << endl;
-
+  cout << myname << line << endl;
   cout << myname << "Fetch ROI building service." << endl;
   ServiceHandle<AdcRoiBuildingService> hroi;
   hroi->print(cout, myname);
 
+  cout << myname << line << endl;
   cout << myname << "Build ROIs." << endl;
   hroi->build(acd);
   cout << myname << "Samples size: " << acd.samples.size() << endl;
@@ -143,13 +126,9 @@ int test_DuneRoiBuildingService(int a_LogLevel =1) {
 
   cout << myname << line << endl;
   cout << myname << "Check ROIs." << endl;
-  assert( acd.rois.size() == 3 );
-  assert( acd.rois[0].first == 25 );
-  assert( acd.rois[0].second == 44 );
-  assert( acd.rois[1].first == 55 );
-  assert( acd.rois[1].second == 80 );
-  assert( acd.rois[2].first == 85 );
-  assert( acd.rois[2].second == 99 );
+  assert( acd.rois.size() == 1 );
+  assert( acd.rois[0].first == 0 );
+  assert( acd.rois[0].second == 99 );
 
   cout << myname << line << endl;
   cout << myname << "Done." << endl;
@@ -160,11 +139,18 @@ int test_DuneRoiBuildingService(int a_LogLevel =1) {
 
 int main(int argc, char* argv[]) {
   int a_LogLevel = -1;
+  bool explicitFcl = 1;
   if ( argc > 1 ) {
     istringstream ssarg(argv[1]);
     ssarg >> a_LogLevel;
   }
-  return test_DuneRoiBuildingService(a_LogLevel);
+  if ( argc > 2 ) {
+    string sarg(argv[2]);
+    explicitFcl = sarg=="1" || sarg == "true";
+  }
+  cout << "     LogLevel: " << a_LogLevel << endl;
+  cout << "  explicitFcl: " << explicitFcl << endl;
+  return test_KeepAllRoiBuildingService(a_LogLevel, explicitFcl);
 }
 
 //**********************************************************************
