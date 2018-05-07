@@ -1,9 +1,9 @@
-// test_AdcDataPlotter.cxx
+// test_AdcChannelMetric.cxx
 //
 // David Adams
 // April 2017
 //
-// Test AdcDataPlotter.
+// Test AdcChannelMetric.
 
 #include <string>
 #include <iostream>
@@ -27,8 +27,8 @@ using std::vector;
 
 //**********************************************************************
 
-int test_AdcDataPlotter(bool useExistingFcl =false) {
-  const string myname = "test_AdcDataPlotter: ";
+int test_AdcChannelMetric(bool useExistingFcl =false) {
+  const string myname = "test_AdcChannelMetric: ";
 #ifdef NDEBUG
   cout << myname << "NDEBUG must be off." << endl;
   abort();
@@ -36,30 +36,30 @@ int test_AdcDataPlotter(bool useExistingFcl =false) {
   string line = "-----------------------------";
 
   cout << myname << line << endl;
-  string fclfile = "test_AdcDataPlotter.fcl";
+  string fclfile = "test_AdcChannelMetric.fcl";
+  string hname = "hchped";
   if ( ! useExistingFcl ) {
     cout << myname << "Creating top-level FCL." << endl;
     ofstream fout(fclfile.c_str());
-    fout << "tools: {" << endl;
-    fout << "  mytool: {" << endl;
-    fout << "           tool_type: AdcDataPlotter" << endl;
-    fout << "            DataType: 0" << endl;
-    fout << "            LogLevel: 2" << endl;
-    fout << "           FirstTick: 0" << endl;
-    fout << "            LastTick: 0" << endl;
+    fout << "#include \"dataprep_tools.fcl\"" << endl;   // Need adcNameManipulator
+    fout << "tools.mytool: {" << endl;
+    fout << "           tool_type: AdcChannelMetric" << endl;
+    fout << "            LogLevel: 3" << endl;
+    fout << "              Metric: \"pedestal\"" << endl;
     fout << "        FirstChannel: 0" << endl;
     fout << "         LastChannel: 0" << endl;
-    fout << "           MaxSignal: 10" << endl;
+    fout << "       ChannelCounts: []" << endl;
+    fout << "           MetricMin: 0.0" << endl;
+    fout << "           MetricMax: 2000.0" << endl;
     fout << "  ChannelLineModulus:  4" << endl;
     fout << "  ChannelLinePattern:  [1]" << endl;
-    fout << "             Palette: 1026" << endl;
-    fout << "            HistName: \"hadc\"" << endl;
-    fout << "           HistTitle: \"Prepared ADC run %RUN% event %EVENT%\"" << endl;
-    fout << "        PlotFileName: \"myplot-run%RUN%-evt%EVENT%.png\"" << endl;
+    fout << "            HistName: \"" << hname << "\"" << endl;
+    fout << "           HistTitle: \"ADC pedestals for run %RUN% event %EVENT%\"" << endl;
+    fout << "         MetricLabel: \"Pedestal [ADC counts]\"" << endl;
     fout << "           PlotSizeX: 0" << endl;
     fout << "           PlotSizeY: 0" << endl;
-    fout << "        RootFileName: \"adc.root\"" << endl;
-    fout << "  }" << endl;
+    fout << "        PlotFileName: \"mypeds-run%RUN%-evt%EVENT%.png\"" << endl;
+    fout << "        RootFileName: \"\"" << endl;
     fout << "}" << endl;
     fout.close();
   } else {
@@ -72,7 +72,7 @@ int test_AdcDataPlotter(bool useExistingFcl =false) {
   assert ( ptm != nullptr );
   DuneToolManager& tm = *ptm;
   tm.print();
-  assert( tm.toolNames().size() == 1 );
+  assert( tm.toolNames().size() >= 1 );
 
   cout << myname << line << endl;
   cout << myname << "Fetching tool." << endl;
@@ -80,7 +80,7 @@ int test_AdcDataPlotter(bool useExistingFcl =false) {
   assert( padv != nullptr );
 
   cout << myname << line << endl;
-  cout << myname << "Create data and call too." << endl;
+  cout << myname << "Create data and call tool." << endl;
   AdcIndex nevt = 2;
   float peds[20] = {701, 711, 733, 690, 688, 703, 720, 720, 695, 702,
                     410, 404, 388, 389, 400, 401, 410, 404, 395, 396};
@@ -122,7 +122,12 @@ int test_AdcDataPlotter(bool useExistingFcl =false) {
       }
       data.sampleUnit = "ke";
     }
-    assert( padv->viewMap(datamap) == 0 );
+    DataMap ret = padv->viewMap(datamap);
+    assert( ret == 0 );
+    TH1* phout = ret.getHist(hname);
+    assert( phout != nullptr );
+    assert( phout->GetName() == hname );
+    assert( phout->GetEntries() == ncha );
   }
 
   cout << myname << line << endl;
@@ -143,7 +148,7 @@ int main(int argc, char* argv[]) {
     }
     useExistingFcl = sarg == "true" || sarg == "1";
   }
-  return test_AdcDataPlotter(useExistingFcl);
+  return test_AdcChannelMetric(useExistingFcl);
 }
 
 //**********************************************************************
