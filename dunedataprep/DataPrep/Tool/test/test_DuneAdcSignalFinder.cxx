@@ -1,9 +1,9 @@
-// test_AdcThresholdSignalFinder.cxx
+// test_DuneAdcSignalFinder.cxx
 //
 // David Adams
 // April 2017
 //
-// Test AdcThresholdSignalFinder.
+// Test DuneAdcSignalFinder.
 
 #include <string>
 #include <iostream>
@@ -22,8 +22,8 @@ using fhicl::ParameterSet;
 
 //**********************************************************************
 
-int test_AdcThresholdSignalFinder(bool useExistingFcl =false) {
-  const string myname = "test_AdcThresholdSignalFinder: ";
+int test_DuneAdcSignalFinder(bool useExistingFcl =false) {
+  const string myname = "test_DuneAdcSignalFinder: ";
 #ifdef NDEBUG
   cout << myname << "NDEBUG must be off." << endl;
   abort();
@@ -31,19 +31,19 @@ int test_AdcThresholdSignalFinder(bool useExistingFcl =false) {
   string line = "-----------------------------";
 
   cout << myname << line << endl;
-  string fclfile = "test_AdcThresholdSignalFinder.fcl";
+  string fclfile = "test_DuneAdcSignalFinder.fcl";
   if ( ! useExistingFcl ) {
     cout << myname << "Creating top-level FCL." << endl;
     ofstream fout(fclfile.c_str());
     fout << "tools: {" << endl;
     fout << "  mytool: {" << endl;
-    fout << "    tool_type: AdcThresholdSignalFinder" << endl;
+    fout << "    tool_type: DuneAdcSignalFinder" << endl;
     fout << "    LogLevel: 1" << endl;
-    fout << "    Threshold: 100" << endl;
-    fout << "    BinsAfter: 10" << endl;
-    fout << "    BinsBefore: 5" << endl;
-    fout << "    FlagPositive: true" << endl;
-    fout << "    FlagNegative: true" << endl;
+    fout << "    NoiseSigma: 0.0" << endl;
+    fout << "    NSigmaStart: 3.0" << endl;
+    fout << "    NSigmaEnd: 1.0" << endl;
+    fout << "    TicksAfter: 10" << endl;
+    fout << "    TicksBefore: 5" << endl;
     fout << "  }" << endl;
     fout << "}" << endl;
     fout.close();
@@ -73,10 +73,18 @@ int test_AdcThresholdSignalFinder(bool useExistingFcl =false) {
     float xadc = rand()%20 - 10.0;
     data.samples.push_back(xadc);
   }
+  data.sampleNoise = 40.0;
   data.samples[30] = 150.0;
   assert( data.signal.size() == 0 );
   assert( data.rois.size() == 0 );
   assert( data.samples[30] = 150 );
+  assert( data.samples[31] = 130 );
+  assert( data.samples[32] =  90 );
+  assert( data.samples[33] =  70 );
+  assert( data.samples[34] =  45 );
+  assert( data.samples[35] =  30 );
+  assert( data.samples[36] =  20 );
+  assert( data.samples[37] =  15 );
 
   cout << myname << line << endl;
   cout << myname << "Running tool." << endl;
@@ -86,11 +94,11 @@ int test_AdcThresholdSignalFinder(bool useExistingFcl =false) {
   cout << myname << line << endl;
   cout << myname << "Checking results." << endl;
   assert( resmod == 0 );
-  assert( resmod.getInt("nThresholdBins") == 1 );
+  assert( resmod.getInt("nroi") == 1 );
   assert( data.signal.size() == 100 );
   assert( data.rois.size() == 1 );
   assert( data.rois[0].first == 25 );
-  assert( data.rois[0].second == 40 );
+  assert( data.rois[0].second == 44 );
 
   cout << myname << line << endl;
   cout << myname << "Done." << endl;
@@ -110,7 +118,7 @@ int main(int argc, char* argv[]) {
     }
     useExistingFcl = sarg == "true" || sarg == "1";
   }
-  return test_AdcThresholdSignalFinder(useExistingFcl);
+  return test_DuneAdcSignalFinder(useExistingFcl);
 }
 
 //**********************************************************************
