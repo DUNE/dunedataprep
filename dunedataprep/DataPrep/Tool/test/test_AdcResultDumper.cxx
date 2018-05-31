@@ -1,13 +1,15 @@
-// test_AdcThresholdSignalFinder.cxx
+// test_AdcResultDumper.cxx
 //
 // David Adams
-// April 2017
+// April 2018
 //
-// Test AdcThresholdSignalFinder.
+// Test AdcResultDumper.
 
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <vector>
 #include "dune/DuneInterface/Tool/AdcChannelTool.h"
 #include "dune/ArtSupport/DuneToolManager.h"
 
@@ -18,12 +20,11 @@ using std::string;
 using std::cout;
 using std::endl;
 using std::ofstream;
-using fhicl::ParameterSet;
 
 //**********************************************************************
 
-int test_AdcThresholdSignalFinder(bool useExistingFcl =false) {
-  const string myname = "test_AdcThresholdSignalFinder: ";
+int test_AdcResultDumper(bool useExistingFcl =false) {
+  const string myname = "test_AdcResultDumper: ";
 #ifdef NDEBUG
   cout << myname << "NDEBUG must be off." << endl;
   abort();
@@ -31,19 +32,21 @@ int test_AdcThresholdSignalFinder(bool useExistingFcl =false) {
   string line = "-----------------------------";
 
   cout << myname << line << endl;
-  string fclfile = "test_AdcThresholdSignalFinder.fcl";
+  string fclfile = "test_AdcResultDumper.fcl";
+  string gname = "protodune_geo";
   if ( ! useExistingFcl ) {
     cout << myname << "Creating top-level FCL." << endl;
     ofstream fout(fclfile.c_str());
     fout << "tools: {" << endl;
-    fout << "  mytool: {" << endl;
-    fout << "    tool_type: AdcThresholdSignalFinder" << endl;
-    fout << "    LogLevel: 1" << endl;
-    fout << "    Threshold: 100" << endl;
-    fout << "    BinsAfter: 10" << endl;
-    fout << "    BinsBefore: 5" << endl;
-    fout << "    FlagPositive: true" << endl;
-    fout << "    FlagNegative: true" << endl;
+    fout << "  mytool1: {" << endl;
+    fout << "    tool_type: AdcResultDumper" << endl;
+    fout << "    LogLevel: 2" << endl;
+    fout << "    Tool: \"NoSuchTool\"" << endl;
+    fout << "  }" << endl;
+    fout << "  mytool2: {" << endl;
+    fout << "    tool_type: AdcResultDumper" << endl;
+    fout << "    LogLevel: 2" << endl;
+    fout << "    Tool: \"mytool1\"" << endl;
     fout << "  }" << endl;
     fout << "}" << endl;
     fout.close();
@@ -57,40 +60,30 @@ int test_AdcThresholdSignalFinder(bool useExistingFcl =false) {
   assert ( ptm != nullptr );
   DuneToolManager& tm = *ptm;
   tm.print();
-  assert( tm.toolNames().size() == 1 );
+  assert( tm.toolNames().size() == 2 );
 
   cout << myname << line << endl;
-  cout << myname << "Fetching tool." << endl;
-  auto psgf = tm.getPrivate<AdcChannelTool>("mytool");
-  assert( psgf != nullptr );
-  auto psgfmod = tm.getPrivate<AdcChannelTool>("mytool");
-  assert( psgfmod != nullptr );
+  cout << myname << "Fetching tool 1." << endl;
+  auto pard1 = tm.getPrivate<AdcChannelTool>("mytool1");
+  assert( pard1 != nullptr );
 
   cout << myname << line << endl;
-  cout << myname << "Create data and call tool." << endl;
-  AdcChannelData data;
-  for ( AdcIndex itic=0; itic<100; ++itic ) {
-    float xadc = rand()%20 - 10.0;
-    data.samples.push_back(xadc);
-  }
-  data.samples[30] = 150.0;
-  assert( data.signal.size() == 0 );
-  assert( data.rois.size() == 0 );
-  assert( data.samples[30] = 150 );
+  cout << myname << "Fetching tool 2." << endl;
+  auto pard2 = tm.getPrivate<AdcChannelTool>("mytool2");
+  assert( pard2 != nullptr );
 
   cout << myname << line << endl;
-  cout << myname << "Running tool." << endl;
-  DataMap resmod = psgfmod->update(data);
-  resmod.print();
+  cout << myname << "Calling tool 1." << endl;
+  AdcChannelData acd;
+  DataMap dm1 = pard1->view(acd);
+  dm1.print();
+  assert( dm1.status() == 101 );
 
   cout << myname << line << endl;
-  cout << myname << "Checking results." << endl;
-  assert( resmod == 0 );
-  assert( resmod.getInt("nThresholdBins") == 1 );
-  assert( data.signal.size() == 100 );
-  assert( data.rois.size() == 1 );
-  assert( data.rois[0].first == 25 );
-  assert( data.rois[0].second == 40 );
+  cout << myname << "Calling tool 2." << endl;
+  DataMap dm2 = pard2->view(acd);
+  dm2.print();
+  assert( dm2.status() == 101 );
 
   cout << myname << line << endl;
   cout << myname << "Done." << endl;
@@ -110,7 +103,7 @@ int main(int argc, char* argv[]) {
     }
     useExistingFcl = sarg == "true" || sarg == "1";
   }
-  return test_AdcThresholdSignalFinder(useExistingFcl);
+  return test_AdcResultDumper(useExistingFcl);
 }
 
 //**********************************************************************
