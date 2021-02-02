@@ -1,9 +1,9 @@
-// test_ToolBasedRawDigitPrepService.cxx
+// test_TpcToolBasedRawDigitPrepService.cxx
 //
 // David Adams
 // May 2016
 //
-// Test ToolBasedRawDigitPrepService.
+// Test TpcToolBasedRawDigitPrepService.
 
 #include <string>
 #include <iostream>
@@ -60,8 +60,8 @@ bool flagequal(AdcFlag flg1, AdcFlag flg2) {
 
 //**********************************************************************
 
-int test_ToolBasedRawDigitPrepService(bool useExistingFcl =false) {
-  const string myname = "test_ToolBasedRawDigitPrepService: ";
+int test_TpcToolBasedRawDigitPrepService(bool useExistingFcl =false) {
+  const string myname = "test_TpcToolBasedRawDigitPrepService: ";
 #ifdef NDEBUG
   cout << myname << "NDEBUG must be off." << endl;
   abort();
@@ -70,7 +70,7 @@ int test_ToolBasedRawDigitPrepService(bool useExistingFcl =false) {
 
   cout << myname << line << endl;
   cout << myname << "Create top-level FCL." << endl;
-  std::string const fclfile{"test_ToolBasedRawDigitPrepService.fcl"};
+  std::string const fclfile{"test_TpcToolBasedRawDigitPrepService.fcl"};
   if (!useExistingFcl) {
     std::ofstream fout{fclfile};
     fout << "#include \"services_dune.fcl\"" << endl;
@@ -81,7 +81,7 @@ int test_ToolBasedRawDigitPrepService(bool useExistingFcl =false) {
     fout << "  LogLevel:       1" << endl;
     fout << "}" << endl;
     fout << "services.RawDigitPrepService: {" << endl;
-    fout << "  service_provider: ToolBasedRawDigitPrepService" << endl;
+    fout << "  service_provider: TpcToolBasedRawDigitPrepService" << endl;
     fout << "  LogLevel: 3" << endl;
     fout << "  DoWires: true" << endl;
     fout << "  ToolNames: [" << endl;
@@ -97,6 +97,7 @@ int test_ToolBasedRawDigitPrepService(bool useExistingFcl =false) {
     fout << "}" << endl;
     fout.close();
   }
+  assert( DuneToolManager::fclFilename(fclfile) == fclfile );
   std::ifstream config{fclfile};
   ArtServiceHelper::load_services(config);
 
@@ -328,7 +329,7 @@ int main(int argc, char* argv[]) {
     useExistingFcl = sarg == "true" || sarg == "1";
   }
   TH1::AddDirectory(false);
-  return test_ToolBasedRawDigitPrepService(useExistingFcl);
+  return test_TpcToolBasedRawDigitPrepService(useExistingFcl);
 }
 
 //**********************************************************************

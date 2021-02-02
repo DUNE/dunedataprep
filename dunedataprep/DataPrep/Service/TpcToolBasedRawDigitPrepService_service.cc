@@ -1,8 +1,8 @@
-// ToolBasedRawDigitPrepService_service.cc
+// TpcToolBasedRawDigitPrepService_service.cc
 
-#include "ToolBasedRawDigitPrepService.h"
+#include "TpcToolBasedRawDigitPrepService.h"
 #include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Tool/AdcChannelTool.h"
+#include "dune/DuneInterface/Tool/TpcDataTool.h"
 #include "dune/DuneInterface/Service/AdcWireBuildingService.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include <iostream>
@@ -24,8 +24,8 @@ using Index = unsigned int;
 
 //**********************************************************************
 
-ToolBasedRawDigitPrepService::
-ToolBasedRawDigitPrepService(fhicl::ParameterSet const& pset, art::ActivityRegistry&)
+TpcToolBasedRawDigitPrepService::
+TpcToolBasedRawDigitPrepService(fhicl::ParameterSet const& pset, art::ActivityRegistry&)
 : m_LogLevel(pset.get<int>("LogLevel")),
   m_DoWires(pset.get<bool>("DoWires")),
   m_ToolNames(pset.get<vector<string>>("ToolNames")),
@@ -33,7 +33,7 @@ ToolBasedRawDigitPrepService(fhicl::ParameterSet const& pset, art::ActivityRegis
   m_pWireBuildingService(nullptr),
   m_cgset(m_CallgrindToolNames.begin(), m_CallgrindToolNames.end()),
   m_pstate(new State) {
-  const string myname = "ToolBasedRawDigitPrepService::ctor: ";
+  const string myname = "TpcToolBasedRawDigitPrepService::ctor: ";
   pset.get_if_present<int>("LogLevel", m_LogLevel);
   // Fetch the tools.
   if ( m_ToolNames.size() ) {
@@ -43,12 +43,12 @@ ToolBasedRawDigitPrepService(fhicl::ParameterSet const& pset, art::ActivityRegis
     } else {
       for ( string tname : m_ToolNames ) {
         if ( m_LogLevel ) cout << myname << "     Fetching " << tname << endl;
-        AdcChannelToolPtr ptool = ptm->getPrivate<AdcChannelTool>(tname);
+        TpcDataToolPtr ptool = ptm->getPrivate<TpcDataTool>(tname);
         NamedTool nt(tname, ptool.get());
         if ( nt.tool ) {
           if ( m_LogLevel ) cout << myname << "    Found tool " << tname << " @ " << nt.tool << endl;
-          m_AdcChannelTools.push_back(std::move(ptool));
-          m_AdcChannelNamedTools.push_back(nt);
+          m_TpcDataTools.push_back(std::move(ptool));
+          m_TpcDataNamedTools.push_back(nt);
         } else {
           cout << myname << "ERROR: Unable to retrieve display tool " << tname << endl;
         }
@@ -66,8 +66,8 @@ ToolBasedRawDigitPrepService(fhicl::ParameterSet const& pset, art::ActivityRegis
 
 //**********************************************************************
 
-ToolBasedRawDigitPrepService::~ToolBasedRawDigitPrepService() {
-  const string myname = "ToolBasedRawDigitPrepService:dtor: ";
+TpcToolBasedRawDigitPrepService::~TpcToolBasedRawDigitPrepService() {
+  const string myname = "TpcToolBasedRawDigitPrepService:dtor: ";
   if ( state().nevtBegin != state().nevtEnd ) {
     cout << myname << "WARNING: Event counts are inconsistent: " << state().nevtBegin
          << " != " << state().nevtEnd << endl;
@@ -96,12 +96,12 @@ ToolBasedRawDigitPrepService::~ToolBasedRawDigitPrepService() {
 
 //**********************************************************************
 
-int ToolBasedRawDigitPrepService::beginEvent(const DuneEventInfo& devt) const {
-  const string myname = "ToolBasedRawDigitPrepService:beginEvent: ";
+int TpcToolBasedRawDigitPrepService::beginEvent(const DuneEventInfo& devt) const {
+  const string myname = "TpcToolBasedRawDigitPrepService:beginEvent: ";
   if ( m_LogLevel >= 2 ) {
     cout << myname << "Begin processing run " << devt.runString();
     cout << " event " << devt.event;
-    cout << " with " << m_AdcChannelNamedTools.size() << " tools." << endl;
+    cout << " with " << m_TpcDataNamedTools.size() << " tools." << endl;
   }
   if ( state().nevtBegin != state().nevtEnd ) {
     cout << myname << "WARNING: Event counts are inconsistent: " << state().nevtBegin
@@ -109,8 +109,8 @@ int ToolBasedRawDigitPrepService::beginEvent(const DuneEventInfo& devt) const {
   }
   ++state().nevtBegin;
   Index nfail = 0;
-  if ( m_AdcChannelNamedTools.size() ) {
-    for ( NamedTool nt : m_AdcChannelNamedTools ) {
+  if ( m_TpcDataNamedTools.size() ) {
+    for ( NamedTool nt : m_TpcDataNamedTools ) {
       DataMap ret = nt.tool->beginEvent(devt);
       if ( ret.status() ) {
         ++nfail;
@@ -124,12 +124,12 @@ int ToolBasedRawDigitPrepService::beginEvent(const DuneEventInfo& devt) const {
 
 //**********************************************************************
 
-int ToolBasedRawDigitPrepService::endEvent(const DuneEventInfo& devt) const {
-  const string myname = "ToolBasedRawDigitPrepService:endEvent: ";
+int TpcToolBasedRawDigitPrepService::endEvent(const DuneEventInfo& devt) const {
+  const string myname = "TpcToolBasedRawDigitPrepService:endEvent: ";
   if ( m_LogLevel >= 2 ) {
     cout << myname << "End processing run " << devt.runString();
     cout << " event " << devt.event;
-    cout << " with " << m_AdcChannelNamedTools.size() << " tools." << endl;
+    cout << " with " << m_TpcDataNamedTools.size() << " tools." << endl;
   }
   Index nfail = 0;
   ++state().nevtEnd;
@@ -137,8 +137,8 @@ int ToolBasedRawDigitPrepService::endEvent(const DuneEventInfo& devt) const {
     cout << myname << "WARNING: Event counts are inconsistent: " << state().nevtBegin
          << " != " << state().nevtEnd << endl;
   }
-  if ( m_AdcChannelNamedTools.size() ) {
-    for ( NamedTool nt : m_AdcChannelNamedTools ) {
+  if ( m_TpcDataNamedTools.size() ) {
+    for ( NamedTool nt : m_TpcDataNamedTools ) {
       DataMap ret = nt.tool->endEvent(devt);
       if ( ret.status() ) {
         ++nfail;
@@ -152,18 +152,18 @@ int ToolBasedRawDigitPrepService::endEvent(const DuneEventInfo& devt) const {
 
 //**********************************************************************
 
-int ToolBasedRawDigitPrepService::
+int TpcToolBasedRawDigitPrepService::
 prepare(detinfo::DetectorClocksData const& clockData,
         AdcChannelDataMap& datamap,
         std::vector<recob::Wire>* pwires, WiredAdcChannelDataMap* pintStates) const {
-  const string myname = "ToolBasedRawDigitPrepService:prepare: ";
+  const string myname = "TpcToolBasedRawDigitPrepService:prepare: ";
   // Loop over tools.
   ++state().ncall;
   if ( m_LogLevel >= 2 ) cout << myname << "Processing " << datamap.size() << " channels with "
-                              << m_AdcChannelNamedTools.size() << " tools." << endl;
-  if ( m_AdcChannelNamedTools.size() ) {
+                              << m_TpcDataNamedTools.size() << " tools." << endl;
+  if ( m_TpcDataNamedTools.size() ) {
     Index itoo = 0;
-    for ( NamedTool nt : m_AdcChannelNamedTools ) {
+    for ( NamedTool nt : m_TpcDataNamedTools ) {
       if ( m_LogLevel >= 3 ) cout << myname << "  Running tool " << nt.name << endl;
       bool useCallgrind = m_cgset.count(nt.name);
       if ( useCallgrind ) {
@@ -211,14 +211,14 @@ prepare(detinfo::DetectorClocksData const& clockData,
 
 //**********************************************************************
 
-std::ostream& ToolBasedRawDigitPrepService::
+std::ostream& TpcToolBasedRawDigitPrepService::
 print(std::ostream& out, std::string prefix) const {
-  out << prefix << "ToolBasedRawDigitPrepService:"                      << endl;
+  out << prefix << "TpcToolBasedRawDigitPrepService:"                      << endl;
   out << prefix << "                    LogLevel: " << m_LogLevel             << endl;
   out << prefix << "                     DoWires: " << m_DoWires              << endl;
-  if ( m_AdcChannelNamedTools.size() ) {
+  if ( m_TpcDataNamedTools.size() ) {
     cout << prefix << "     ADC channel tools:";
-    for ( const NamedTool& nm : m_AdcChannelNamedTools ) {
+    for ( const NamedTool& nm : m_TpcDataNamedTools ) {
        out << "\n" << prefix << "           " << nm.name;
        if ( m_cgset.count(nm.name) ) cout << " (callgrind enabled)";
     }
@@ -231,6 +231,6 @@ print(std::ostream& out, std::string prefix) const {
 
 //**********************************************************************
 
-DEFINE_ART_SERVICE_INTERFACE_IMPL(ToolBasedRawDigitPrepService, RawDigitPrepService)
+DEFINE_ART_SERVICE_INTERFACE_IMPL(TpcToolBasedRawDigitPrepService, RawDigitPrepService)
 
 //**********************************************************************

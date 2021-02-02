@@ -1,4 +1,4 @@
-// ToolBasedRawDigitPrepService.h
+// TpcToolBasedRawDigitPrepService.h
 //
 // David Adams
 // April 2018
@@ -19,36 +19,36 @@
 //              3 - one line for each step (tool call)
 //              4 - display result from each step
 //   DoWires - If true, the wire building service is called after processing.
-//   ToolNames - Names of the ADC channel tools.
+//   ToolNames - Names of the TpcData tools.
 //   CallgrindToolNames - Names of the tools for which callgrind should be enabled.
 
-#ifndef ToolBasedRawDigitPrepService_H
-#define ToolBasedRawDigitPrepService_H
+#ifndef TpcToolBasedRawDigitPrepService_H
+#define TpcToolBasedRawDigitPrepService_H
 
 #include "dune/DuneInterface/Service/RawDigitPrepService.h"
-#include "dune/DuneInterface/Tool/AdcChannelTool.h"
+#include "dune/DuneInterface/Tool/TpcDataTool.h"
 #include <map>
 #include <chrono>
 
 class AdcWireBuildingService;
 class AdcChannelDataCopyService;
 
-class ToolBasedRawDigitPrepService : public RawDigitPrepService {
+class TpcToolBasedRawDigitPrepService : public RawDigitPrepService {
 
 public:
 
   using Index = unsigned int;
-  using AdcChannelToolPtr = std::unique_ptr<AdcChannelTool>;
+  using TpcDataToolPtr = std::unique_ptr<TpcDataTool>;
   struct NamedTool {
     std::string name;
-    const AdcChannelTool* tool;
-    NamedTool(std::string a_name ="", const AdcChannelTool* a_tool =nullptr) : name(a_name), tool(a_tool) { }
+    const TpcDataTool* tool;
+    NamedTool(std::string a_name ="", const TpcDataTool* a_tool =nullptr) : name(a_name), tool(a_tool) { }
   };
-  using AdcChannelToolVector = std::vector<AdcChannelToolPtr>;
-  using AdcChannelNamedToolVector = std::vector<NamedTool>;
+  using TpcDataToolVector = std::vector<TpcDataToolPtr>;
+  using TpcDataNamedToolVector = std::vector<NamedTool>;
 
-  ToolBasedRawDigitPrepService(fhicl::ParameterSet const& pset, art::ActivityRegistry&);
-  ~ToolBasedRawDigitPrepService();
+  TpcToolBasedRawDigitPrepService(fhicl::ParameterSet const& pset, art::ActivityRegistry&);
+  ~TpcToolBasedRawDigitPrepService();
 
   // Called at begin and end of event processing.
   // Calls the same method for each tool.
@@ -70,8 +70,8 @@ private:
   std::vector<std::string> m_ToolNames;
   std::vector<std::string> m_CallgrindToolNames;
 
-  AdcChannelToolVector m_AdcChannelTools;
-  AdcChannelNamedToolVector m_AdcChannelNamedTools;
+  TpcDataToolVector m_TpcDataTools;
+  TpcDataNamedToolVector m_TpcDataNamedTools;
   const AdcWireBuildingService* m_pWireBuildingService;
   std::set<std::string> m_cgset;
 
@@ -90,6 +90,6 @@ private:
 
 };
 
-DECLARE_ART_SERVICE_INTERFACE_IMPL(ToolBasedRawDigitPrepService, RawDigitPrepService, LEGACY)
+DECLARE_ART_SERVICE_INTERFACE_IMPL(TpcToolBasedRawDigitPrepService, RawDigitPrepService, LEGACY)
 
 #endif
