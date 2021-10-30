@@ -389,7 +389,6 @@ void DataPrepByApaModule::reconfigure(fhicl::ParameterSet const& pset) {
     cout << myname << "      Max # output timestamps: " << m_maxOutputTimeStampChannelCount << endl;
     cout << myname << "           Max # output wires: " << m_maxOutputWireChannelCount << endl;
   }
-
 }
 
 //**********************************************************************
@@ -684,7 +683,7 @@ void DataPrepByApaModule::produce(art::Event& evt) {
       } else {
         ++clockCounts[chClock];
       }
-      if ( ! nearTrigger ) {
+      if ( ! nearTrigger && timingClock != 0 ) {
         if ( m_LogLevel >= 3 ) {
           cout << myname << "WARNING: Channel timing difference: " << chClockDiff
                << " (" << tickdiff << " ticks)." << endl;
