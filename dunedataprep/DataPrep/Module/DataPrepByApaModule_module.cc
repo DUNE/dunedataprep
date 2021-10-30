@@ -168,6 +168,13 @@ DataPrepByApaModule::DataPrepByApaModule(fhicl::ParameterSet const& pset) : EDPr
   } else if ( m_LogLevel > 0 ) {
     cout << myname << "Module will not produce Wires." << endl;
   }
+
+  if ( m_OutputDigitName.size() ) {
+    if ( m_LogLevel > 0 ) {
+      cout << myname << "Module will produce statusess with name " << m_OutputDigitName << endl;
+    }
+    produces<std::vector<raw::RDStatus>>(m_OutputDigitName);
+  }
 }
   
 //**********************************************************************
@@ -558,6 +565,12 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     pwires.reset(new WireVector);
     pwires->reserve(m_maxOutputWireChannelCount);
   }
+  using StatVector = std::vector<raw::RDStatus>;
+  std::unique_ptr<StatVector> pstatusAll;
+  if ( m_maxOutputDigitChannelCount ) {
+    pstatusAll.reset(new StatVector);
+    pstatusAll->reserve(m_maxOutputDigitChannelCount);
+  }
 
   // Notify data preparation service of start of event.
   DuneEventInfo devt;
@@ -892,6 +905,8 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     // Transfer the larsoft digits to the output container.
     if ( pdigitsAll ) for ( raw::RawDigit& dig : digitsCrn ) pdigitsAll->emplace_back(dig);
     if ( ptimsAll ) for ( raw::RDTimeStamp& tst : timsCrn ) ptimsAll->emplace_back(tst);
+    if ( ptimsAll ) for ( raw::RDTimeStamp& tst : timsCrn ) ptimsAll->emplace_back(tst);
+    if ( pstatusAll ) for ( raw::RDStatus& stat : statsCrn ) pstatusAll->emplace_back(stat);
 
   }  // End loop over channel ranges.
 
@@ -925,6 +940,13 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     }
   } else {
     if ( logInfo ) cout << myname << "Time stamp output was not requested." << endl;
+  }
+
+  if ( m_OutputDigitName.size() ) {
+    if ( logInfo ) cout << myname << "Created digit count: " << pstatusAll->size() << endl;
+    evt.put(std::move(pstatusAll), m_OutputDigitName);
+  } else {
+    if ( logInfo ) cout << myname << "Status output was not requested." << endl;
   }
 
   ++m_nproc;
