@@ -310,6 +310,9 @@ void DataPrepByApaModule::reconfigure(fhicl::ParameterSet const& pset) {
       m_apachsets.clear();
       iapa = -1;
       ncrn = -1;
+    // Temporary hack for VD cold box.
+    } else if ( crn.substr(0,2) == "cr" ) {
+      iapa = 1;
     } else {
       string::size_type ipos = string::npos;
       if ( crn.substr(0,3) == "apa" ) ipos = 3;
@@ -925,8 +928,12 @@ void DataPrepByApaModule::produce(art::Event& evt) {
 
   // Record decoder containers.
   if ( m_OutputDigitName.size() ) {
-    if ( logInfo ) cout << myname << "Created digit count: " << pdigitsAll->size() << endl;
-    evt.put(std::move(pdigitsAll), m_OutputDigitName);
+    if ( pdigitsAll ) {
+      if ( logInfo ) cout << myname << "Created digit count: " << pdigitsAll->size() << endl;
+      evt.put(std::move(pdigitsAll), m_OutputDigitName);
+    } else {
+      cout << myname << "WARNING: Digits are not written because container was not created." << endl;
+    }
   } else {
     if ( logInfo ) cout << myname << "Digit output was not requested." << endl;
   }
