@@ -1,0 +1,59 @@
+# vdcb_tools.fcl
+
+# Dataprep tools for the 2021 vertical detector cold box test.
+
+################# Range tools ####################
+
+tools.channelRangesVdcb: {
+  tool_type: VDColdboxChannelRanges
+  LogLevel: 1
+  GhostRange: []
+}
+
+tools.channelGroupsVdcb: {
+  tool_type: VDColdboxChannelGroups
+  LogLevel: 1
+}
+
+tools.channelRanges: @local::tools.channelRangesVdcb
+tools.channelGroups: @local::tools.channelGroupsVdcb
+
+################# Metric plotters ####################
+
+# Template for metric plots by reaout plane.
+tmp.vdcbb_chmet_template: {
+  tool_type: AdcChannelMetric
+  LogLevel: 1
+  DataView: ""
+  PedestalReference: ""
+  MetricSummaryView: "mean:dmean"
+  MetricMin: 0.0
+  MetricBins: 0
+  ChannelRanges: [crb]
+  ChannelLineModulus: 1600
+  ChannelLinePattern: [0, 384, 1024, 1600]
+  PlotSizeX: 1400
+  PlotSizeY:  500
+  PlotUsesStatus: 1
+  RootFileName: ""
+  MetadataFlags: [write]
+}
+
+# Pedestal for each TPS channel.
+tools.vdcbb_adcChannelPedestalPlotter: @local::tmp.vdcbb_chmet_template
+tools.vdcbb_adcChannelPedestalPlotter.Metric: pedestal
+tools.vdcbb_adcChannelPedestalPlotter.MetricMax: 4096
+tools.vdcbb_adcChannelPedestalPlotter.HistName: "hchpd%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdcbb_adcChannelPedestalPlotter.HistTitle: "ADC pedestals for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdcbb_adcChannelPedestalPlotter.MetricLabel: "Pedestal [ADC count]"
+tools.vdcbb_adcChannelPedestalPlotter.PlotFileName: "chmet_ped_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Sample RMS for each TPS channel.
+tools.vdcbb_adcChannelRawRmsPlotter: @local::tmp.vdcbb_chmet_template
+tools.vdcbb_adcChannelRawRmsPlotter.Metric: rawRms
+tools.vdcbb_adcChannelRawRmsPlotter.MetricMax: 20
+tools.vdcbb_adcChannelRawRmsPlotter.HistName: "hchrawrms%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdcbb_adcChannelRawRmsPlotter.HistTitle: "ADC-pedestal RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdcbb_adcChannelRawRmsPlotter.MetricLabel: "RMS [ADC count]"
+tools.vdcbb_adcChannelRawRmsPlotter.PlotFileName: "chmet_rawrms_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+

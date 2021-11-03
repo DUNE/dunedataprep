@@ -168,6 +168,13 @@ DataPrepByApaModule::DataPrepByApaModule(fhicl::ParameterSet const& pset) : EDPr
   } else if ( m_LogLevel > 0 ) {
     cout << myname << "Module will not produce Wires." << endl;
   }
+
+  if ( m_OutputDigitName.size() ) {
+    if ( m_LogLevel > 0 ) {
+      cout << myname << "Module will produce statusess with name " << m_OutputDigitName << endl;
+    }
+    produces<std::vector<raw::RDStatus>>(m_OutputDigitName);
+  }
 }
   
 //**********************************************************************
@@ -303,6 +310,9 @@ void DataPrepByApaModule::reconfigure(fhicl::ParameterSet const& pset) {
       m_apachsets.clear();
       iapa = -1;
       ncrn = -1;
+    // Temporary hack for VD cold box.
+    } else if ( crn.substr(0,2) == "cr" ) {
+      iapa = 1;
     } else {
       string::size_type ipos = string::npos;
       if ( crn.substr(0,3) == "apa" ) ipos = 3;
@@ -389,7 +399,6 @@ void DataPrepByApaModule::reconfigure(fhicl::ParameterSet const& pset) {
     cout << myname << "      Max # output timestamps: " << m_maxOutputTimeStampChannelCount << endl;
     cout << myname << "           Max # output wires: " << m_maxOutputWireChannelCount << endl;
   }
-
 }
 
 //**********************************************************************
@@ -559,6 +568,12 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     pwires.reset(new WireVector);
     pwires->reserve(m_maxOutputWireChannelCount);
   }
+  using StatVector = std::vector<raw::RDStatus>;
+  std::unique_ptr<StatVector> pstatusAll;
+  if ( m_maxOutputDigitChannelCount ) {
+    pstatusAll.reset(new StatVector);
+    pstatusAll->reserve(m_maxOutputDigitChannelCount);
+  }
 
   // Notify data preparation service of start of event.
   DuneEventInfo devt;
@@ -684,7 +699,7 @@ void DataPrepByApaModule::produce(art::Event& evt) {
       } else {
         ++clockCounts[chClock];
       }
-      if ( ! nearTrigger ) {
+      if ( ! nearTrigger && timingClock != 0 ) {
         if ( m_LogLevel >= 3 ) {
           cout << myname << "WARNING: Channel timing difference: " << chClockDiff
                << " (" << tickdiff << " ticks)." << endl;
@@ -893,6 +908,7 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     // Transfer the larsoft digits to the output container.
     if ( pdigitsAll ) for ( raw::RawDigit& dig : digitsCrn ) pdigitsAll->emplace_back(dig);
     if ( ptimsAll ) for ( raw::RDTimeStamp& tst : timsCrn ) ptimsAll->emplace_back(tst);
+    if ( pstatusAll ) for ( raw::RDStatus& stat : statsCrn ) pstatusAll->emplace_back(stat);
 
   }  // End loop over channel ranges.
 
@@ -911,8 +927,12 @@ void DataPrepByApaModule::produce(art::Event& evt) {
 
   // Record decoder containers.
   if ( m_OutputDigitName.size() ) {
-    if ( logInfo ) cout << myname << "Created digit count: " << pdigitsAll->size() << endl;
-    evt.put(std::move(pdigitsAll), m_OutputDigitName);
+    if ( pdigitsAll ) {
+      if ( logInfo ) cout << myname << "Created digit count: " << pdigitsAll->size() << endl;
+      evt.put(std::move(pdigitsAll), m_OutputDigitName);
+    } else {
+      cout << myname << "WARNING: Digits are not written because container was not created." << endl;
+    }
   } else {
     if ( logInfo ) cout << myname << "Digit output was not requested." << endl;
   }
@@ -926,6 +946,13 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     }
   } else {
     if ( logInfo ) cout << myname << "Time stamp output was not requested." << endl;
+  }
+
+  if ( m_OutputDigitName.size() ) {
+    if ( logInfo ) cout << myname << "Created digit count: " << pstatusAll->size() << endl;
+    evt.put(std::move(pstatusAll), m_OutputDigitName);
+  } else {
+    if ( logInfo ) cout << myname << "Status output was not requested." << endl;
   }
 
   ++m_nproc;
