@@ -908,7 +908,6 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     // Transfer the larsoft digits to the output container.
     if ( pdigitsAll ) for ( raw::RawDigit& dig : digitsCrn ) pdigitsAll->emplace_back(dig);
     if ( ptimsAll ) for ( raw::RDTimeStamp& tst : timsCrn ) ptimsAll->emplace_back(tst);
-    if ( ptimsAll ) for ( raw::RDTimeStamp& tst : timsCrn ) ptimsAll->emplace_back(tst);
     if ( pstatusAll ) for ( raw::RDStatus& stat : statsCrn ) pstatusAll->emplace_back(stat);
 
   }  // End loop over channel ranges.
