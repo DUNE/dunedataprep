@@ -621,7 +621,7 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     int decodeStat = m_pDecoderTool->
       retrieveDataForSpecifiedAPAs(evt, digitsCrn, timsCrn, statsCrn, apas);
     if ( m_LogLevel >= 3 ) {    // Decoder tool can return any value for success 
-      cout << myname << "WARNING: Decoder tool for APA " << iapa << " returned " << decodeStat << endl;
+      cout << myname << "INFO: Decoder tool for APA " << iapa << " returned " << decodeStat << endl;
     }
     if ( logInfo ) {
       cout << myname << "  " << sapa << " digit count from tool: " << digitsCrn.size() << endl;
