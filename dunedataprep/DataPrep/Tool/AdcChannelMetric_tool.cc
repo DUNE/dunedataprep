@@ -597,6 +597,8 @@ int AdcChannelMetric::getMetric(const AdcChannelData& acdtop, Name met, double& 
     val = acdtop.fembChannel();
   } else if ( met == "apaFembID" ) {
     val = acdtop.fembID()%20;
+  } else if ( met == "asic" ) {
+    val = acdtop.fembChannel()/16 + 1;
   } else if ( met == "nraw" ) {
     val = 0.0;
     weight = 1.0;
