@@ -16,7 +16,7 @@ tools.channelGroupsVdcb: {
 }
 
 tools.onlineChannelMapVdcb: {
-  tool_type: VdColdBoxOnlineChannel
+  tool_type: VdColdboxOnlineChannel
   LogLevel: 1
 }
 
