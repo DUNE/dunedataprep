@@ -15,6 +15,11 @@ tools.channelGroupsVdcb: {
   LogLevel: 1
 }
 
+tools.onlineChannelMapVdcb: {
+  tool_type: VDColdboxOnlineChannel
+  LogLevel: 1
+}
+
 tools.channelRanges: @local::tools.channelRangesVdcb
 tools.channelGroups: @local::tools.channelGroupsVdcb
 
@@ -40,6 +45,15 @@ tmp.vdcbb_chmet_template: {
 }
 
 ##### Tools for bottom channels.
+
+# FEMB for each TPS channel.
+tools.vdcbb_adcChannelFembIdPlotter: @local::tmp.vdcbb_chmet_template
+tools.vdcbb_adcChannelFembIdPlotter.Metric: apaFembID
+tools.vdcbb_adcChannelFembIdPlotter.MetricMax: 15
+tools.vdcbb_adcChannelFembIdPlotter.HistName: "hchpd%CRNAME%_fembid_%0RUN%_%0EVENT%"
+tools.vdcbb_adcChannelFembIdPlotter.HistTitle: "FEMB IDs for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdcbb_adcChannelFembIdPlotter.MetricLabel: "FEMB ID"
+tools.vdcbb_adcChannelFembIdPlotter.PlotFileName: "chmet_fembid_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
 
 # Pedestal for each TPS channel.
 tools.vdcbb_adcChannelPedestalPlotter: @local::tmp.vdcbb_chmet_template
