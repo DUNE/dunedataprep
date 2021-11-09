@@ -23,6 +23,16 @@ tools.onlineChannelMapVdcb: {
 tools.channelRanges: @local::tools.channelRangesVdcb
 tools.channelGroups: @local::tools.channelGroupsVdcb
 
+################# Noise removal. ####################
+
+# Remove only coherent noise (no high frequency filter) and
+# Set high threshold so no signal is removed.
+tools.vdcb_fembNoiseRemovalKe: @local::tools.pdsp_noiseRemovalKe
+tools.vdcb_fembNoiseRemovalKe.RemoveHighFrequency: false
+tools.vdcb_fembNoiseRemovalKe.UseBasicROIForCNR: true      # use simple threshold ROI finder
+tools.vdcb_fembNoiseRemovalKe.RoiStartThreshold: 99999     # threshold on the leading edge
+tools.vdcb_fembNoiseRemovalKe.RoiEndThreshold:   99999     # threshold on the leading edge
+
 ################# Metric plotters ####################
 
 # Template for metric plots by reaout plane.
