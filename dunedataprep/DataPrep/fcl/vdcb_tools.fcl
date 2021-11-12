@@ -2,6 +2,21 @@
 
 # Dataprep tools for the 2021 vertical detector cold box test.
 
+################################################################################
+# Shared data.
+################################################################################
+
+# Flag so other fcl files can check if this file has been included.
+have_vdcb_dataprep_tools: true
+
+data.vdcb_tpsChannelRanges: [cru]
+data.vdcb_ClockUnit: "Mtick"
+data.vdcb_TriggerClockRate: 50000000.0
+data.vdcb_Tick0: 500
+
+tools.tickRanges.plotTicks.begin:    0
+tools.tickRanges.plotTicks.end:   1000
+
 ################# Range tools ####################
 
 tools.channelRangesVdcb: {
@@ -32,6 +47,48 @@ tools.vdcb_fembNoiseRemovalKe.RemoveHighFrequency: false
 tools.vdcb_fembNoiseRemovalKe.UseBasicROIForCNR: true      # use simple threshold ROI finder
 tools.vdcb_fembNoiseRemovalKe.RoiStartThreshold: 99999     # threshold on the leading edge
 tools.vdcb_fembNoiseRemovalKe.RoiEndThreshold:   99999     # threshold on the leading edge
+
+################# Event display ####################
+
+tools.cht_vdcb_raw: {
+  tool_type: AdcDataPlotter
+  LogLevel: 1
+  DataType: 1      # 0 for prepared, 1 for raw-pedestal, 2 is signal
+  DataView: ""
+  TickRange: plotTicks
+  TickRebin: 1
+  ChannelRanges: []
+  ClockFactor: 0.0
+  ClockOffset: 12524
+  FembTickOffsets: []
+  MaxSignal: 50
+  SkipBadChannels: false
+  EmptyColor: 18
+  ChannelLineModulus: 3200
+  ChannelLinePattern: []
+  Palette: 2020
+  HistName: "hadcraw_%CRNAME%_run%0RUN%_evt%0EVENT%"
+  HistTitle: "Pedestal subtracted ADC"
+  PlotTitle: "Run %RUN% event %EVENT% %UTCTIME2% UTC (%TRIGNAME% trigger)"
+  PlotSizeX: 1400
+  PlotSizeY: 1000
+  PlotFileName: "adcraw_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+  RootFileName: ""    # or "adc_evt%EVENT%.root"
+}
+
+tools.cht_vdcbz_raw: @local::tools.cht_vdcb_raw
+tools.cht_vdcbz_raw.ChannelRanges: [crbz]
+
+tools.cht_vdcb_prp: @local::tools.cht_vdcb_raw
+tools.cht_vdcb_prp.DataType: 0
+tools.cht_vdcb_prp.MaxSignal: 10
+tools.cht_vdcb_prp.SkipBadChannels: true
+tools.cht_vdcb_prp.HistName: "hadcprp_%CRNAME%_run%0RUN%_evt%0EVENT%"
+tools.cht_vdcb_prp.HistTitle: "Calibrated signal"
+tools.cht_vdcb_prp.PlotFileName: "adcprp_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+tools.cht_vdcbz_prp: @local::tools.cht_vdcb_prp
+tools.cht_vdcbz_prp.ChannelRanges: [crbz]
 
 ################# Metric plotters ####################
 
