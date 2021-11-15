@@ -101,8 +101,15 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
   // Fetch channel ranges.
   const IndexRangeTool* pcrt = nullptr;
   for ( Name crn : m_ChannelRanges.size() ? m_ChannelRanges : NameVector(1, "") ) {
+    string::size_type ipos = crn.find(":");
     if ( crn.size() == 0 || crn == "data" ) {
       m_crs.emplace_back("data", 0, 0, "All data");
+    } else if ( ipos != string::npos ) {
+      cout << myname << "Decoding explicit range " << crn << endl;
+      Index ich1 = std::stoi(crn.substr(0,ipos));
+      Index ich2 = std::stoi(crn.substr(ipos+1));
+      Name rename = crn.substr(0,ipos) + "to" + crn.substr(ipos+1);
+      m_crs.emplace_back(rename, ich1, ich2, crn);
     } else {
       if ( pcrt == nullptr ) {
         pcrt = ptm->getShared<IndexRangeTool>("channelRanges");
