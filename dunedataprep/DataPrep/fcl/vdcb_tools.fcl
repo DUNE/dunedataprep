@@ -14,6 +14,13 @@ data.vdcb_ClockUnit: "Mtick"
 data.vdcb_TriggerClockRate: 50000000.0
 data.vdcb_Tick0: 500
 
+data.planeBounds: [0, 384, 1024, 1600]
+data.fembBounds: [
+  1600, 1632, 1664, 1700, 1738, 1778, 1817, 1856, 1896, 1936, 1975,
+  1984, 2064, 2144, 2236, 2304, 2432, 2560,
+  2624, 2646, 2734, 2823, 1856, 2912, 3000, 3088, 3177, 3200, 3200
+]
+
 tools.tickRanges.plotTicks.begin:    0
 tools.tickRanges.plotTicks.end:   1000
 
@@ -115,7 +122,8 @@ tmp.vdbcb_chmet_template: {
   MetricBins: 0
   ChannelRanges: [crb]
   ChannelLineModulus: 1600
-  ChannelLinePattern: [0, 384, 1024, 1600]
+  ChannelLinePattern: @local::data.fembBounds
+  ChannelLinePatternSolid: @local::data.planeBounds
   PlotSizeX: 1400
   PlotSizeY:  500
   PlotUsesStatus: 1

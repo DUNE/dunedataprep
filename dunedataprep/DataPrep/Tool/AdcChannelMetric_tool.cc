@@ -82,6 +82,7 @@ AdcChannelMetric::AdcChannelMetric(fhicl::ParameterSet const& ps)
   m_MetricBins(ps.get<Index>("MetricBins")),
   m_ChannelLineModulus(ps.get<Index>("ChannelLineModulus")),
   m_ChannelLinePattern(ps.get<IndexVector>("ChannelLinePattern")),
+  m_ChannelLinePatternSolid(ps.get<IndexVector>("ChannelLinePatternSolid")),
   m_HistName(ps.get<Name>("HistName")),
   m_HistTitle(ps.get<Name>("HistTitle")),
   m_MetricLabel(ps.get<Name>("MetricLabel")),
@@ -235,6 +236,14 @@ AdcChannelMetric::AdcChannelMetric(fhicl::ParameterSet const& ps)
     cout << myname << "  ChannelLinePattern: {";
     first = true;
     for ( Index icha : m_ChannelLinePattern ) {
+      if ( ! first ) cout << ", ";
+      first = false;
+      cout << icha;
+    }
+    cout << "}" << endl;
+    cout << myname << "  ChannelLinePatternSolid: {";
+    first = true;
+    for ( Index icha : m_ChannelLinePatternSolid ) {
       if ( ! first ) cout << ", ";
       first = false;
       cout << icha;
@@ -939,6 +948,11 @@ processMetricsForOneRange(const IndexRange& ran, const MetricMap& mets, TH1* ph,
           man.addVerticalModLines(m_ChannelLineModulus, icha);
         }
       } else {
+        for ( Index icha : m_ChannelLinePatternSolid ) {
+          if ( icha > icha0 && icha < ran.last() ) {
+            man.addVerticalLine(icha, 1.0, 1);
+          }
+        }
         for ( Index icha : m_ChannelLinePattern ) {
           if ( icha > icha0 && icha < ran.last() ) {
             man.addVerticalLine(icha, 1.0, 3);

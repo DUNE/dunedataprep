@@ -53,8 +53,9 @@ int test_AdcChannelMetric(bool useExistingFcl =false) {
     fout << "          MetricBins: 0" << endl;
     fout << "           MetricMin: \"0.0\"" << endl;
     fout << "           MetricMax: \"2000.0*[gain]/14.0\"" << endl;
-    fout << "  ChannelLineModulus:  40" << endl;
-    fout << "  ChannelLinePattern:  [10]" << endl;
+    fout << "  ChannelLineModulus:  0" << endl;
+    fout << "  ChannelLinePattern:  [5, 15]" << endl;
+    fout << "  ChannelLinePatternSolid: [10]" << endl;
     fout << "            HistName: \"hchped_%CRNAME%\"" << endl;
     fout << "           HistTitle: \"ADC pedestals for run %RUN% event %EVENT% %CRLABEL%\"" << endl;
     fout << "         MetricLabel: \"Pedestal [ADC counts]\"" << endl;
