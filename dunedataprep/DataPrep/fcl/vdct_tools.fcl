@@ -1,0 +1,177 @@
+# vdct_tools.fcl
+
+# Dataprep tools for the 2021 vertical detector cold box test.
+
+################################################################################
+# Shared data.
+################################################################################
+
+# Flag so other fcl files can check if this file has been included.
+have_vdct_dataprep_tools: true
+
+data.vdct_tpsChannelRanges: [cru]
+data.vdct_ClockUnit: "Mtick"
+data.vdct_TriggerClockRate: 50000000.0
+data.vdct_Tick0: 500
+
+tools.tickRanges.plotTicks.begin:    0
+tools.tickRanges.plotTicks.end:   10000
+
+################# Range tools ####################
+
+tools.channelRangesVdct: {
+  tool_type: VDColdboxChannelRanges
+  LogLevel: 1
+  GhostRange: [3200, 3520]
+}
+
+tools.channelGroupsVdct: {
+  tool_type: VDColdboxChannelGroups
+  LogLevel: 1
+}
+
+# do not use
+tools.onlineChannelMapVdct: {
+  tool_type: VDColdboxOnlineChannel
+  LogLevel: 1
+}
+
+tools.channelRanges: @local::tools.channelRangesVdct
+tools.channelGroups: @local::tools.channelGroupsVdct
+
+################# Noise removal. ####################
+
+# Remove only coherent noise (no high frequency filter) and
+# Set high threshold so no signal is removed.
+tools.vdct_fembNoiseRemovalKe: @local::tools.pdsp_noiseRemovalKe
+tools.vdct_fembNoiseRemovalKe.RemoveHighFrequency: false
+tools.vdct_fembNoiseRemovalKe.UseBasicROIForCNR: true      # use simple threshold ROI finder
+tools.vdct_fembNoiseRemovalKe.RoiStartThreshold: 99999     # threshold on the leading edge
+tools.vdct_fembNoiseRemovalKe.RoiEndThreshold:   99999     # threshold on the leading edge
+
+################# Event display ####################
+
+tools.cht_vdct_raw: {
+  tool_type: AdcDataPlotter
+  LogLevel: 1
+  DataType: 1      # 0 for prepared, 1 for raw-pedestal, 2 is signal
+  DataView: ""
+  TickRange: plotTicks
+  TickRebin: 1
+  ChannelRanges: []
+  ClockFactor: 0.0
+  ClockOffset: 0
+  FembTickOffsets: []
+  MaxSignal: 50
+  SkipBadChannels: false
+  EmptyColor: 18
+  ChannelLineModulus: 3200
+  ChannelLinePattern: []
+  Palette: 2020
+  HistName: "hadcraw_%CRNAME%_run%0RUN%_evt%0EVENT%"
+  HistTitle: "Pedestal subtracted ADC"
+  PlotTitle: "Run %RUN% event %EVENT% %UTCTIME2% UTC (%TRIGNAME% trigger)"
+  PlotSizeX: 1400
+  PlotSizeY: 1000
+  PlotFileName: "adcraw_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+  RootFileName: ""    # or "adc_evt%EVENT%.root"
+}
+
+tools.cht_vdctu_raw: @local::tools.cht_vdct_raw
+tools.cht_vdctu_raw.ChannelRanges: [crtu]
+tools.cht_vdcty_raw: @local::tools.cht_vdct_raw
+tools.cht_vdcty_raw.ChannelRanges: [crty]
+tools.cht_vdctz_raw: @local::tools.cht_vdct_raw
+tools.cht_vdctz_raw.ChannelRanges: [crtz]
+
+tools.cht_vdct_prp: @local::tools.cht_vdct_raw
+tools.cht_vdct_prp.DataType: 0
+tools.cht_vdct_prp.MaxSignal: 10
+tools.cht_vdct_prp.SkipBadChannels: true
+tools.cht_vdct_prp.HistName: "hadcprp_%CRNAME%_run%0RUN%_evt%0EVENT%"
+tools.cht_vdct_prp.HistTitle: "Calibrated signal"
+tools.cht_vdct_prp.PlotFileName: "adcprp_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+tools.cht_vdbctu_prp: @local::tools.cht_vdct_prp
+tools.cht_vdbctu_prp.ChannelRanges: [crtu]
+tools.cht_vdbcty_prp: @local::tools.cht_vdct_prp
+tools.cht_vdbcty_prp.ChannelRanges: [crty]
+tools.cht_vdbctz_prp: @local::tools.cht_vdct_prp
+tools.cht_vdbctz_prp.ChannelRanges: [crtz]
+
+################# Metric plotters ####################
+
+# Template for metric plots by readout plane.
+tmp.vdct_chmet_template: {
+  tool_type: AdcChannelMetric
+  LogLevel: 1
+  DataView: ""
+  PedestalReference: ""
+  MetricSummaryView: "mean:dmean"
+  MetricMin: 0.0
+  MetricBins: 0
+  ChannelRanges: [crt]
+  ChannelLineModulus: 0
+  ChannelLinePattern: [0, 384, 1024, 1600]
+  PlotSizeX: 1400
+  PlotSizeY:  500
+  PlotUsesStatus: 1
+  RootFileName: ""
+  MetadataFlags: [write]
+}
+
+# Pedestal for each TPS channel.
+tools.vdct_adcChannelPedestalPlotter: @local::tmp.vdct_chmet_template
+tools.vdct_adcChannelPedestalPlotter.Metric: pedestal
+tools.vdct_adcChannelPedestalPlotter.MetricMin: 1900
+tools.vdct_adcChannelPedestalPlotter.MetricMax: 2200
+tools.vdct_adcChannelPedestalPlotter.HistName: "hchpd%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdct_adcChannelPedestalPlotter.HistTitle: "ADC pedestals for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdct_adcChannelPedestalPlotter.MetricLabel: "Pedestal [ADC count]"
+tools.vdct_adcChannelPedestalPlotter.PlotFileName: "chmet_ped_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Raw RMS for each TPS channel.
+tools.vdct_adcChannelRawRmsPlotter: @local::tmp.vdct_chmet_template
+tools.vdct_adcChannelRawRmsPlotter.Metric: rawRms
+tools.vdct_adcChannelRawRmsPlotter.MetricMax: 20
+tools.vdct_adcChannelRawRmsPlotter.HistName: "hchrawrms%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdct_adcChannelRawRmsPlotter.HistTitle: "ADC-pedestal RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdct_adcChannelRawRmsPlotter.MetricLabel: "RMS [ADC count]"
+tools.vdct_adcChannelRawRmsPlotter.PlotFileName: "chmet_rawrms_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Sample RMS for each TPS channel.
+tools.vdct_adcChannelSamRmsPlotter: @local::tmp.vdct_chmet_template
+tools.vdct_adcChannelSamRmsPlotter.Metric: samRms
+tools.vdct_adcChannelSamRmsPlotter.MetricMax: 0.5
+tools.vdct_adcChannelSamRmsPlotter.HistName: "hchsamrms%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdct_adcChannelSamRmsPlotter.HistTitle: "Sample RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdct_adcChannelSamRmsPlotter.MetricLabel: "RMS [ke]"
+tools.vdct_adcChannelSamRmsPlotter.PlotFileName: "chmet_samrms_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Integrated RMS for each TPS channel.
+tools.vdct_adcChannelSamRms30Plotter: @local::tmp.vdct_chmet_template
+tools.vdct_adcChannelSamRms30Plotter.Metric: samRms30
+tools.vdct_adcChannelSamRms30Plotter.MetricMax: 20.0
+tools.vdct_adcChannelSamRms30Plotter.HistName: "hchsamrms30%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdct_adcChannelSamRms30Plotter.HistTitle: "30-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdct_adcChannelSamRms30Plotter.MetricLabel: "RMS [ke]"
+tools.vdct_adcChannelSamRms30Plotter.PlotFileName: "chmet_samrms30_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Integrated 50-sample RMS for each TPS channel.
+tools.vdct_adcChannelSamRms50Plotter: @local::tmp.vdct_chmet_template
+tools.vdct_adcChannelSamRms50Plotter.Metric: samRms50
+tools.vdct_adcChannelSamRms50Plotter.MetricMax: 20.0
+tools.vdct_adcChannelSamRms50Plotter.HistName: "hchsamrms50%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdct_adcChannelSamRms50Plotter.HistTitle: "50-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdct_adcChannelSamRms50Plotter.MetricLabel: "RMS [ke]"
+tools.vdct_adcChannelSamRms50Plotter.PlotFileName: "chmet_samrms50_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+################# Roi tree ####################
+
+# Write all ROIs to a TTree.
+tools.adcRoiTreeMaker: {
+  tool_type: AdcRoiToTree
+  LogLevel: 1
+  OutFile: "adcrois.root"
+  MetadataFields: [samRms]
+}
