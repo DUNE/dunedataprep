@@ -947,15 +947,18 @@ processMetricsForOneRange(const IndexRange& ran, const MetricMap& mets, TH1* ph,
         for ( Index icha : m_ChannelLinePattern ) {
           man.addVerticalModLines(m_ChannelLineModulus, icha);
         }
-      } else {
         for ( Index icha : m_ChannelLinePatternSolid ) {
-          if ( icha > icha0 && icha < ran.last() ) {
-            man.addVerticalLine(icha, 1.0, 1);
-          }
+          man.addVerticalModLines(m_ChannelLineModulus, icha, 1.0, 1);
         }
+      } else {
         for ( Index icha : m_ChannelLinePattern ) {
           if ( icha > icha0 && icha < ran.last() ) {
             man.addVerticalLine(icha, 1.0, 3);
+          }
+        }
+        for ( Index icha : m_ChannelLinePatternSolid ) {
+          if ( icha > icha0 && icha < ran.last() ) {
+            man.addVerticalLine(icha, 1.0, 1);
           }
         }
       }
@@ -963,7 +966,7 @@ processMetricsForOneRange(const IndexRange& ran, const MetricMap& mets, TH1* ph,
       float mmin = getState().metricMin;
       float mmax = getState().metricMax;
       if ( mmax > mmin ) man.setRangeY(mmin, mmax);
-      man.showGraphOverflow("BLTR", 2, statCols[0]);
+      //man.showGraphOverflow("BLTR", 2, statCols[0]);
       man.setGridY();
       man.print(ofpname);
     }

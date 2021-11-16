@@ -14,7 +14,7 @@ data.vdcb_ClockUnit: "Mtick"
 data.vdcb_TriggerClockRate: 50000000.0
 data.vdcb_Tick0: 500
 
-data.planeBounds: [0, 384, 1024, 1600]
+data.planeBounds: [1600, 1984, 2624]
 data.fembBounds: [
   1600, 1632, 1664, 1700, 1738, 1778, 1817, 1856, 1896, 1936, 1975,
   1984, 2064, 2144, 2236, 2304, 2432, 2560,
