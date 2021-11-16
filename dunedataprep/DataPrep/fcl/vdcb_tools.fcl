@@ -14,8 +14,8 @@ data.vdcb_ClockUnit: "Mtick"
 data.vdcb_TriggerClockRate: 50000000.0
 data.vdcb_Tick0: 500
 
-data.planeBounds: [1600, 1984, 2624]
-data.fembBounds: [
+data.vdbcb_planeBounds: [1600, 1984, 2624]
+data.vdbcb_fembBounds: [
   1600, 1632, 1664, 1700, 1738, 1778, 1817, 1856, 1896, 1936, 1975,
   1984, 2064, 2144, 2236, 2304, 2432, 2560,
   2624, 2646, 2734, 2823, 1856, 2912, 3000, 3088, 3177, 3200, 3200
@@ -72,7 +72,7 @@ tools.cht_vdcb_raw: {
   SkipBadChannels: false
   EmptyColor: 18
   ChannelLineModulus: 3200
-  ChannelLinePattern: []
+  ChannelLinePattern: @local::data.vdbcb_fembBounds
   Palette: 2020
   HistName: "hadcraw_%CRNAME%_run%0RUN%_evt%0EVENT%"
   HistTitle: "Pedestal subtracted ADC"
@@ -122,8 +122,8 @@ tmp.vdbcb_chmet_template: {
   MetricBins: 0
   ChannelRanges: [crb]
   ChannelLineModulus: 1600
-  ChannelLinePattern: @local::data.fembBounds
-  ChannelLinePatternSolid: @local::data.planeBounds
+  ChannelLinePattern: @local::data.vdbcb_fembBounds
+  ChannelLinePatternSolid: @local::data.vdbcb_planeBounds
   PlotSizeX: 1400
   PlotSizeY:  500
   PlotUsesStatus: 1

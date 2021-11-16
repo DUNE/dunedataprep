@@ -49,7 +49,7 @@ int test_AdcChannelMetric(bool useExistingFcl =false) {
     fout << "            DataView: \"\"" << endl;
     fout << "   PedestalReference: \"\"" << endl;
     fout << "   MetricSummaryView: \"\"" << endl;
-    fout << "       ChannelRanges: [all, tpp3c, tpp3z]" << endl;
+    fout << "       ChannelRanges: [tpp3c, tpp3z]" << endl;
     fout << "          MetricBins: 0" << endl;
     fout << "           MetricMin: \"0.0\"" << endl;
     fout << "           MetricMax: \"2000.0*[gain]/14.0\"" << endl;
