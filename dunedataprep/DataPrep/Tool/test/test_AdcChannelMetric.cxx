@@ -37,7 +37,7 @@ int test_AdcChannelMetric(bool useExistingFcl =false) {
 
   cout << myname << line << endl;
   string fclfile = "test_AdcChannelMetric.fcl";
-  string hname = "hchped_all";
+  string hname = "hchped_tpp3c";
   if ( ! useExistingFcl ) {
     cout << myname << "Creating top-level FCL." << endl;
     ofstream fout(fclfile.c_str());
