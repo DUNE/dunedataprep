@@ -563,4 +563,19 @@ cet_test(test_AdcRoiToTree
     ROOT_BASIC_LIB_LIST
 )
 
+cet_test(test_CnrByGroup
+  SOURCES
+    test_CnrByGroup.cxx
+  LIBRARIES
+    dune_ArtSupport
+    art_Utilities
+    canvas
+    fhiclcpp
+    cetlib cetlib_except
+    cetlib_except
+    SQLITE3
+    ${Boost_FILESYSTEM_LIBRARY}
+    ROOT_BASIC_LIB_LIST
+)
+
 cet_enable_asserts()
