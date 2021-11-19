@@ -572,6 +572,7 @@ void DataPrepModule::produce(art::Event& evt) {
   EventInfo* pevt = new EventInfo;
   pevt->run = evt.run();
   pevt->subRun = evt.subRun();
+  pevt->event = evt.event();
   pevt->time = itim;
   pevt->timerem = itimrem;
   pevt->triggerClock = timingClock;

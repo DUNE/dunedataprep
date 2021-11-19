@@ -478,6 +478,7 @@ pdcht_template: {
   EmptyColor: 18
   ChannelLineModulus: 2560
   ChannelLinePattern: []
+  ChannelLinePatternSolid: []
   Palette: 2020
   HistName: "hadcraw_%CRNAME%_run%0RUN%_evt%0EVENT%"
   HistTitle: "Raw ADC"
