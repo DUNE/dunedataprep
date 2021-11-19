@@ -14,6 +14,14 @@ data.vdcb_ClockUnit: "Mtick"
 data.vdcb_TriggerClockRate: 50000000.0
 data.vdcb_Tick0: 500
 
+data.vdcb_fembu:
+ [femb01u, femb02u, femb03u, femb04u, femb05u, femb06u, femb07u, femb08u, femb09u, femb10u, femb11u]
+data.vdcb_femby:
+ [femb01y, femb02y, femb03y, femb04y, femb11y, femb12y, femb13y]
+data.vdcb_fembz:
+ [femb04z, femb05z, femb06z, femb07z, femb08z, femb09z, femb10z, femb11z]
+data.vdcb_fembviews: [@sequence::data.vdcb_fembu, @sequence::data.vdcb_femby, @sequence::data.vdcb_fembz]
+
 data.vdbcb_planeBounds: [1600, 1984, 2624]
 data.vdbcb_fembBounds: [
   1600, 1632, 1664, 1700, 1738, 1778, 1817, 1856, 1896, 1936, 1975,
@@ -28,13 +36,13 @@ tools.tickRanges.plotTicks.end:   1000
 
 tools.channelRangesVdcb: {
   tool_type: VDColdboxChannelRanges
-  LogLevel: 1
+  LogLevel: 0     # To remove noise in pdChannelRange
   GhostRange: [3200, 3392]
 }
 
 tools.channelGroupsVdcb: {
   tool_type: VDColdboxChannelGroups
-  LogLevel: 1
+  LogLevel: 0     # To remove noise in pdChannelRange
 }
 
 tools.onlineChannelMapVdcb: {
@@ -49,11 +57,25 @@ tools.channelGroups: @local::tools.channelGroupsVdcb
 
 # Remove only coherent noise (no high frequency filter) and
 # Set high threshold so no signal is removed.
-tools.vdcb_fembNoiseRemovalKe: @local::tools.pdsp_noiseRemovalKe
-tools.vdcb_fembNoiseRemovalKe.RemoveHighFrequency: false
-tools.vdcb_fembNoiseRemovalKe.UseBasicROIForCNR: true      # use simple threshold ROI finder
-tools.vdcb_fembNoiseRemovalKe.RoiStartThreshold: 99999     # threshold on the leading edge
-tools.vdcb_fembNoiseRemovalKe.RoiEndThreshold:   99999     # threshold on the leading edge
+tools.vdbcb_fembNoiseRemovalKePdsp: @local::tools.pdsp_noiseRemovalKe
+tools.vdbcb_fembNoiseRemovalKePdsp.RemoveHighFrequency: false
+tools.vdbcb_fembNoiseRemovalKePdsp.UseBasicROIForCNR: true      # use simple threshold ROI finder
+tools.vdbcb_fembNoiseRemovalKePdsp.RoiStartThreshold: 99999     # threshold on the leading edge
+tools.vdbcb_fembNoiseRemovalKePdsp.RoiEndThreshold:   99999     # threshold on the leading edge
+
+tools.vdbcb_cnr: {
+  tool_type: CnrByGroup
+  LogLevel: 1
+  Options: ["median"]
+  Groups: @local::data.vdcb_fembviews
+}
+
+tools.vdtcb_cnr: {
+  tool_type: CnrByGroup
+  LogLevel: 1
+  Options: ["median"]
+  Groups: ["half1:0:800", "half2:800:1600"]
+}
 
 ################# Event display ####################
 
