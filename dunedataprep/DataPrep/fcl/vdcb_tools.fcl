@@ -70,12 +70,13 @@ tools.vdbcb_cnr: {
   Groups: @local::data.vdcb_fembviews
 }
 
-tools.vdtcb_cnr: {
-  tool_type: CnrByGroup
-  LogLevel: 1
-  Options: ["median"]
-  Groups: ["half1:0:800", "half2:800:1600"]
-}
+################# Signal finder ####################
+
+tools.vdc_thresholdSignalFinder: @local::tools.adcThresholdSignalFinder
+tools.vdc_thresholdSignalFinder.Threshold: 1.0
+
+tools.vdcb_noiseSignalFinder: @local::tools.adcNoiseSignalFinder
+tools.vdcb_noiseSignalFinder.ThresholdMin: 0.2
 
 ################# Event display ####################
 
