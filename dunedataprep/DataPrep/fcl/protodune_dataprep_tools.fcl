@@ -323,7 +323,7 @@ tools.rawAdcDetectorPlotColl: {
   ZMin:  -20.0
   ZMax:  720.0
   SignalThreshold:  20
-  SkipBadChannels: false
+  SkipChannelStatus: []
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -347,7 +347,7 @@ tools.rawAdcDetectorPlotInd1: {
   ZMin:  -20.0
   ZMax:  940.0
   SignalThreshold:  20
-  SkipBadChannels: false
+  SkipChannelStatus: []
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -371,7 +371,7 @@ tools.rawAdcDetectorPlotInd2: {
   ZMin: -380.0
   ZMax:  580.0
   SignalThreshold:  20
-  SkipBadChannels: false
+  SkipChannelStatus: []
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -397,7 +397,7 @@ tools.preparedAdcDetectorPlotColl: {
   ZMin:  -20.0
   ZMax:  720.0
   SignalThreshold: 5
-  SkipBadChannels: true
+  SkipChannelStatus: [1]
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -421,7 +421,7 @@ tools.preparedAdcDetectorPlotInd1: {
   ZMin:  -20.0
   ZMax:  940.0
   SignalThreshold: 5
-  SkipBadChannels: true
+  SkipChannelStatus: [1]
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -445,7 +445,7 @@ tools.preparedAdcDetectorPlotInd2: {
   ZMin: -380.0
   ZMax:  580.0
   SignalThreshold: 5
-  SkipBadChannels: true
+  SkipChannelStatus: [1]
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -474,7 +474,7 @@ pdcht_template: {
   ClockOffset: 12524
   FembTickOffsets: []
   MaxSignal: 50
-  SkipBadChannels: false
+  SkipChannelStatus: []
   EmptyColor: 18
   ChannelLineModulus: 2560
   ChannelLinePattern: []
@@ -537,7 +537,7 @@ tools.pdcht_Apa3v.ChannelRanges: [tpp0v]
 pdchtp_template: @local::pdcht_template
 pdchtp_template.DataType: 2
 pdchtp_template.MaxSignal: 50
-pdchtp_template.SkipBadChannels: true
+pdchtp_template.SkipChannelStatus: [1]
 pdchtp_template.HistName: "hadcprp_%CRNAME%_run%0RUN%_evt%0EVENT%"
 pdchtp_template. HistTitle: "Prepared ADC"
 pdchtp_template.PlotFileName: "adcprp_%CRNAME%_run%0RUN%_evt%0EVENT%.png"

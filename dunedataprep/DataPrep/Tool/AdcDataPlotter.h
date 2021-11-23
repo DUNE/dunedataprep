@@ -26,6 +26,7 @@
 //   MinSignal - Formula for min signal. If absent, -(max signal) is used.
 //   MaxSignal - Formula for max signal. Displayed signal range is (min signal, max signal)
 //   SkipBadChannels - If true, skip channels flagged as bad.
+//   SkipChannelStatus - Channel status values to skip (none if empty).
 //   EmptyColor - If >=0, empty bins are drawn in this color (See TAttColor).
 //                Otherwise empty bins are drawn with value zero.
 //                Bins may be empty if a channel is nor processed, if a tick out of range
@@ -117,7 +118,7 @@ private:
   Name           m_OnlineChannelMapTool;
   ParFormula*    m_MinSignal;
   ParFormula*    m_MaxSignal;
-  bool           m_SkipBadChannels;
+  IndexVector    m_SkipChannelStatus;
   Index          m_EmptyColor;
   Index          m_ChannelLineModulus;
   IndexVector    m_ChannelLinePattern;
@@ -140,7 +141,6 @@ private:
   // Client tools and services.
   const AdcChannelStringTool* m_adcStringBuilder;
   const IndexMapTool* m_pOnlineChannelMapTool;
-  const lariov::ChannelStatusProvider* m_pChannelStatusProvider;
   const RunDataTool* m_prdtool;
 
   // Make replacements in a name.

@@ -55,7 +55,7 @@ int test_AdcDataPlotter(bool useExistingFcl =false) {
     fout << "         ClockOffset: 0.0" << endl;
     fout << "     FembTickOffsets: []" << endl;
     fout << "           MaxSignal: \"10*[gain]/14.0\"" << endl;
-    fout << "     SkipBadChannels: false" << endl;
+    fout << "   SkipChannelStatus: []" << endl;
     fout << "          EmptyColor: 18" << endl;
     fout << "  ChannelLineModulus:  4" << endl;
     fout << "  ChannelLinePattern:  [1]" << endl;

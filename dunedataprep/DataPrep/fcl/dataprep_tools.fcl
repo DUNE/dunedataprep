@@ -229,7 +229,7 @@ tools.preparedAdcPlotter: {
   ClockOffset: 0.0
   FembTickOffsets: []
   MaxSignal: 200
-  SkipBadChannels: false
+  SkipChannelStatus: []
   EmptyColor: 18
   ChannelLineModulus: 2560
   ChannelLinePattern: [0, 800, 1600, 2080]
@@ -255,7 +255,7 @@ tools.signalAdcPlotter: {
   ClockOffset: 0.0
   FembTickOffsets: []
   MaxSignal: 200
-  SkipBadChannels: false
+  SkipChannelStatus: []
   EmptyColor: 18
   ChannelLineModulus: 2560
   ChannelLinePattern: [0, 800, 1600, 2080]
@@ -281,7 +281,7 @@ tools.rawAdcPlotter: {
   ClockOffset: 0.0
   FembTickOffsets: []
   MaxSignal: 200
-  SkipBadChannels: false
+  SkipChannelStatus: []
   EmptyColor: 18
   ChannelLineModulus: 2560
   ChannelLinePattern: [0, 800, 1600, 2080]
