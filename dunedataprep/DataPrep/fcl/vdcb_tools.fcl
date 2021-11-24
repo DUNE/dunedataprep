@@ -115,12 +115,13 @@ tools.cht_vdbcby_raw.ChannelRanges: [crby]
 tools.cht_vdbcbz_raw: @local::tools.cht_vdcb_raw
 tools.cht_vdbcbz_raw.ChannelRanges: [crbz]
 
+# Prepared data.
 tools.cht_vdcb_prp: @local::tools.cht_vdcb_raw
 tools.cht_vdcb_prp.DataType: 0
 tools.cht_vdcb_prp.MaxSignal: 10
 tools.cht_vdcb_prp.SkipChannelStatus: [1, 2]
 tools.cht_vdcb_prp.HistName: "hadcprp_%CRNAME%_run%0RUN%_evt%0EVENT%"
-tools.cht_vdcb_prp.HistTitle: "Calibrated signal"
+tools.cht_vdcb_prp.HistTitle: "Calibrated sample"
 tools.cht_vdcb_prp.PlotFileName: "adcprp_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
 
 tools.cht_vdbcbu_prp: @local::tools.cht_vdcb_prp
@@ -131,6 +132,22 @@ tools.cht_vdbcby_prp.ChannelRanges: [crby]
 
 tools.cht_vdbcbz_prp: @local::tools.cht_vdcb_prp
 tools.cht_vdbcbz_prp.ChannelRanges: [crbz]
+
+# Signal (ROI) data.
+tools.cht_vdcb_sig: @local::tools.cht_vdcb_prp
+tools.cht_vdcb_sig.DataType: 2
+tools.cht_vdcb_sig.HistName: "hadcsig_%CRNAME%_run%0RUN%_evt%0EVENT%"
+tools.cht_vdcb_sig.HistTitle: "Calibrated signal"
+tools.cht_vdcb_sig.PlotFileName: "adcsig_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+tools.cht_vdbcbu_sig: @local::tools.cht_vdcb_sig
+tools.cht_vdbcbu_sig.ChannelRanges: [crbu]
+
+tools.cht_vdbcby_sig: @local::tools.cht_vdcb_sig
+tools.cht_vdbcby_sig.ChannelRanges: [crby]
+
+tools.cht_vdbcbz_sig: @local::tools.cht_vdcb_sig
+tools.cht_vdbcbz_sig.ChannelRanges: [crbz]
 
 ################# Metric plotters ####################
 
