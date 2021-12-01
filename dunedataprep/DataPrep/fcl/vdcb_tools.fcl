@@ -243,12 +243,15 @@ tools.cht_vdbcbz_sig.ChannelRanges: [crbz]
 
 tools.cht_vdtcbu_sig: @local::tools.cht_vdcb_sig
 tools.cht_vdtcbu_sig.ChannelRanges: [crtu]
+tools.cht_vdtcbu_sig.TickRange: plotTicks10000
 
 tools.cht_vdtcby_sig: @local::tools.cht_vdcb_sig
 tools.cht_vdtcby_sig.ChannelRanges: [crty]
+tools.cht_vdtcby_sig.TickRange: plotTicks10000
 
 tools.cht_vdtcbz_sig: @local::tools.cht_vdcb_sig
 tools.cht_vdtcbz_sig.ChannelRanges: [crtz]
+tools.cht_vdtcbz_sig.TickRange: plotTicks10000
 
 ################# Metric plotters ####################
 
