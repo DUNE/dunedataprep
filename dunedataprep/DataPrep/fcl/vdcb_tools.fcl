@@ -446,4 +446,4 @@ tools.adcRoiTreeMaker: {
 
 # Scale samples from ke to ADC count for Top CRU
 tools.vdtcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
-tools.vdtcb_adcScaleAdcToKe.ScaleFactor: 0.0334
+tools.vdtcb_adcScaleAdcToKe.ScaleFactor: 0.034
