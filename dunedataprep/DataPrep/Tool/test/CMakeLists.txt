@@ -445,7 +445,7 @@ cet_test(test_FembLinearCalibration
 
 cet_test(test_FloatArrayGainCalibration
   SOURCES
-    test_FloatArrayGainCalibration
+    test_FloatArrayGainCalibration.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
