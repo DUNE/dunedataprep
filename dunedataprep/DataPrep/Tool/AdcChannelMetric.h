@@ -60,8 +60,9 @@
 //   MetricMax - Formula for the maximum for the metric axis.
 //   MetricBins - If nonzero, # channels vs metric is plotted with this binning instead of
 //                metric vs channel.
-//   ChannelLineModulus - Repeat spacing for horizontal lines
-//   ChannelLinePattern - Pattern for horizontal lines
+//   ChannelLineModulus - Repeat spacing for vertical lines
+//   ChannelLinePattern - Pattern for dotted vertical lines
+//   ChannelLinePatternSolid - Pattern for solid horizontal lines
 //   HistName - Histogram name (should be unique within Root file)
 //              If the HistName name does not include "EVENT%", then only summary histogram
 //              and plot are created.
@@ -96,7 +97,7 @@
 // integer N and any value if i in range of the array which are within
 // the drawn channel range.
 // If ChannelLineModulus is zero, then lines are drawn for the channels in
-// ChannelLinePattern.
+// ChannelLinePattern and ChannelLinePaternSolid.
 
 #ifndef AdcChannelMetric_H
 #define AdcChannelMetric_H
@@ -165,6 +166,7 @@ private:
   Index          m_MetricBins;
   Index          m_ChannelLineModulus;
   IndexVector    m_ChannelLinePattern;
+  IndexVector    m_ChannelLinePatternSolid;
   Name           m_HistName;
   Name           m_HistTitle;
   Name           m_MetricLabel;

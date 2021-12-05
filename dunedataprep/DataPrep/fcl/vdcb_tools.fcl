@@ -2,31 +2,261 @@
 
 # Dataprep tools for the 2021 vertical detector cold box test.
 
+################################################################################
+# Shared data.
+################################################################################
+
+# Flag so other fcl files can check if this file has been included.
+have_vdcb_dataprep_tools: true
+
+data.vdcb_tpsChannelRanges: [cru]
+data.vdcb_ClockUnit: "Mtick"
+data.vdcb_TriggerClockRate: 50000000.0
+data.vdcb_Tick0: 500
+
+tools.tickRanges.plotTicks.begin:    0
+tools.tickRanges.plotTicks.end:   1000
+
+tools.tickRanges.plotTicks10000: @local::tools.tickRanges.plotTicks
+tools.tickRanges.plotTicks10000.end:  10000
+
+data.vdcb_fembu:
+ [femb01u, femb02u, femb03u, femb04u, femb05u, femb06u, femb07u, femb08u, femb09u, femb10u, femb11u]
+data.vdcb_femby:
+ [femb01y, femb02y, femb03y, femb04y, femb11y, femb12y, femb13y]
+data.vdcb_fembz:
+ [femb04z, femb05z, femb06z, femb07z, femb08z, femb09z, femb10z, femb11z]
+data.vdcb_fembviews: [@sequence::data.vdcb_fembu, @sequence::data.vdcb_femby, @sequence::data.vdcb_fembz]
+
+data.vdbcb_planeBounds: [1600, 1984, 2624]
+data.vdbcb_fembBounds: [
+  1600, 1632, 1664, 1700, 1738, 1778, 1817, 1856, 1896, 1936, 1975,
+  1984, 2064, 2144, 2236, 2304, 2432, 2560,
+  2624, 2646, 2734, 2823, 1856, 2912, 3000, 3088, 3177, 3200, 3200
+]
+
+######### top drift channels #########
+data.vdtcb_planeBounds: [384, 1024, 1600]
+data.vdtcb_adaBounds: [ 
+ 64, 128, 192, 256, 320, 384,
+ 544, 704, 864, 1024, 
+ 1152, 1312, 1472 
+]
+
+# channels grouped by adapter boards
+data.vdcb_adau: [
+ "ADA6_U:0:64", "ADA5_U:64:128", "ADA5_U:128:192", 
+ "ADA3_U:192:256", "ADA2_U:256:320", "ADA1_U:320:384"
+]
+data.vdcb_aday: [
+ "ADA7_Y:384:544", "ADA8_Y:544:704",
+ "ADA2_Y:704:864", "ADA1_Y:864:1024"
+]
+data.vdcb_adaz: [
+ "ADA6_Z:1024:1152", "ADA5_Z:1152:1312",
+ "ADA4_Z:1312:1472", "ADA3_Z:1472:1600" 
+]
+data.vdcb_adaviews: [@sequence::data.vdcb_adau, @sequence::data.vdcb_aday, @sequence::data.vdcb_adaz]
+
+# channels grouped by 32 ch KEL connectors on the adapter boards
+data.vdcb_kelu: [
+ "KEL39_U:0:32", "KEL36_U:32:64", "KEL33_U:64:96", "KEL29_U:96:128", "KEL26_U:128:160", "KEL22_U:160:192",
+ "KEL19_U:192:224", "KEL16_U:224:256", "KEL13_U:256:288", "KEL9_U:288:320", "KEL6_U:320:352", "KEL2_U:352:384"
+]
+data.vdcb_kely: [
+ "KEL41_Y:384:416", "KEL42_Y:416:448", "KEL43_Y:448:480",
+ "KEL44_Y:480:512", "KEL45_Y:512:544", "KEL46_Y:544:576",
+ "KEL47_Y:576:608", "KEL48_Y:608:640", "KEL49_Y:640:672",
+ "KEL50_Y:672:704", "KEL14_Y:704:736", "KEL12_Y:736:768",
+ "KEL11_Y:768:800", "KEL10_Y:800:832", "KEL8_Y:832:864",
+ "KEL7_Y:864:896", "KEL5_Y:896:928", "KEL4_Y:928:960",
+ "KEL3_Y:960:992", "KEL1_Y:992:1024"
+]
+data.vdcb_kelz: [
+ "KEL40_Z:1024:1056", "KEL38_Z:1056:1088", "KEL37_Z:1088:1120",
+ "KEL35_Z:1120:1152", "KEL34_Z:1152:1184", "KEL32_Z:1184:1216",
+ "KEL31_Z:1216:1248", "KEL30_Z:1248:1280", "KEL28_Z:1280:1312",
+ "KEL27_Z:1312:1344", "KEL25_Z:1344:1376", "KEL24_Z:1376:1408",
+ "KEL23_Z:1408:1440", "KEL21_Z:1440:1472", "KEL20_Z:1472:1504",
+ "KEL18_Z:1504:1536", "KEL17_Z:1536:1568", "KEL15_Z:1568:1600"
+]
+data.vdcb_kelviews: [@sequence::data.vdcb_kelu, @sequence::data.vdcb_kely, @sequence::data.vdcb_kelz]
+
+
 ################# Range tools ####################
 
 tools.channelRangesVdcb: {
   tool_type: VDColdboxChannelRanges
-  LogLevel: 1
+  LogLevel: 0     # To remove noise in pdChannelRange
   GhostRange: [3200, 3392]
 }
 
 tools.channelGroupsVdcb: {
   tool_type: VDColdboxChannelGroups
-  LogLevel: 1
+  LogLevel: 0     # To remove noise in pdChannelRange
 }
 
 tools.onlineChannelMapVdcb: {
-  tool_type: VdColdBoxOnlineChannel
+  tool_type: VDColdboxOnlineChannel
   LogLevel: 1
 }
 
 tools.channelRanges: @local::tools.channelRangesVdcb
 tools.channelGroups: @local::tools.channelGroupsVdcb
 
+################# Noise removal. ####################
+
+# Remove only coherent noise (no high frequency filter) and
+# Set high threshold so no signal is removed.
+tools.vdbcb_fembNoiseRemovalKePdsp: @local::tools.pdsp_noiseRemovalKe
+tools.vdbcb_fembNoiseRemovalKePdsp.RemoveHighFrequency: false
+tools.vdbcb_fembNoiseRemovalKePdsp.UseBasicROIForCNR: true      # use simple threshold ROI finder
+tools.vdbcb_fembNoiseRemovalKePdsp.RoiStartThreshold: 99999     # threshold on the leading edge
+tools.vdbcb_fembNoiseRemovalKePdsp.RoiEndThreshold:   99999     # threshold on the leading edge
+
+tools.vdbcb_cnr: {
+  tool_type: CnrByGroup
+  LogLevel: 1
+  Options: ["median"]
+  Groups: @local::data.vdcb_fembviews
+}
+
+tools.vdtcb_cnr: {
+  tool_type: CnrByGroup
+  LogLevel: 1
+  Options: ["median"]
+  Groups: @local::data.vdcb_kelviews
+}
+
+tools.vdtcb_cnr_ada: {
+  tool_type: CnrByGroup
+  LogLevel: 1
+  Options: ["median"]
+  Groups: @local::data.vdcb_adaviews
+}
+
+################# Signal finder ####################
+
+tools.vdc_thresholdSignalFinder: @local::tools.adcThresholdSignalFinder
+tools.vdc_thresholdSignalFinder.Threshold: 1.0
+
+tools.vdcb_noiseSignalFinder: @local::tools.adcNoiseSignalFinder
+tools.vdcb_noiseSignalFinder.ThresholdMin: 0.2
+
+################# Event display ####################
+
+tools.cht_vdcb_raw: {
+  tool_type: AdcDataPlotter
+  LogLevel: 1
+  DataType: 1      # 0 for prepared, 1 for raw-pedestal, 2 is signal
+  DataView: ""
+  TickRange: plotTicks
+  TickRebin: 1
+  ChannelRanges: []
+  ClockFactor: 0.0
+  ClockOffset: 12524
+  FembTickOffsets: []
+  MaxSignal: 50
+  SkipChannelStatus: []
+  EmptyColor: 18
+  ChannelLineModulus: 3200
+  ChannelLinePattern: @local::data.vdbcb_fembBounds
+  Palette: 2020
+  HistName: "hadcraw_%CRNAME%_run%0RUN%_evt%0EVENT%"
+  HistTitle: "Pedestal subtracted ADC"
+  PlotTitle: "Run %RUN% event %EVENT% %UTCTIME2% UTC (%TRIGNAME% trigger)"
+  PlotSizeX: 1400
+  PlotSizeY: 1000
+  PlotFileName: "adcraw_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+  RootFileName: ""    # or "adc_evt%EVENT%.root"
+}
+
+tools.cht_vdbcbu_raw: @local::tools.cht_vdcb_raw
+tools.cht_vdbcbu_raw.ChannelRanges: [crbu]
+
+tools.cht_vdbcby_raw: @local::tools.cht_vdcb_raw
+tools.cht_vdbcby_raw.ChannelRanges: [crby]
+
+tools.cht_vdbcbz_raw: @local::tools.cht_vdcb_raw
+tools.cht_vdbcbz_raw.ChannelRanges: [crbz]
+
+tools.cht_vdtcbu_raw: @local::tools.cht_vdcb_raw
+tools.cht_vdtcbu_raw.ChannelRanges: [crtu]
+tools.cht_vdtcbu_raw.TickRange: plotTicks10000
+
+tools.cht_vdtcby_raw: @local::tools.cht_vdcb_raw
+tools.cht_vdtcby_raw.ChannelRanges: [crty]
+tools.cht_vdtcby_raw.TickRange: plotTicks10000
+
+tools.cht_vdtcbz_raw: @local::tools.cht_vdcb_raw
+tools.cht_vdtcbz_raw.ChannelRanges: [crtz]
+tools.cht_vdtcbz_raw.TickRange: plotTicks10000
+
+# Prepared data.
+tools.cht_vdcb_prp: @local::tools.cht_vdcb_raw
+tools.cht_vdcb_prp.DataType: 0
+tools.cht_vdcb_prp.MaxSignal: 10
+tools.cht_vdcb_prp.SkipChannelStatus: [1, 2]
+tools.cht_vdcb_prp.HistName: "hadcprp_%CRNAME%_run%0RUN%_evt%0EVENT%"
+tools.cht_vdcb_prp.HistTitle: "Calibrated sample"
+tools.cht_vdcb_prp.PlotFileName: "adcprp_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+tools.cht_vdbcbu_prp: @local::tools.cht_vdcb_prp
+tools.cht_vdbcbu_prp.ChannelRanges: [crbu]
+
+tools.cht_vdbcby_prp: @local::tools.cht_vdcb_prp
+tools.cht_vdbcby_prp.ChannelRanges: [crby]
+
+tools.cht_vdbcbz_prp: @local::tools.cht_vdcb_prp
+tools.cht_vdbcbz_prp.ChannelRanges: [crbz]
+
+tools.cht_vdtcbu_prp: @local::tools.cht_vdcb_prp
+tools.cht_vdtcbu_prp.ChannelRanges: [crtu]
+tools.cht_vdtcbu_prp.TickRange: plotTicks10000
+tools.cht_vdtcbu_prp.MaxSignal: 2 
+
+tools.cht_vdtcby_prp: @local::tools.cht_vdcb_prp
+tools.cht_vdtcby_prp.ChannelRanges: [crty]
+tools.cht_vdtcby_prp.TickRange: plotTicks10000
+tools.cht_vdtcby_prp.MaxSignal: 2
+
+tools.cht_vdtcbz_prp: @local::tools.cht_vdcb_prp
+tools.cht_vdtcbz_prp.ChannelRanges: [crtz]
+tools.cht_vdtcbz_prp.TickRange: plotTicks10000
+tools.cht_vdtcbz_prp.MaxSignal: 2
+
+# Signal (ROI) data.
+tools.cht_vdcb_sig: @local::tools.cht_vdcb_prp
+tools.cht_vdcb_sig.DataType: 2
+tools.cht_vdcb_sig.HistName: "hadcsig_%CRNAME%_run%0RUN%_evt%0EVENT%"
+tools.cht_vdcb_sig.HistTitle: "Calibrated signal"
+tools.cht_vdcb_sig.PlotFileName: "adcsig_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+tools.cht_vdbcbu_sig: @local::tools.cht_vdcb_sig
+tools.cht_vdbcbu_sig.ChannelRanges: [crbu]
+
+tools.cht_vdbcby_sig: @local::tools.cht_vdcb_sig
+tools.cht_vdbcby_sig.ChannelRanges: [crby]
+
+tools.cht_vdbcbz_sig: @local::tools.cht_vdcb_sig
+tools.cht_vdbcbz_sig.ChannelRanges: [crbz]
+
+tools.cht_vdtcbu_sig: @local::tools.cht_vdcb_sig
+tools.cht_vdtcbu_sig.ChannelRanges: [crtu]
+tools.cht_vdtcbu_sig.TickRange: plotTicks10000
+
+tools.cht_vdtcby_sig: @local::tools.cht_vdcb_sig
+tools.cht_vdtcby_sig.ChannelRanges: [crty]
+tools.cht_vdtcby_sig.TickRange: plotTicks10000
+
+tools.cht_vdtcbz_sig: @local::tools.cht_vdcb_sig
+tools.cht_vdtcbz_sig.ChannelRanges: [crtz]
+tools.cht_vdtcbz_sig.TickRange: plotTicks10000
+
 ################# Metric plotters ####################
 
-# Template for metric plots by reaout plane.
-tmp.vdcbb_chmet_template: {
+# Template for metric plots by readout plane.
+tmp.vdbcb_chmet_template: {
   tool_type: AdcChannelMetric
   LogLevel: 1
   DataView: ""
@@ -36,7 +266,8 @@ tmp.vdcbb_chmet_template: {
   MetricBins: 0
   ChannelRanges: [crb]
   ChannelLineModulus: 1600
-  ChannelLinePattern: [0, 384, 1024, 1600]
+  ChannelLinePattern: @local::data.vdbcb_fembBounds
+  ChannelLinePatternSolid: @local::data.vdbcb_planeBounds
   PlotSizeX: 1400
   PlotSizeY:  500
   PlotUsesStatus: 1
@@ -47,37 +278,172 @@ tmp.vdcbb_chmet_template: {
 ##### Tools for bottom channels.
 
 # FEMB for each TPS channel.
-tools.vdcbb_adcChannelFembIdPlotter: @local::tmp.vdcbb_chmet_template
-tools.vdcbb_adcChannelFembIdPlotter.Metric: apaFembID
-tools.vdcbb_adcChannelFembIdPlotter.MetricMax: 15
-tools.vdcbb_adcChannelFembIdPlotter.HistName: "hchpd%CRNAME%_fembid_%0RUN%_%0EVENT%"
-tools.vdcbb_adcChannelFembIdPlotter.HistTitle: "FEMB IDs for run %RUN% event %EVENT% %CRLABEL%"
-tools.vdcbb_adcChannelFembIdPlotter.MetricLabel: "FEMB ID"
-tools.vdcbb_adcChannelFembIdPlotter.PlotFileName: "chmet_fembid_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+tools.vdbcb_adcChannelFembIdPlotter: @local::tmp.vdbcb_chmet_template
+tools.vdbcb_adcChannelFembIdPlotter.Metric: apaFembID
+tools.vdbcb_adcChannelFembIdPlotter.MetricMax: 15
+tools.vdbcb_adcChannelFembIdPlotter.HistName: "hchpd%CRNAME%_fembid_%0RUN%_%0EVENT%"
+tools.vdbcb_adcChannelFembIdPlotter.HistTitle: "FEMB IDs for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdbcb_adcChannelFembIdPlotter.MetricLabel: "FEMB ID"
+tools.vdbcb_adcChannelFembIdPlotter.PlotFileName: "chmet_fembid_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# FEMB asic for each TPS channel.
+tools.vdbcb_adcChannelAsicPlotter: @local::tmp.vdbcb_chmet_template
+tools.vdbcb_adcChannelAsicPlotter.Metric: asic
+tools.vdbcb_adcChannelAsicPlotter.MetricMin: 0
+tools.vdbcb_adcChannelAsicPlotter.MetricMax: 9
+tools.vdbcb_adcChannelAsicPlotter.HistName: "hchpd%CRNAME%_asic_%0RUN%_%0EVENT%"
+tools.vdbcb_adcChannelAsicPlotter.HistTitle: "ASIC IDs for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdbcb_adcChannelAsicPlotter.MetricLabel: "ASIC ID"
+tools.vdbcb_adcChannelAsicPlotter.PlotFileName: "chmet_asic_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# FEMB channel for each TPS channel.
+tools.vdbcb_adcChannelFembChanPlotter: @local::tmp.vdbcb_chmet_template
+tools.vdbcb_adcChannelFembChanPlotter.Metric: fembChannel
+tools.vdbcb_adcChannelFembChanPlotter.MetricMin: -1
+tools.vdbcb_adcChannelFembChanPlotter.MetricMax: 129
+tools.vdbcb_adcChannelFembChanPlotter.HistName: "hchpd%CRNAME%_fembchan_%0RUN%_%0EVENT%"
+tools.vdbcb_adcChannelFembChanPlotter.HistTitle: "FEMB channels for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdbcb_adcChannelFembChanPlotter.MetricLabel: "FEMB channel"
+tools.vdbcb_adcChannelFembChanPlotter.PlotFileName: "chmet_fembchan_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
 
 # Pedestal for each TPS channel.
-tools.vdcbb_adcChannelPedestalPlotter: @local::tmp.vdcbb_chmet_template
-tools.vdcbb_adcChannelPedestalPlotter.Metric: pedestal
-tools.vdcbb_adcChannelPedestalPlotter.MetricMax: 4096
-tools.vdcbb_adcChannelPedestalPlotter.HistName: "hchpd%CRNAME%_ped_%0RUN%_%0EVENT%"
-tools.vdcbb_adcChannelPedestalPlotter.HistTitle: "ADC pedestals for run %RUN% event %EVENT% %CRLABEL%"
-tools.vdcbb_adcChannelPedestalPlotter.MetricLabel: "Pedestal [ADC count]"
-tools.vdcbb_adcChannelPedestalPlotter.PlotFileName: "chmet_ped_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+tools.vdbcb_adcChannelPedestalPlotter: @local::tmp.vdbcb_chmet_template
+tools.vdbcb_adcChannelPedestalPlotter.Metric: pedestal
+tools.vdbcb_adcChannelPedestalPlotter.MetricMax: 4096
+tools.vdbcb_adcChannelPedestalPlotter.HistName: "hchpd%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdbcb_adcChannelPedestalPlotter.HistTitle: "ADC pedestals for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdbcb_adcChannelPedestalPlotter.MetricLabel: "Pedestal [ADC count]"
+tools.vdbcb_adcChannelPedestalPlotter.PlotFileName: "chmet_ped_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Raw RMS for each TPS channel.
+tools.vdbcb_adcChannelRawRmsPlotter: @local::tmp.vdbcb_chmet_template
+tools.vdbcb_adcChannelRawRmsPlotter.Metric: rawRms
+tools.vdbcb_adcChannelRawRmsPlotter.MetricMax: 20
+tools.vdbcb_adcChannelRawRmsPlotter.HistName: "hchrawrms%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdbcb_adcChannelRawRmsPlotter.HistTitle: "ADC-pedestal RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdbcb_adcChannelRawRmsPlotter.MetricLabel: "RMS [ADC count]"
+tools.vdbcb_adcChannelRawRmsPlotter.PlotFileName: "chmet_rawrms_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
 
 # Sample RMS for each TPS channel.
-tools.vdcbb_adcChannelRawRmsPlotter: @local::tmp.vdcbb_chmet_template
-tools.vdcbb_adcChannelRawRmsPlotter.Metric: rawRms
-tools.vdcbb_adcChannelRawRmsPlotter.MetricMax: 20
-tools.vdcbb_adcChannelRawRmsPlotter.HistName: "hchrawrms%CRNAME%_ped_%0RUN%_%0EVENT%"
-tools.vdcbb_adcChannelRawRmsPlotter.HistTitle: "ADC-pedestal RMS for run %RUN% event %EVENT% %CRLABEL%"
-tools.vdcbb_adcChannelRawRmsPlotter.MetricLabel: "RMS [ADC count]"
-tools.vdcbb_adcChannelRawRmsPlotter.PlotFileName: "chmet_rawrms_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+tools.vdbcb_adcChannelSamRmsPlotter: @local::tmp.vdbcb_chmet_template
+tools.vdbcb_adcChannelSamRmsPlotter.Metric: samRms
+tools.vdbcb_adcChannelSamRmsPlotter.MetricMax: 0.5
+tools.vdbcb_adcChannelSamRmsPlotter.HistName: "hchsamrms%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdbcb_adcChannelSamRmsPlotter.HistTitle: "Sample RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdbcb_adcChannelSamRmsPlotter.MetricLabel: "RMS [ke]"
+tools.vdbcb_adcChannelSamRmsPlotter.PlotFileName: "chmet_samrms_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Integrated RMS for each TPS channel.
+tools.vdbcb_adcChannelSamRms30Plotter: @local::tmp.vdbcb_chmet_template
+tools.vdbcb_adcChannelSamRms30Plotter.Metric: samRms30
+tools.vdbcb_adcChannelSamRms30Plotter.MetricMax: 20.0
+tools.vdbcb_adcChannelSamRms30Plotter.HistName: "hchsamrms30%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdbcb_adcChannelSamRms30Plotter.HistTitle: "30-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdbcb_adcChannelSamRms30Plotter.MetricLabel: "RMS [ke]"
+tools.vdbcb_adcChannelSamRms30Plotter.PlotFileName: "chmet_samrms30_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Integrated 50-sample RMS for each TPS channel.
+tools.vdbcb_adcChannelSamRms50Plotter: @local::tmp.vdbcb_chmet_template
+tools.vdbcb_adcChannelSamRms50Plotter.Metric: samRms50
+tools.vdbcb_adcChannelSamRms50Plotter.MetricMax: 20.0
+tools.vdbcb_adcChannelSamRms50Plotter.HistName: "hchsamrms50%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdbcb_adcChannelSamRms50Plotter.HistTitle: "50-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdbcb_adcChannelSamRms50Plotter.MetricLabel: "RMS [ke]"
+tools.vdbcb_adcChannelSamRms50Plotter.PlotFileName: "chmet_samrms50_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+
+##### Tools for top channels. 
+
+tmp.vdtcb_chmet_template: {
+  tool_type: AdcChannelMetric
+  LogLevel: 1
+  DataView: ""
+  PedestalReference: ""
+  MetricSummaryView: "mean:dmean"
+  MetricMin: 0.0
+  MetricBins: 0
+  ChannelRanges: [crt]
+  ChannelLineModulus: 0
+  ChannelLinePattern: @local::data.vdtcb_adaBounds
+  ChannelLinePatternSolid: @local::data.vdtcb_planeBounds
+  PlotSizeX: 1400
+  PlotSizeY:  500
+  PlotUsesStatus: 1
+  RootFileName: ""
+  MetadataFlags: [write]
+}
+
+# Pedestal for each TPS channel.
+tools.vdtcb_adcChannelPedestalPlotter: @local::tmp.vdtcb_chmet_template
+tools.vdtcb_adcChannelPedestalPlotter.Metric: pedestal
+tools.vdtcb_adcChannelPedestalPlotter.MetricMin: 1900
+tools.vdtcb_adcChannelPedestalPlotter.MetricMax: 2200
+tools.vdtcb_adcChannelPedestalPlotter.HistName: "hchpd%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdtcb_adcChannelPedestalPlotter.HistTitle: "ADC pedestals for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdtcb_adcChannelPedestalPlotter.MetricLabel: "Pedestal [ADC count]"
+tools.vdtcb_adcChannelPedestalPlotter.PlotFileName: "chmet_ped_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Raw RMS for each TPS channel.
+tools.vdtcb_adcChannelRawRmsPlotter: @local::tmp.vdtcb_chmet_template
+tools.vdtcb_adcChannelRawRmsPlotter.Metric: rawRms
+tools.vdtcb_adcChannelRawRmsPlotter.MetricMax: 20
+tools.vdtcb_adcChannelRawRmsPlotter.HistName: "hchrawrms%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdtcb_adcChannelRawRmsPlotter.HistTitle: "ADC-pedestal RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdtcb_adcChannelRawRmsPlotter.MetricLabel: "RMS [ADC count]"
+tools.vdtcb_adcChannelRawRmsPlotter.PlotFileName: "chmet_rawrms_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Sample RMS for each TPS channel.
+tools.vdtcb_adcChannelSamRmsPlotter: @local::tmp.vdtcb_chmet_template
+tools.vdtcb_adcChannelSamRmsPlotter.Metric: samRms
+tools.vdtcb_adcChannelSamRmsPlotter.MetricMax: 0.5
+tools.vdtcb_adcChannelSamRmsPlotter.HistName: "hchsamrms%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdtcb_adcChannelSamRmsPlotter.HistTitle: "Sample RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdtcb_adcChannelSamRmsPlotter.MetricLabel: "RMS [ke]"
+tools.vdtcb_adcChannelSamRmsPlotter.PlotFileName: "chmet_samrms_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Integrated RMS for each TPS channel.
+tools.vdtcb_adcChannelSamRms30Plotter: @local::tmp.vdtcb_chmet_template
+tools.vdtcb_adcChannelSamRms30Plotter.Metric: samRms30
+tools.vdtcb_adcChannelSamRms30Plotter.MetricMax: 20.0
+tools.vdtcb_adcChannelSamRms30Plotter.HistName: "hchsamrms30%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdtcb_adcChannelSamRms30Plotter.HistTitle: "30-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdtcb_adcChannelSamRms30Plotter.MetricLabel: "RMS [ke]"
+tools.vdtcb_adcChannelSamRms30Plotter.PlotFileName: "chmet_samrms30_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
+# Integrated 50-sample RMS for each TPS channel.
+tools.vdtcb_adcChannelSamRms50Plotter: @local::tmp.vdtcb_chmet_template
+tools.vdtcb_adcChannelSamRms50Plotter.Metric: samRms50
+tools.vdtcb_adcChannelSamRms50Plotter.MetricMax: 20.0
+tools.vdtcb_adcChannelSamRms50Plotter.HistName: "hchsamrms50%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdtcb_adcChannelSamRms50Plotter.HistTitle: "50-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
+tools.vdtcb_adcChannelSamRms50Plotter.MetricLabel: "RMS [ke]"
+tools.vdtcb_adcChannelSamRms50Plotter.PlotFileName: "chmet_samrms50_%CRNAME%_run%0RUN%_evt%0EVENT%.png"
+
 
 ##### Tools for ghost channels.
 
-tools.vdcbg_adcChannelPedestalPlotter: @local::tools.vdcbb_adcChannelPedestalPlotter
-tools.vdcbg_adcChannelPedestalPlotter.ChannelRanges: [crbg]
+tools.vdgcb_adcChannelFembIdPlotter: @local::tools.vdbcb_adcChannelFembIdPlotter
+tools.vdgcb_adcChannelFembIdPlotter.ChannelRanges: [crbg]
 
-tools.vdcbg_adcChannelRawRmsPlotter: @local::tools.vdcbb_adcChannelRawRmsPlotter
-tools.vdcbg_adcChannelRawRmsPlotter.ChannelRanges: [crbg]
+tools.vdgcb_adcChannelFembChanPlotter: @local::tools.vdbcb_adcChannelFembChanPlotter
+tools.vdgcb_adcChannelFembChanPlotter.ChannelRanges: [crbg]
 
+tools.vdgcb_adcChannelPedestalPlotter: @local::tools.vdbcb_adcChannelPedestalPlotter
+tools.vdgcb_adcChannelPedestalPlotter.ChannelRanges: [crbg]
+
+tools.vdgcb_adcChannelRawRmsPlotter: @local::tools.vdbcb_adcChannelRawRmsPlotter
+tools.vdgcb_adcChannelRawRmsPlotter.ChannelRanges: [crbg]
+
+################# Roi tree ####################
+
+# Write all ROIs to a TTree.
+tools.adcRoiTreeMaker: {
+  tool_type: AdcRoiToTree
+  LogLevel: 1
+  OutFile: "adcrois.root"
+  MetadataFields: [samRms]
+}
+
+# Scale samples from ke to ADC count for Top CRU
+tools.vdtcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
+tools.vdtcb_adcScaleAdcToKe.ScaleFactor: 0.034

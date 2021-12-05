@@ -37,7 +37,7 @@ int test_AdcChannelMetric(bool useExistingFcl =false) {
 
   cout << myname << line << endl;
   string fclfile = "test_AdcChannelMetric.fcl";
-  string hname = "hchped_all";
+  string hname = "hchped_tpp3c";
   if ( ! useExistingFcl ) {
     cout << myname << "Creating top-level FCL." << endl;
     ofstream fout(fclfile.c_str());
@@ -49,12 +49,13 @@ int test_AdcChannelMetric(bool useExistingFcl =false) {
     fout << "            DataView: \"\"" << endl;
     fout << "   PedestalReference: \"\"" << endl;
     fout << "   MetricSummaryView: \"\"" << endl;
-    fout << "       ChannelRanges: [all, tpp3c, tpp3z]" << endl;
+    fout << "       ChannelRanges: [tpp3c, tpp3z]" << endl;
     fout << "          MetricBins: 0" << endl;
     fout << "           MetricMin: \"0.0\"" << endl;
     fout << "           MetricMax: \"2000.0*[gain]/14.0\"" << endl;
-    fout << "  ChannelLineModulus:  40" << endl;
-    fout << "  ChannelLinePattern:  [10]" << endl;
+    fout << "  ChannelLineModulus:  200" << endl;
+    fout << "  ChannelLinePattern:  [20, 40, 60, 80, 100, 120, 140, 160, 180]" << endl;
+    fout << "  ChannelLinePatternSolid: [0]" << endl;
     fout << "            HistName: \"hchped_%CRNAME%\"" << endl;
     fout << "           HistTitle: \"ADC pedestals for run %RUN% event %EVENT% %CRLABEL%\"" << endl;
     fout << "         MetricLabel: \"Pedestal [ADC counts]\"" << endl;

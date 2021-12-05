@@ -13,8 +13,6 @@
 #include "dune/DuneInterface/Tool/AdcChannelStringTool.h"
 #include "dune/DuneInterface/Tool/IndexMapTool.h"
 #include "dune/DuneInterface/Tool/IndexRangeTool.h"
-#include "larevt/CalibrationDBI/Interface/ChannelStatusService.h"
-#include "larevt/CalibrationDBI/Interface/ChannelStatusProvider.h"
 #include "TH2F.h"
 #include "TCanvas.h"
 #include "TColor.h"
@@ -46,7 +44,7 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
   m_FembTickOffsets(ps.get<IntVector>("FembTickOffsets")),
   m_MinSignal(nullptr),
   m_MaxSignal(new RootParFormula("MaxSignal", ps.get<Name>("MaxSignal"))),
-  m_SkipBadChannels(ps.get<bool>("SkipBadChannels")),
+  m_SkipChannelStatus(ps.get<IndexVector>("SkipChannelStatus")),
   m_EmptyColor(ps.get<double>("EmptyColor")),
   m_ChannelLineModulus(ps.get<Index>("ChannelLineModulus")),
   m_ChannelLinePattern(ps.get<IndexVector>("ChannelLinePattern")),
@@ -60,7 +58,6 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
   m_RootFileName(ps.get<string>("RootFileName")),
   m_needRunData(false),
   m_pOnlineChannelMapTool(nullptr),
-  m_pChannelStatusProvider(nullptr),
   m_prdtool(nullptr) {
   const string myname = "AdcDataPlotter::ctor: ";
   string stmp;
@@ -101,8 +98,15 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
   // Fetch channel ranges.
   const IndexRangeTool* pcrt = nullptr;
   for ( Name crn : m_ChannelRanges.size() ? m_ChannelRanges : NameVector(1, "") ) {
+    string::size_type ipos = crn.find(":");
     if ( crn.size() == 0 || crn == "data" ) {
       m_crs.emplace_back("data", 0, 0, "All data");
+    } else if ( ipos != string::npos ) {
+      cout << myname << "Decoding explicit range " << crn << endl;
+      Index ich1 = std::stoi(crn.substr(0,ipos));
+      Index ich2 = std::stoi(crn.substr(ipos+1));
+      Name rename = crn.substr(0,ipos) + "to" + crn.substr(ipos+1);
+      m_crs.emplace_back(rename, ich1, ich2, crn);
     } else {
       if ( pcrt == nullptr ) {
         pcrt = ptm->getShared<IndexRangeTool>("channelRanges");
@@ -118,14 +122,6 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
           cout << myname << "WARNING: Channel range not found: " << crn << endl;
         }
       }
-    }
-  }
-  // Fetch the channel status service.
-  if ( m_SkipBadChannels ) {
-    if ( m_LogLevel >= 1 ) cout << myname << "Fetching channel status service." << endl;
-    m_pChannelStatusProvider = &art::ServiceHandle<lariov::ChannelStatusService>()->GetProvider();
-    if ( m_pChannelStatusProvider == nullptr ) {
-      cout << myname << "WARNING: Channel status provider not found." << endl;
     }
   }
   // Fetch the run data tool.
@@ -172,6 +168,14 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
     if ( m_MinSignal != nullptr )
       cout << myname << "             MinSignal: " << m_MinSignal->formulaString() << endl;
     cout << myname << "             MaxSignal: " << m_MaxSignal->formulaString() << endl;
+    cout << myname << "     SkipChannelStatus: [";
+    first = true;
+    for ( Index ista : m_SkipChannelStatus ) {
+      if ( ! first ) cout << ", ";
+      first = false;
+      cout << ista;
+    }
+    cout << "]" << endl;
     cout << myname << "            EmptyColor: " << m_EmptyColor << endl;
     cout << myname << "    ChannelLineModulus: " << m_ChannelLineModulus << endl;
     cout << myname << "    ChannelLinePattern: {";
@@ -318,11 +322,9 @@ DataMap AdcDataPlotter::viewMap(const AdcChannelDataMap& acds) const {
       AdcChannelDataMap::const_iterator iacd = acds.find(chan);
       if ( iacd == acds.end() ) continue;
       const AdcChannelData& acdtop = iacd->second;
-      if ( m_SkipBadChannels && m_pChannelStatusProvider != nullptr &&
-           m_pChannelStatusProvider->IsBad(acdtop.channel()) ) {
-        if ( m_LogLevel >= 3 ) cout << myname << "Skipping bad channel " << acdtop.channel() << endl;
-        continue;
-      }
+      Index chstat = acdtop.channelStatus();
+      const IndexVector& drops = m_SkipChannelStatus;
+      if ( drops.size() && std::find(drops.begin(), drops.end(), chstat) != drops.end() ) continue;
       Index ibiny = chan-chanBegin + 1;
       Index nent = acdtop.viewSize(m_DataView);
       if ( m_LogLevel >= 2 && nent == 0 ) {
