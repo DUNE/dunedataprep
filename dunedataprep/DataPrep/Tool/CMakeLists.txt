@@ -402,5 +402,12 @@ cet_build_plugin(CnrByGroup   art::tool
                 ROOT_BASIC_LIB_LIST
              )
 
+cet_build_plugin(CnrGroupWeighted   art::tool
+                dune_ArtSupport
+                dune_DuneCommon_Utility
+                cetlib cetlib_except
+                ROOT_BASIC_LIB_LIST
+             )
+
 add_subdirectory(test)
 install_source()
