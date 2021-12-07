@@ -7,7 +7,9 @@
 
 include(CetTest)
 
-cet_test(test_StandardAdcChannelStringTool SOURCES test_StandardAdcChannelStringTool.cxx
+cet_test(test_StandardAdcChannelStringTool
+  SOURCES
+    test_StandardAdcChannelStringTool.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -20,7 +22,9 @@ cet_test(test_StandardAdcChannelStringTool SOURCES test_StandardAdcChannelString
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcResultDumper SOURCES test_AdcResultDumper.cxx
+cet_test(test_AdcResultDumper
+  SOURCES
+    test_AdcResultDumper.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -33,7 +37,9 @@ cet_test(test_AdcResultDumper SOURCES test_AdcResultDumper.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcChannelDumper SOURCES test_AdcChannelDumper.cxx
+cet_test(test_AdcChannelDumper
+  SOURCES
+    test_AdcChannelDumper.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -46,7 +52,9 @@ cet_test(test_AdcChannelDumper SOURCES test_AdcChannelDumper.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcChannelPlotter SOURCES test_AdcChannelPlotter.cxx
+cet_test(test_AdcChannelPlotter
+  SOURCES
+    test_AdcChannelPlotter.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -59,7 +67,9 @@ cet_test(test_AdcChannelPlotter SOURCES test_AdcChannelPlotter.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcTickModViewer SOURCES test_AdcTickModViewer.cxx
+cet_test(test_AdcTickModViewer
+  SOURCES
+    test_AdcTickModViewer.cxx
   LIBRARIES
     dune_DataPrep_Utility
     dune_ArtSupport
@@ -73,7 +83,9 @@ cet_test(test_AdcTickModViewer SOURCES test_AdcTickModViewer.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcChannelTrimmer SOURCES test_AdcChannelTrimmer.cxx
+cet_test(test_AdcChannelTrimmer
+  SOURCES
+     test_AdcChannelTrimmer.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -86,7 +98,9 @@ cet_test(test_AdcChannelTrimmer SOURCES test_AdcChannelTrimmer.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcChannelSplitter SOURCES test_AdcChannelSplitter.cxx
+cet_test(test_AdcChannelSplitter
+  SOURCES
+    test_AdcChannelSplitter.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -99,7 +113,9 @@ cet_test(test_AdcChannelSplitter SOURCES test_AdcChannelSplitter.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcPedestalFitter SOURCES test_AdcPedestalFitter.cxx
+cet_test(test_AdcPedestalFitter
+  SOURCES
+    test_AdcPedestalFitter.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -112,7 +128,9 @@ cet_test(test_AdcPedestalFitter SOURCES test_AdcPedestalFitter.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcCodeMitigator SOURCES test_AdcCodeMitigator.cxx
+cet_test(test_AdcCodeMitigator
+  SOURCES
+    test_AdcCodeMitigator.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -125,21 +143,9 @@ cet_test(test_AdcCodeMitigator SOURCES test_AdcCodeMitigator.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_ExpTailRemover SOURCES test_ExpTailRemover.cxx
-  LIBRARIES
-    dune_ArtSupport
-    dune_DuneCommon_Utility
-    art_Utilities
-    canvas
-    fhiclcpp
-    cetlib cetlib_except
-    cetlib_except
-    SQLITE3
-    ${Boost_FILESYSTEM_LIBRARY}
-    ROOT_BASIC_LIB_LIST
-)
-
-cet_test(test_ExpTailPedRemover SOURCES test_ExpTailPedRemover.cxx
+cet_test(test_ExpTailRemover
+  SOURCES
+    test_ExpTailRemover.cxx
   LIBRARIES
     dune_ArtSupport
     dune_DuneCommon_Utility
@@ -153,7 +159,25 @@ cet_test(test_ExpTailPedRemover SOURCES test_ExpTailPedRemover.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_VintageDeconvoluter SOURCES test_VintageDeconvoluter.cxx
+cet_test(test_ExpTailPedRemover
+  SOURCES
+    test_ExpTailPedRemover.cxx
+  LIBRARIES
+    dune_ArtSupport
+    dune_DuneCommon_Utility
+    art_Utilities
+    canvas
+    fhiclcpp
+    cetlib cetlib_except
+    cetlib_except
+    SQLITE3
+    ${Boost_FILESYSTEM_LIBRARY}
+    ROOT_BASIC_LIB_LIST
+)
+
+cet_test(test_VintageDeconvoluter
+  SOURCES
+    test_VintageDeconvoluter.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -166,7 +190,9 @@ cet_test(test_VintageDeconvoluter SOURCES test_VintageDeconvoluter.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcSampleScaler SOURCES test_AdcSampleScaler.cxx
+cet_test(test_AdcSampleScaler
+  SOURCES
+    test_AdcSampleScaler.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -179,7 +205,9 @@ cet_test(test_AdcSampleScaler SOURCES test_AdcSampleScaler.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcRangeSampleScaler SOURCES test_AdcRangeSampleScaler.cxx
+cet_test(test_AdcRangeSampleScaler
+  SOURCES
+    test_AdcRangeSampleScaler.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -192,7 +220,9 @@ cet_test(test_AdcRangeSampleScaler SOURCES test_AdcRangeSampleScaler.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcDataDumper SOURCES test_AdcDataDumper.cxx
+cet_test(test_AdcDataDumper
+  SOURCES
+    test_AdcDataDumper.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -205,7 +235,9 @@ cet_test(test_AdcDataDumper SOURCES test_AdcDataDumper.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcEventViewer SOURCES test_AdcEventViewer.cxx
+cet_test(test_AdcEventViewer
+  SOURCES
+test_AdcEventViewer.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -218,7 +250,9 @@ cet_test(test_AdcEventViewer SOURCES test_AdcEventViewer.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcDataPlotter SOURCES test_AdcDataPlotter.cxx
+cet_test(test_AdcDataPlotter
+  SOURCES
+    test_AdcDataPlotter.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -231,7 +265,9 @@ cet_test(test_AdcDataPlotter SOURCES test_AdcDataPlotter.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcDetectorPlotter SOURCES test_AdcDetectorPlotter.cxx
+cet_test(test_AdcDetectorPlotter
+  SOURCES
+    test_AdcDetectorPlotter.cxx
   LIBRARIES
     ART_FRAMEWORK_SERVICES_REGISTRY
     dune_ArtSupport
@@ -248,7 +284,9 @@ cet_test(test_AdcDetectorPlotter SOURCES test_AdcDetectorPlotter.cxx
 
 )
 
-cet_test(test_AdcChannelMetric SOURCES test_AdcChannelMetric.cxx
+cet_test(test_AdcChannelMetric
+  SOURCES
+    test_AdcChannelMetric.cxx
   LIBRARIES
     dune_ArtSupport
     dune_Geometry
@@ -263,7 +301,9 @@ cet_test(test_AdcChannelMetric SOURCES test_AdcChannelMetric.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AcdDigitReader SOURCES test_AcdDigitReader.cxx
+cet_test(test_AcdDigitReader
+  SOURCES
+    test_AcdDigitReader.cxx
   LIBRARIES
     lardataobj_RawData
     dune_ArtSupport
@@ -397,7 +437,9 @@ cet_test(test_DuneAdcSignalFinder
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AcdWireReader SOURCES test_AcdWireReader.cxx
+cet_test(test_AcdWireReader
+  SOURCES
+    test_AcdWireReader.cxx
   LIBRARIES
     ART_FRAMEWORK_SERVICES_REGISTRY
     lardataobj_RawData
@@ -445,7 +487,7 @@ cet_test(test_FembLinearCalibration
 
 cet_test(test_FloatArrayGainCalibration
   SOURCES
-    test_FloatArrayGainCalibration
+    test_FloatArrayGainCalibration.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities
@@ -473,7 +515,9 @@ cet_test(test_AdcChannelFFT
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_Adc2dConvolute SOURCES test_Adc2dConvolute.cxx
+cet_test(test_Adc2dConvolute
+  SOURCES
+    test_Adc2dConvolute.cxx
   LIBRARIES
     dune_ArtSupport
     dune_DuneCommon_Utility
