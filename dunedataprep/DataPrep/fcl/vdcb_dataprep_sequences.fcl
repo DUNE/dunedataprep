@@ -13,14 +13,14 @@
 # No processing. Stay at ADC scale.
 data.vdbcb_dataprep_seqs.nocal: [
   digitReader,
-  adcSampleReader,
+  adcSampleFiller,
   adcKeepAllSignalFinder
 ]
 
 # No processing but go nominal charge scale.
 data.vdbcb_dataprep_seqs.nomcal: [
   digitReader,
-  adcSampleReader,
+  adcSampleFiller,
   vdbcb_adcScaleAdcToKe,
   vdbcb_cnr,
   adcKeepAllSignalFinder
@@ -29,7 +29,7 @@ data.vdbcb_dataprep_seqs.nomcal: [
 # No processing but go nominal charge scale.
 data.vdbcb_dataprep_seqs.nomcal_cnr: [
   digitReader,
-  adcSampleReader,
+  adcSampleFiller,
   vdbcb_adcScaleAdcToKe,
   vdbcb_cnr,
   adcKeepAllSignalFinder
