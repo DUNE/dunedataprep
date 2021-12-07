@@ -104,6 +104,17 @@ tools.onlineChannelMapVdcb: {
 tools.channelRanges: @local::tools.channelRangesVdcb
 tools.channelGroups: @local::tools.channelGroupsVdcb
 
+############## Charge calibration ###################
+
+# Scale samples from ke to ADC count for bottom CRU
+tools.vdbcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
+tools.vdbcb_adcScaleAdcToKe.ScaleFactor: 0.025
+
+
+# Scale samples from ke to ADC count for Top CRU
+tools.vdtcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
+tools.vdtcb_adcScaleAdcToKe.ScaleFactor: 0.034
+
 ################# Noise removal. ####################
 
 # Remove only coherent noise (no high frequency filter) and
@@ -443,7 +454,3 @@ tools.adcRoiTreeMaker: {
   OutFile: "adcrois.root"
   MetadataFields: [samRms]
 }
-
-# Scale samples from ke to ADC count for Top CRU
-tools.vdtcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
-tools.vdtcb_adcScaleAdcToKe.ScaleFactor: 0.034
