@@ -1,0 +1,36 @@
+# vdcb_dataprep_sequences.fcl
+#
+# David Adams
+# December 2021
+#
+# Dataprep tool sequences for processing vertical-drift data taken in
+# CERN cold box in November 2021.
+# Notation:
+#   vdcb - vertical-drift coldbox
+#   vdbcb - vertical-drift coldbox bottom electronics
+#   vdtcb - vertical-drift coldbox top electronics
+
+# No processing. Stay at ADC scale.
+data.vdbcb_dataprep_seqs.nocal: {
+  idigitReader,
+  adcSampleReader,
+  adcKeepAllSignalFinder
+}
+
+# No processing but go nominal charge scale.
+data.vdbcb_dataprep_seqs.nomcal: {
+  idigitReader,
+  adcSampleReader,
+  vdbcb_adcScaleAdcToKe,
+  vdvcb_cnr
+  adcKeepAllSignalFinder
+}
+
+# No processing but go nominal charge scale.
+data.vdbcb_dataprep_seqs.nomcal_cnr: {
+  idigitReader,
+  adcSampleReader,
+  vdbcb_adcScaleAdcToKe,
+  vdvcb_cnr,
+  adcKeepAllSignalFinder
+}
