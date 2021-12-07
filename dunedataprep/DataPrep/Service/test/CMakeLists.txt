@@ -9,7 +9,9 @@ include(CetTest)
 
 cet_enable_asserts()
 
-cet_test(test_ConfigurableAdcChannelDataCopyService SOURCES test_ConfigurableAdcChannelDataCopyService.cxx
+cet_test(test_ConfigurableAdcChannelDataCopyService
+  SOURCES
+    test_ConfigurableAdcChannelDataCopyService.cxx
   LIBRARIES
     dune_ArtSupport
     art::Utilities
@@ -20,7 +22,9 @@ cet_test(test_ConfigurableAdcChannelDataCopyService SOURCES test_ConfigurableAdc
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_StandardRawDigitExtractService SOURCES test_StandardRawDigitExtractService.cxx
+cet_test(test_StandardRawDigitExtractService
+  SOURCES
+    test_StandardRawDigitExtractService.cxx
   LIBRARIES
     dune_ArtSupport
     lardataobj_RawData
@@ -32,7 +36,9 @@ cet_test(test_StandardRawDigitExtractService SOURCES test_StandardRawDigitExtrac
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_InterpolatingAdcMitigationService SOURCES test_InterpolatingAdcMitigationService.cxx
+cet_test(test_InterpolatingAdcMitigationService
+  SOURCES
+    test_InterpolatingAdcMitigationService.cxx
   LIBRARIES
     dune_ArtSupport
     art::Utilities
@@ -43,7 +49,9 @@ cet_test(test_InterpolatingAdcMitigationService SOURCES test_InterpolatingAdcMit
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_ThresholdNoiseRemovalService SOURCES test_ThresholdNoiseRemovalService.cxx
+cet_test(test_ThresholdNoiseRemovalService
+  SOURCES
+    test_ThresholdNoiseRemovalService.cxx
   LIBRARIES
     dune_ArtSupport
     art::Utilities
@@ -54,7 +62,9 @@ cet_test(test_ThresholdNoiseRemovalService SOURCES test_ThresholdNoiseRemovalSer
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_MultiChannelNoiseRemovalService SOURCES test_MultiChannelNoiseRemovalService.cxx
+cet_test(test_MultiChannelNoiseRemovalService
+  SOURCES
+    test_MultiChannelNoiseRemovalService.cxx
   LIBRARIES
     dune_ArtSupport
     art::Utilities
@@ -65,7 +75,9 @@ cet_test(test_MultiChannelNoiseRemovalService SOURCES test_MultiChannelNoiseRemo
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_MedianPedestalService SOURCES test_MedianPedestalService.cxx
+cet_test(test_MedianPedestalService
+  SOURCES
+    test_MedianPedestalService.cxx
   LIBRARIES
     dune_ArtSupport
     art::Utilities
@@ -78,7 +90,9 @@ cet_test(test_MedianPedestalService SOURCES test_MedianPedestalService.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_AdcSuppressSignalFindingService SOURCES test_AdcSuppressSignalFindingService.cxx
+cet_test(test_AdcSuppressSignalFindingService
+  SOURCES
+    test_AdcSuppressSignalFindingService.cxx
   LIBRARIES
     dune_ArtSupport
     art::Utilities
@@ -89,7 +103,9 @@ cet_test(test_AdcSuppressSignalFindingService SOURCES test_AdcSuppressSignalFind
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_DuneDeconvolutionService SOURCES test_DuneDeconvolutionService.cxx
+cet_test(test_DuneDeconvolutionService
+  SOURCES
+    test_DuneDeconvolutionService.cxx
   LIBRARIES
     SignalShapingServiceDUNE_service
     dune_ArtSupport
@@ -101,7 +117,9 @@ cet_test(test_DuneDeconvolutionService SOURCES test_DuneDeconvolutionService.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_KeepAllRoiBuildingService SOURCES test_KeepAllRoiBuildingService.cxx
+cet_test(test_KeepAllRoiBuildingService
+  SOURCES
+    test_KeepAllRoiBuildingService.cxx
   LIBRARIES
     dune_ArtSupport
     art::Utilities
@@ -112,7 +130,9 @@ cet_test(test_KeepAllRoiBuildingService SOURCES test_KeepAllRoiBuildingService.c
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_DuneRoiBuildingService SOURCES test_DuneRoiBuildingService.cxx
+cet_test(test_DuneRoiBuildingService
+  SOURCES
+    test_DuneRoiBuildingService.cxx
   LIBRARIES
     dune_DataPrep_Service_DuneRoiBuildingService_service
     dune_ArtSupport
@@ -124,7 +144,9 @@ cet_test(test_DuneRoiBuildingService SOURCES test_DuneRoiBuildingService.cxx
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_StandardAdcWireBuildingService SOURCES test_StandardAdcWireBuildingService.cxx
+cet_test(test_StandardAdcWireBuildingService
+  SOURCES
+    test_StandardAdcWireBuildingService.cxx
   LIBRARIES
     dune_ArtSupport
     lardataobj_RawData
@@ -136,7 +158,9 @@ cet_test(test_StandardAdcWireBuildingService SOURCES test_StandardAdcWireBuildin
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_StandardRawDigitPrepService SOURCES test_StandardRawDigitPrepService.cxx
+cet_test(test_StandardRawDigitPrepService
+  SOURCES
+    test_StandardRawDigitPrepService.cxx
   LIBRARIES
     dune_ArtSupport
     lardataobj_RawData
@@ -148,7 +172,9 @@ cet_test(test_StandardRawDigitPrepService SOURCES test_StandardRawDigitPrepServi
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_ToolBasedRawDigitPrepService SOURCES test_ToolBasedRawDigitPrepService.cxx
+cet_test(test_ToolBasedRawDigitPrepService
+  SOURCES
+    test_ToolBasedRawDigitPrepService.cxx
   LIBRARIES
     dune_ArtSupport
     lardataobj_RawData
@@ -161,7 +187,9 @@ cet_test(test_ToolBasedRawDigitPrepService SOURCES test_ToolBasedRawDigitPrepSer
     ROOT_BASIC_LIB_LIST
 )
 
-cet_test(test_TpcToolBasedRawDigitPrepService SOURCES test_TpcToolBasedRawDigitPrepService.cxx
+cet_test(test_TpcToolBasedRawDigitPrepService
+  SOURCES
+    test_TpcToolBasedRawDigitPrepService.cxx
   LIBRARIES
     dune_ArtSupport
     lardataobj_RawData

@@ -11,26 +11,26 @@
 #   vdtcb - vertical-drift coldbox top electronics
 
 # No processing. Stay at ADC scale.
-data.vdbcb_dataprep_seqs.nocal: {
-  idigitReader,
+data.vdbcb_dataprep_seqs.nocal: [
+  digitReader,
   adcSampleReader,
   adcKeepAllSignalFinder
-}
+]
 
 # No processing but go nominal charge scale.
-data.vdbcb_dataprep_seqs.nomcal: {
-  idigitReader,
+data.vdbcb_dataprep_seqs.nomcal: [
+  digitReader,
   adcSampleReader,
   vdbcb_adcScaleAdcToKe,
-  vdvcb_cnr
+  vdbcb_cnr,
   adcKeepAllSignalFinder
-}
+]
 
 # No processing but go nominal charge scale.
-data.vdbcb_dataprep_seqs.nomcal_cnr: {
-  idigitReader,
+data.vdbcb_dataprep_seqs.nomcal_cnr: [
+  digitReader,
   adcSampleReader,
   vdbcb_adcScaleAdcToKe,
-  vdvcb_cnr,
+  vdbcb_cnr,
   adcKeepAllSignalFinder
-}
+]
