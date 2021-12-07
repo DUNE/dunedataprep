@@ -109,7 +109,7 @@ DataMap CnrGroupWeighted::updateMap(AdcChannelDataMap& acds) const {
 void CnrGroupWeighted::
 getWeights(const IndexVector& channels, const AdcChannelDataMap& acds,
            FloatMap& wts) const {
-  const string myname = "CnrGroupWeighted::getWeights";
+  const string myname = "CnrGroupWeighted::getWeights: ";
   for ( Index ich : channels ) {
     if ( m_Weight.size() == 0 ) {
       wts[ich] = 1.0;
@@ -121,7 +121,7 @@ getWeights(const IndexVector& channels, const AdcChannelDataMap& acds,
         wts[ich] = acd.getAttribute(m_Weight);
       } else {
         if ( m_LogLevel >= 1 ) {
-          cout << myname << " Channel " << ich << " doe not have attribute "
+          cout << myname << "WARNING: Channel " << ich << " does not have attribute "
                << m_Weight << endl;
         }
         wts[ich] = 0.0;

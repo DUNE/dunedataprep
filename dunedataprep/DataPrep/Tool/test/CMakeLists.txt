@@ -580,7 +580,7 @@ cet_test(test_CnrByGroup
 
 cet_test(test_CnrGroupWeighted
   SOURCES
-    test_CnrByGroup.cxx
+    test_CnrGroupWeighted.cxx
   LIBRARIES
     dune_ArtSupport
     art_Utilities

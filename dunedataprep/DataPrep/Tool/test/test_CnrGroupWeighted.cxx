@@ -62,6 +62,7 @@ int test_CnrGroupWeighted(bool useExistingFcl) {
     fout << "  mytool: {" << endl;
     fout << "     tool_type: CnrGroupWeighted" << endl;
     fout << "      LogLevel: 2" << endl;
+    fout << "        Weight: gain" << endl;
     fout << "        Groups: [\"grpa:0:5\", \"grpb:5:10\"]" << endl;
     fout << "       Options: []" << endl;
     fout << "  }" << endl;
@@ -86,13 +87,16 @@ int test_CnrGroupWeighted(bool useExistingFcl) {
 
   cout << myname << line << endl;
   cout << myname << "Create channel data." << endl;
+  Index ncha = 10;
+  std::vector<float> gain = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0 };
   AdcChannelDataMap acds;
   float noiseSigma = 0.5;
-  for ( Index icha=0; icha<10; ++icha ) {
-    float off = icha < 5 ? 10 : 20;
+  for ( Index icha=0; icha<ncha; ++icha ) {
+    float off = icha < 5 ? 100 : 200;
     for ( Index isam=0; isam<8; ++isam ) {
-      acds[icha].samples.push_back(gRandom->Gaus(off, noiseSigma));
+      acds[icha].samples.push_back(gain[icha]*gRandom->Gaus(off, noiseSigma));
       acds[icha].setChannelInfo(icha, 0, icha, 0);
+      acds[icha].setMetadata("gain", gain[icha]);
     }
   }
   showSamples(acds, myname);
