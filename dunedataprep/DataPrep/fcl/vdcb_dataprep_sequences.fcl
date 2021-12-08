@@ -32,5 +32,6 @@ data.vdbcb_dataprep_seqs.nomcal_cnr: [
   adcSampleFiller,
   vdbcb_adcScaleAdcToKe,
   vdbcb_cnr,
-  adcKeepAllSignalFinder
+  adcKeepAllSignalFinder,
+  vdbcb_adcScaleKeToAdc
 ]

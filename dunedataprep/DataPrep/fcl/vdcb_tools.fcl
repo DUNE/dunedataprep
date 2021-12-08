@@ -109,11 +109,15 @@ tools.channelGroups: @local::tools.channelGroupsVdcb
 # Scale samples from ke to ADC count for bottom CRU
 tools.vdbcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
 tools.vdbcb_adcScaleAdcToKe.ScaleFactor: 0.025
+tools.vdbcb_adcScaleKeToAdc: @local::tools.adcScaleKeToAdc
+tools.vdbcb_adcScaleKeToAdc.ScaleFactor: 40.0
 
 
 # Scale samples from ke to ADC count for Top CRU
 tools.vdtcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
 tools.vdtcb_adcScaleAdcToKe.ScaleFactor: 0.034
+tools.vdtcb_adcScaleKeToAdc: @local::tools.adcScaleKeToAdc
+tools.vdtcb_adcScaleKeToAdc.ScaleFactor: 29.41
 
 ################# Noise removal. ####################
 
