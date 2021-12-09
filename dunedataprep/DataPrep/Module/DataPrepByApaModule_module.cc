@@ -949,8 +949,12 @@ void DataPrepByApaModule::produce(art::Event& evt) {
   }
 
   if ( m_OutputDigitName.size() ) {
-    if ( logInfo ) cout << myname << "Created digit count: " << pstatusAll->size() << endl;
-    evt.put(std::move(pstatusAll), m_OutputDigitName);
+    if ( pstatusAll ) {
+      if ( logInfo ) cout << myname << "Created digit count: " << pstatusAll->size() << endl;
+      evt.put(std::move(pstatusAll), m_OutputDigitName);
+    } else {
+      cout << myname << "WARNING: Output status container was not created." << endl;
+    }
   } else {
     if ( logInfo ) cout << myname << "Status output was not requested." << endl;
   }
