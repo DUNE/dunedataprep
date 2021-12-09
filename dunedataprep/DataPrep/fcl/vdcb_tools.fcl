@@ -125,12 +125,24 @@ tools.vdbcb_fembNoiseRemovalKePdsp.UseBasicROIForCNR: true      # use simple thr
 tools.vdbcb_fembNoiseRemovalKePdsp.RoiStartThreshold: 99999     # threshold on the leading edge
 tools.vdbcb_fembNoiseRemovalKePdsp.RoiEndThreshold:   99999     # threshold on the leading edge
 
+#### Bottom ####
+
 tools.vdbcb_cnr: {
   tool_type: CnrByGroup
   LogLevel: 1
   Options: ["median"]
   Groups: @local::data.vdcb_fembviews
 }
+
+tools.vdbcb_cnrw: {
+  tool_type: CnrGroupWeighted
+  LogLevel: 1
+  Weight: ""
+  Options: ["median"]
+  Groups: @local::data.vdcb_fembviews
+}
+
+#### Top ####
 
 tools.vdtcb_cnr: {
   tool_type: CnrByGroup
