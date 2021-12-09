@@ -131,6 +131,7 @@ tools.vdbcb_fembNoiseRemovalKePdsp.RoiEndThreshold:   99999     # threshold on t
 
 #### Bottom ####
 
+# Old (no weighting) CNR tool.
 tools.vdbcb_cnr: {
   tool_type: CnrByGroup
   LogLevel: 1
@@ -138,6 +139,8 @@ tools.vdbcb_cnr: {
   Groups: @local::data.vdcb_fembviews
 }
 
+# Weighted CNR tool without weighting. To set weight:
+# tools.vdbcb_cnrw.Weight: myWeights
 tools.vdbcb_cnrw: {
   tool_type: CnrGroupWeighted
   LogLevel: 1

@@ -6,35 +6,49 @@
 # Dataprep tool sequences for processing vertical-drift data taken in
 # CERN cold box in November 2021.
 # Notation:
-#   vdcb - vertical-drift coldbox
+#    vdcb - vertical-drift coldbox
 #   vdbcb - vertical-drift coldbox bottom electronics
 #   vdtcb - vertical-drift coldbox top electronics
+#     adc - ADC scale
+#  nomcal - Nominal calibration to charge scale. Same gain for all channels.
+#           Charge scale means integration of pulse gives charge in ke.
+#     cnr - Correlated noise removal.
 
 # No processing. Stay at ADC scale.
-data.vdbcb_dataprep_seqs.nocal: [
+# Bottom or top.
+data.vdbc_dataprep_seqs.nocal: [
   digitReader,
   adcSampleFiller,
   adcKeepAllSignalFinder
 ]
 
-# can be common for top/bot drift
-data.vdcb_dataprep_seqs.nocal: [
-  digitReader,
-  adcSampleFiller,
-  adcKeepAllSignalFinder
-]
-
-
-# No processing but go nominal charge scale.
+# Nominal charge scale. No processing.
+# Bottom
 data.vdbcb_dataprep_seqs.nomcal: [
+  digitReader,
+  adcSampleFiller,
+  vdbcb_adcScaleAdcToKe,
+  adcKeepAllSignalFinder
+]
+# Top
+data.vdtcb_dataprep_seqs.nomcal: [
+  digitReader,
+  adcSampleFiller,
+  vdtcb_adcScaleAdcToKe,
+  adcKeepAllSignalFinder
+]
+
+# Nominal charge scale with CNR.
+# Bottom
+data.vdbcb_dataprep_seqs.nomcal_cnr: [
   digitReader,
   adcSampleFiller,
   vdbcb_adcScaleAdcToKe,
   vdbcb_cnr,
   adcKeepAllSignalFinder
 ]
-
-data.vdtcb_dataprep_seqs.nomcal: [
+# Top
+data.vdtcb_dataprep_seqs.nomcal_cnr: [
   digitReader,
   adcSampleFiller,
   vdtcb_adcScaleAdcToKe,
@@ -42,17 +56,14 @@ data.vdtcb_dataprep_seqs.nomcal: [
   adcKeepAllSignalFinder
 ]
 
-# No processing but go nominal charge scale.
-data.vdbcb_dataprep_seqs.nomcal_cnr: [
-  digitReader,
-  adcSampleFiller,
-  vdbcb_adcScaleAdcToKe,
-  vdbcb_cnr,
-  adcKeepAllSignalFinder,
+# CNR with output at ADC scale for wirecell.
+# Bottom. Processing at charge scale then converted back to ADC.
+data.vdbcb_dataprep_seqs.nomcal_cnr_adc: [
+  @sequence::tools.vdbcb_dataprep_seqs.nomcal_cnr
   vdbcb_adcScaleKeToAdc
 ]
-
-data.vdtcb_dataprep_seqs.nomcal_cnr: [
+# Top. Processing at charge scale.
+data.vdtcb_dataprep_seqs.adc_cnr: [
   digitReader,
   adcSampleFiller,
   vdtcb_cnr,
