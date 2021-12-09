@@ -17,12 +17,28 @@ data.vdbcb_dataprep_seqs.nocal: [
   adcKeepAllSignalFinder
 ]
 
+# can be common for top/bot drift
+data.vdcb_dataprep_seqs.nocal: [
+  digitReader,
+  adcSampleFiller,
+  adcKeepAllSignalFinder
+]
+
+
 # No processing but go nominal charge scale.
 data.vdbcb_dataprep_seqs.nomcal: [
   digitReader,
   adcSampleFiller,
   vdbcb_adcScaleAdcToKe,
   vdbcb_cnr,
+  adcKeepAllSignalFinder
+]
+
+data.vdtcb_dataprep_seqs.nomcal: [
+  digitReader,
+  adcSampleFiller,
+  vdtcb_adcScaleAdcToKe,
+  vdtcb_cnr,
   adcKeepAllSignalFinder
 ]
 
@@ -34,4 +50,11 @@ data.vdbcb_dataprep_seqs.nomcal_cnr: [
   vdbcb_cnr,
   adcKeepAllSignalFinder,
   vdbcb_adcScaleKeToAdc
+]
+
+data.vdtcb_dataprep_seqs.nomcal_cnr: [
+  digitReader,
+  adcSampleFiller,
+  vdtcb_cnr,
+  adcKeepAllSignalFinder
 ]
