@@ -333,6 +333,7 @@ void DataPrepByApaModule::reconfigure(fhicl::ParameterSet const& pset) {
     const IndexRange& ran = pcrt->get(crn);
     if ( ! ran.isValid() ) {
       cout << myname << "WARNING: No channels taken from invalid channel range " << ran.name << endl;
+      cout << myname << "WARNING: Note that channel ranges are defined by tool channelRanges." << endl;
       continue;
     }
     m_apacrns[iapa].push_back(crn);
@@ -949,8 +950,12 @@ void DataPrepByApaModule::produce(art::Event& evt) {
   }
 
   if ( m_OutputDigitName.size() ) {
-    if ( logInfo ) cout << myname << "Created digit count: " << pstatusAll->size() << endl;
-    evt.put(std::move(pstatusAll), m_OutputDigitName);
+    if ( pstatusAll ) {
+      if ( logInfo ) cout << myname << "Created digit count: " << pstatusAll->size() << endl;
+      evt.put(std::move(pstatusAll), m_OutputDigitName);
+    } else {
+      cout << myname << "WARNING: Output status container was not created." << endl;
+    }
   } else {
     if ( logInfo ) cout << myname << "Status output was not requested." << endl;
   }

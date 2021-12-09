@@ -109,11 +109,15 @@ tools.channelGroups: @local::tools.channelGroupsVdcb
 # Scale samples from ke to ADC count for bottom CRU
 tools.vdbcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
 tools.vdbcb_adcScaleAdcToKe.ScaleFactor: 0.025
+tools.vdbcb_adcScaleKeToAdc: @local::tools.adcScaleKeToAdc
+tools.vdbcb_adcScaleKeToAdc.ScaleFactor: 40.0
 
 
 # Scale samples from ke to ADC count for Top CRU
 tools.vdtcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
 tools.vdtcb_adcScaleAdcToKe.ScaleFactor: 0.034
+tools.vdtcb_adcScaleKeToAdc: @local::tools.adcScaleKeToAdc
+tools.vdtcb_adcScaleKeToAdc.ScaleFactor: 29.41
 
 ################# Noise removal. ####################
 
@@ -125,12 +129,27 @@ tools.vdbcb_fembNoiseRemovalKePdsp.UseBasicROIForCNR: true      # use simple thr
 tools.vdbcb_fembNoiseRemovalKePdsp.RoiStartThreshold: 99999     # threshold on the leading edge
 tools.vdbcb_fembNoiseRemovalKePdsp.RoiEndThreshold:   99999     # threshold on the leading edge
 
+#### Bottom ####
+
+# Old (no weighting) CNR tool.
 tools.vdbcb_cnr: {
   tool_type: CnrByGroup
   LogLevel: 1
   Options: ["median"]
   Groups: @local::data.vdcb_fembviews
 }
+
+# Weighted CNR tool without weighting. To set weight:
+# tools.vdbcb_cnrw.Weight: myWeights
+tools.vdbcb_cnrw: {
+  tool_type: CnrGroupWeighted
+  LogLevel: 1
+  Weight: ""
+  Options: ["median"]
+  Groups: @local::data.vdcb_fembviews
+}
+
+#### Top ####
 
 tools.vdtcb_cnr: {
   tool_type: CnrByGroup
