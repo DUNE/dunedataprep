@@ -333,6 +333,7 @@ void DataPrepByApaModule::reconfigure(fhicl::ParameterSet const& pset) {
     const IndexRange& ran = pcrt->get(crn);
     if ( ! ran.isValid() ) {
       cout << myname << "WARNING: No channels taken from invalid channel range " << ran.name << endl;
+      cout << myname << "WARNING: Note that channel ranges are defined by tool channelRanges." << endl;
       continue;
     }
     m_apacrns[iapa].push_back(crn);
