@@ -545,10 +545,12 @@ viewMapForOneRange(const AdcChannelDataMap& acds, const IndexRange& ran, MetricM
     ofpname = nameReplace(m_PlotFileName, acdFirst, ran);
     ofrname = nameReplace(m_RootFileName, acdFirst, ran);
   }
-  TH1* ph = createHisto(acdFirst, ran);
   // Fill the histogram and create the plots for this data and this range.
-  processMetricsForOneRange(ran, mets, ph, ofpname, ofrname, false);
-  ret.setHist(ph, true);
+  if ( m_HistName.size() ) {
+    TH1* ph = createHisto(acdFirst, ran);
+    processMetricsForOneRange(ran, mets, ph, ofpname, ofrname, false);
+    ret.setHist(ph, true);
+  }
   ret.setString("metricName", m_Metric);
   ret.setIntVector("metricChannels", ichas);
   ret.setFloatVector("metricValues", vals);
