@@ -95,6 +95,7 @@ tmp.vdbcb_chmet_template: {
   PedestalReference: ""
   MetricSummaryView: "mean:dmean"
   MetricMin: 0.0
+  MetricMax: 1.0
   MetricBins: 0
   ChannelRanges: [crb]
   ChannelLineModulus: 1600
