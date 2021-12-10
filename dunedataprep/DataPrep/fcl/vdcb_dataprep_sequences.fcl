@@ -42,9 +42,10 @@ data.vdtcb_dataprep_seqs.nomcal: [
 # Bottom
 data.vdbcb_dataprep_seqs.nomcal_cnr: [
   digitReader,
+  vdbcb_adcChannelRawRmsFiller,
   adcSampleFiller,
   vdbcb_adcScaleAdcToKe,
-  vdbcb_cnr,
+  vdbcb_cnrw,
   adcKeepAllSignalFinder
 ]
 # Top

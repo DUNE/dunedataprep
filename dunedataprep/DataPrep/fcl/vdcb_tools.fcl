@@ -82,6 +82,38 @@ data.vdcb_kelz: [
 ]
 data.vdcb_kelviews: [@sequence::data.vdcb_kelu, @sequence::data.vdcb_kely, @sequence::data.vdcb_kelz]
 
+################################################################################
+# Templates.
+################################################################################
+
+# Template for metric plots by readout plane.
+# Note that the field Metric must be added.
+tmp.vdbcb_chmet_template: {
+  tool_type: AdcChannelMetric
+  LogLevel: 1
+  DataView: ""
+  PedestalReference: ""
+  MetricSummaryView: "mean:dmean"
+  MetricMin: 0.0
+  MetricBins: 0
+  ChannelRanges: [crb]
+  ChannelLineModulus: 1600
+  ChannelLinePattern: @local::data.vdbcb_fembBounds
+  ChannelLinePatternSolid: @local::data.vdbcb_planeBounds
+  HistName: ""
+  HistTitle: ""
+  MetricLabel: ""
+  PlotSizeX: 1400
+  PlotSizeY:  500
+  PlotUsesStatus: 1
+  PlotFileName: ""
+  RootFileName: ""
+  MetadataFlags: [write]
+}
+
+################################################################################
+# Helpers.
+################################################################################
 
 ################# Range tools ####################
 
@@ -104,6 +136,10 @@ tools.onlineChannelMapVdcb: {
 tools.channelRanges: @local::tools.channelRangesVdcb
 tools.channelGroups: @local::tools.channelGroupsVdcb
 
+################################################################################
+# Reco tools.
+################################################################################
+
 ############## Charge calibration ###################
 
 # Scale samples from ke to ADC count for bottom CRU
@@ -120,6 +156,10 @@ tools.vdtcb_adcScaleKeToAdc: @local::tools.adcScaleKeToAdc
 tools.vdtcb_adcScaleKeToAdc.ScaleFactor: 29.41
 
 ################# Noise removal. ####################
+
+# Raw RMS for each TPS channel.
+tools.vdbcb_adcChannelRawRmsFiller: @local::tmp.vdbcb_chmet_template
+tools.vdbcb_adcChannelRawRmsFiller.Metric: rawRms
 
 # Remove only coherent noise (no high frequency filter) and
 # Set high threshold so no signal is removed.
@@ -144,7 +184,7 @@ tools.vdbcb_cnr: {
 tools.vdbcb_cnrw: {
   tool_type: CnrGroupWeighted
   LogLevel: 1
-  Weight: ""
+  Weight: "rawRms"
   Options: ["median"]
   Groups: @local::data.vdcb_fembviews
 }
@@ -172,6 +212,10 @@ tools.vdc_thresholdSignalFinder.Threshold: 1.0
 
 tools.vdcb_noiseSignalFinder: @local::tools.adcNoiseSignalFinder
 tools.vdcb_noiseSignalFinder.ThresholdMin: 0.2
+
+################################################################################
+# Performance tools.
+################################################################################
 
 ################# Event display ####################
 
@@ -284,26 +328,6 @@ tools.cht_vdtcbz_sig.ChannelRanges: [crtz]
 tools.cht_vdtcbz_sig.TickRange: plotTicks10000
 
 ################# Metric plotters ####################
-
-# Template for metric plots by readout plane.
-tmp.vdbcb_chmet_template: {
-  tool_type: AdcChannelMetric
-  LogLevel: 1
-  DataView: ""
-  PedestalReference: ""
-  MetricSummaryView: "mean:dmean"
-  MetricMin: 0.0
-  MetricBins: 0
-  ChannelRanges: [crb]
-  ChannelLineModulus: 1600
-  ChannelLinePattern: @local::data.vdbcb_fembBounds
-  ChannelLinePatternSolid: @local::data.vdbcb_planeBounds
-  PlotSizeX: 1400
-  PlotSizeY:  500
-  PlotUsesStatus: 1
-  RootFileName: ""
-  MetadataFlags: [write]
-}
 
 ##### Tools for bottom channels.
 
