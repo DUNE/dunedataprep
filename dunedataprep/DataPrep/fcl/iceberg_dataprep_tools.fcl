@@ -534,30 +534,30 @@ tools.ibmet_adcChannelPedestalNoisePlotter.ChannelRanges: [all]
 tools.ibmet_adcChannelPedestalNoisePlotter.HistTitle: "ADC pedestal noise for Iceberg run %RUN% event %EVENT%"
 tools.ibmet_adcChannelPedestalNoisePlotter.ChannelLinePattern: @local::ibFembPat
 
-tools.ibmet_adcChannelPedestalOrfPlotter: @local::tools.pdtps_adcChannelPedestalOrfPlotter
-tools.ibmet_adcChannelPedestalOrfPlotter.ChannelRanges: [all]
-tools.ibmet_adcChannelPedestalOrfPlotter.HistTitle: "ADC out-of-range fraction for Iceberg run %RUN% event %EVENT%"
-tools.ibmet_adcChannelPedestalOrflPlotter.ChannelLinePattern: @local::ibFembPat
+tools.ibmet_adcChannelOrfPlotter: @local::tools.pdtps_adcChannelOrfPlotter
+tools.ibmet_adcChannelOrfPlotter.ChannelRanges: [all]
+tools.ibmet_adcChannelOrfPlotter.HistTitle: "ADC out-of-range fraction for Iceberg run %RUN% event %EVENT%"
+tools.ibmet_adcChannelOrflPlotter.ChannelLinePattern: @local::ibFembPat
 
-tools.ibmet_adcChannelPedestalPeakBinExcessPlotter: @local::tools.pdtps_adcChannelPedestalPeakBinExcessPlotter
-tools.ibmet_adcChannelPedestalPeakBinExcessPlotter.ChannelRanges: [all]
-tools.ibmet_adcChannelPedestalPeakBinExcessPlotter.HistTitle: "ADC peak bin excess for Iceberg run %RUN% event %EVENT%"
-tools.ibmet_adcChannelPedestalPeakBinExcessPlotter.ChannelLinePattern: @local::ibFembPat
+tools.ibmet_adcChannelPeakBinExcessPlotter: @local::tools.pdtps_adcChannelPeakBinExcessPlotter
+tools.ibmet_adcChannelPeakBinExcessPlotter.ChannelRanges: [all]
+tools.ibmet_adcChannelPeakBinExcessPlotter.HistTitle: "ADC peak bin excess for Iceberg run %RUN% event %EVENT%"
+tools.ibmet_adcChannelPeakBinExcessPlotter.ChannelLinePattern: @local::ibFembPat
 
-tools.ibmet_adcChannelPedestalRawRmsPlotter: @local::tools.pdtps_adcChannelPedestalRawRmsPlotter
-tools.ibmet_adcChannelPedestalRawRmsPlotter.ChannelRanges: [all]
-tools.ibmet_adcChannelPedestalRawRmsPlotter.HistTitle: "ADC raw RMS for Iceberg run %RUN% event %EVENT%"
-tools.ibmet_adcChannelPedestalRawRmsPlotter.ChannelLinePattern: @local::ibFembPat
+tools.ibmet_adcChannelRawRmsPlotter: @local::tools.pdtps_adcChannelRawRmsPlotter
+tools.ibmet_adcChannelRawRmsPlotter.ChannelRanges: [all]
+tools.ibmet_adcChannelRawRmsPlotter.HistTitle: "ADC raw RMS for Iceberg run %RUN% event %EVENT%"
+tools.ibmet_adcChannelRawRmsPlotter.ChannelLinePattern: @local::ibFembPat
 
-tools.ibmet_adcChannelPedestalRawTailPlotter: @local::tools.pdtps_adcChannelPedestalRawTailPlotter
-tools.ibmet_adcChannelPedestalRawTailPlotter.ChannelRanges: [all]
-tools.ibmet_adcChannelPedestalRawTailPlotter.HistTitle: "ADC pedestal tail for Iceberg run %RUN% event %EVENT%"
-tools.ibmet_adcChannelPedestalRawTailPlotter.ChannelLinePattern: @local::ibFembPat
+tools.ibmet_adcChannelRawTailPlotter: @local::tools.pdtps_adcChannelRawTailPlotter
+tools.ibmet_adcChannelRawTailPlotter.ChannelRanges: [all]
+tools.ibmet_adcChannelRawTailPlotter.HistTitle: "ADC pedestal tail for Iceberg run %RUN% event %EVENT%"
+tools.ibmet_adcChannelRawTailPlotter.ChannelLinePattern: @local::ibFembPat
 
-tools.ibmet_adcChannelPedestalReducedChiSquarePlotter: @local::tools.pdtps_adcChannelPedestalReducedChiSquarePlotter
-tools.ibmet_adcChannelPedestalReducedChiSquarePlotter.ChannelRanges: [all]
-tools.ibmet_adcChannelPedestaleducedChiSquareRPlotter.HistTitle: "ADC pedestal #chi^{2}/DOF for Iceberg run %RUN% event %EVENT%"
-tools.ibmet_adcChannelPedestalRReducedChiSquarePlotter.ChannelLinePattern: @local::ibFembPat
+tools.ibmet_adcChannelReducedChiSquarePlotter: @local::tools.pdtps_adcChannelReducedChiSquarePlotter
+tools.ibmet_adcChannelReducedChiSquarePlotter.ChannelRanges: [all]
+tools.ibmet_adcChanneleducedChiSquareRPlotter.HistTitle: "ADC pedestal #chi^{2}/DOF for Iceberg run %RUN% event %EVENT%"
+tools.ibmet_adcChannelRReducedChiSquarePlotter.ChannelLinePattern: @local::ibFembPat
 
 # Add a plot of UTC (aka GMT, unix time)
 tools.ibmet_adcChannelUtcPlotter: @local::tools.ibmet_adcChannelPedestalPlotter
