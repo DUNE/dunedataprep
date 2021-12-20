@@ -66,6 +66,7 @@
 //   HistName - Histogram name (should be unique within Root file)
 //              If the HistName name does not include "EVENT%", then only summary histogram
 //              and plot are created.
+//              If name is blank, no histogram is created.
 //   HistTitle - Histogram title
 //   MetricLabel - Histogram label for the metric axis
 //   PlotSizeX, PlotSizeY: Size in pixels of the plot file.

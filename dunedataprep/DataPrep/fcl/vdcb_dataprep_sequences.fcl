@@ -16,7 +16,7 @@
 
 # No processing. Stay at ADC scale.
 # Bottom or top.
-data.vdbc_dataprep_seqs.nocal: [
+data.vdcb_dataprep_seqs.nocal: [
   digitReader,
   adcSampleFiller,
   adcKeepAllSignalFinder
@@ -42,9 +42,10 @@ data.vdtcb_dataprep_seqs.nomcal: [
 # Bottom
 data.vdbcb_dataprep_seqs.nomcal_cnr: [
   digitReader,
+  vdbcb_adcChannelRawRmsFiller,
   adcSampleFiller,
   vdbcb_adcScaleAdcToKe,
-  vdbcb_cnr,
+  vdbcb_cnrw,
   adcKeepAllSignalFinder
 ]
 # Top
@@ -59,7 +60,7 @@ data.vdtcb_dataprep_seqs.nomcal_cnr: [
 # CNR with output at ADC scale for wirecell.
 # Bottom. Processing at charge scale then converted back to ADC.
 data.vdbcb_dataprep_seqs.nomcal_cnr_adc: [
-  @sequence::tools.vdbcb_dataprep_seqs.nomcal_cnr
+  @sequence::data.vdbcb_dataprep_seqs.nomcal_cnr,
   vdbcb_adcScaleKeToAdc
 ]
 # Top. Processing at charge scale.

@@ -1,0 +1,29 @@
+# hdcb_dataprep_tools.fcl
+#
+# David Adams
+# December 2021
+#
+# Dataprep tool configurations for the 2021 horizontal-drift coldbox test.
+
+# Start from the PDSP tool configurations.
+#include "protodune_dataprep_tools.fcl"
+
+# Raw channel vs. tick waveforms.
+tools.chtr_hdcbz: @local::tools.pdcht_Zplanes
+tools.chtr_hdcbc: @local::tools.pdcht_Cplanes
+tools.chtr_hdcbi: @local::tools.pdcht_Iplanes
+tools.chtr_hdcbz.ChannelRanges: [tpp0z]
+tools.chtr_hdcbc.ChannelRanges: [tpp0c]
+tools.chtr_hdcbi.ChannelRanges: [tpp0u, tpp0v]
+
+# Prepared channel vs. tick waveforms.
+tools.chtp_hdcbz: @local::tools.pdchtp_Zplanes
+tools.chtp_hdcbc: @local::tools.pdchtp_Cplanes
+tools.chtp_hdcbi: @local::tools.pdchtp_Iplanes
+tools.chtp_hdcbz.ChannelRanges: [tpp0z]
+tools.chtp_hdcbc.ChannelRanges: [tpp0c]
+tools.chtp_hdcbi.ChannelRanges: [tpp0u, tpp0v]
+tools.chtp_hdcbz.MaxSignal: 1.25
+tools.chtp_hdcbc.MaxSignal: 1.25
+tools.chtp_hdcbi.MaxSignal: 1.25
+
