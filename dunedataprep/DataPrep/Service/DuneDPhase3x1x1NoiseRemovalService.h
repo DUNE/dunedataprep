@@ -12,8 +12,8 @@
 #include "TFFTRealComplex.h"
 #include "TFFTComplexReal.h"
 
-#include "dune/DuneInterface/Service/AdcNoiseRemovalService.h"
-#include "dune/DuneInterface/Data/AdcTypes.h"
+#include "dunecore/DuneInterface/Service/AdcNoiseRemovalService.h"
+#include "dunecore/DuneInterface/Data/AdcTypes.h"
 
 class AdcChannelTool;
 

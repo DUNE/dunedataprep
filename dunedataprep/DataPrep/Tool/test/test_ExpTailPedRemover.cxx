@@ -10,11 +10,11 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/DuneCommon/Utility/SampleTailer.h"
-#include "dune/DuneCommon/Utility/LineColors.h"
-#include "dune/DuneCommon/Utility/TPadManipulator.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneCommon/Utility/SampleTailer.h"
+#include "dunecore/DuneCommon/Utility/LineColors.h"
+#include "dunecore/DuneCommon/Utility/TPadManipulator.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include "TRandom.h"
 #include "TH1F.h"
 #include "TGraphErrors.h"

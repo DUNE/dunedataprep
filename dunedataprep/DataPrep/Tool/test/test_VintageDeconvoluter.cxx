@@ -9,9 +9,9 @@
 #include <iostream>
 #include <fstream>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/ArtSupport/ArtServiceHelper.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/ArtSupport/ArtServiceHelper.h"
 
 #undef NDEBUG
 #include <cassert>

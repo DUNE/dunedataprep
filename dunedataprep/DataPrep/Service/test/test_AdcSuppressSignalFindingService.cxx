@@ -12,9 +12,9 @@
 #include <iomanip>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "lardataobj/RawData/RawDigit.h"
-#include "dune/ArtSupport/ArtServiceHelper.h"
-#include "dune/DuneInterface/Data/AdcTypes.h"
-#include "dune/DuneInterface/Service/AdcSignalFindingService.h"
+#include "dunecore/ArtSupport/ArtServiceHelper.h"
+#include "dunecore/DuneInterface/Data/AdcTypes.h"
+#include "dunecore/DuneInterface/Service/AdcSignalFindingService.h"
 
 #undef NDEBUG
 #include <cassert>

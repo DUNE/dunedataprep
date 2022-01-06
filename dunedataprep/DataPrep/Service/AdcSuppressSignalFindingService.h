@@ -9,7 +9,7 @@
 #ifndef AdcSuppressSignalFindingService_H
 #define AdcSuppressSignalFindingService_H
 
-#include "dune/DuneInterface/Service/AdcSignalFindingService.h"
+#include "dunecore/DuneInterface/Service/AdcSignalFindingService.h"
 
 class AdcSuppressService;
 

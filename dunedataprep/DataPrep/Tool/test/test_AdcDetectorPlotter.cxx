@@ -10,10 +10,10 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/ArtSupport/ArtServiceHelper.h"
-#include "dune/Geometry/AdcChannelDataTester.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/ArtSupport/ArtServiceHelper.h"
+#include "dunecore/Geometry/AdcChannelDataTester.h"
 #include "larcore/Geometry/Geometry.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "TRandom.h"

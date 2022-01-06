@@ -68,8 +68,8 @@
 
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/DuneCommon/Utility/DuneFFT.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneCommon/Utility/DuneFFT.h"
 
 class AdcChannelFFT : TpcDataTool {
 

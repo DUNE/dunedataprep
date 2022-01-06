@@ -1,7 +1,7 @@
 // AdcResultDumper_tool.cc
 
 #include "AdcResultDumper.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include <iostream>
 
 using std::string;

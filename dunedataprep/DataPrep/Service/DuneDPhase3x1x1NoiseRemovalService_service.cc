@@ -13,8 +13,8 @@
 #include "larevt/CalibrationDBI/Interface/ChannelStatusService.h"
 #include "larevt/CalibrationDBI/Interface/ChannelStatusProvider.h"
 
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Tool/AdcChannelTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/AdcChannelTool.h"
 
 //**********************************************************************
 

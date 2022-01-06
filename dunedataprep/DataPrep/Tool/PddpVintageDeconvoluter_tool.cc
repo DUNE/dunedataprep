@@ -4,8 +4,8 @@
 #include <iostream>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "lardata/Utilities/LArFFT.h"
-//#include "dune/Utilities/SignalShapingServiceDUNE.h"
-#include "dune/Utilities/SignalShapingServiceDUNEDPhase.h"
+//#include "dunecore/Utilities/SignalShapingServiceDUNE.h"
+#include "dunecore/Utilities/SignalShapingServiceDUNEDPhase.h"
 
 using std::string;
 using std::cout;

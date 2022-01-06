@@ -32,7 +32,7 @@
 #include "messagefacility/MessageLogger/MessageLogger.h"
 #include "cetlib_except/exception.h"
 
-#include "dune/Utilities/SignalShapingServiceDUNE.h"
+#include "dunecore/Utilities/SignalShapingServiceDUNE.h"
 #include "larcoreobj/SimpleTypesAndConstants/RawTypes.h" // raw::ChannelID_t
 #include "larcore/Geometry/Geometry.h"
 #include "larevt/Filters/ChannelFilter.h"

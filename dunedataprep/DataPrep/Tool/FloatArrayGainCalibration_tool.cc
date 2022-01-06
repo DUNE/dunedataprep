@@ -1,11 +1,11 @@
 // FloatArrayGainCalibration_tool.cc
 
 #include "FloatArrayGainCalibration.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Data/RunData.h"
-#include "dune/DuneInterface/Tool/RunDataTool.h"
-#include "dune/DuneInterface/Tool/FloatArrayTool.h"
-#include "dune/DuneCommon/Utility/RootParFormula.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Data/RunData.h"
+#include "dunecore/DuneInterface/Tool/RunDataTool.h"
+#include "dunecore/DuneInterface/Tool/FloatArrayTool.h"
+#include "dunecore/DuneCommon/Utility/RootParFormula.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>

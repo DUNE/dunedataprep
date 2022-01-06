@@ -1,7 +1,7 @@
 // FembMappedAdcModifier_tool.cc
 
 #include "FembMappedAdcModifier.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include "TSystem.h"
 #include <iostream>
 #include <sstream>

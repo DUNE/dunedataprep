@@ -6,7 +6,7 @@
 #include "PdspNoiseRemoval.h"
 #include <iostream>
 #include "lardataobj/RawData/raw.h" 
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include "larcore/Geometry/Geometry.h"
 #include "lardata/Utilities/LArFFT.h"
 #include "larevt/CalibrationDBI/Interface/ChannelStatusService.h"

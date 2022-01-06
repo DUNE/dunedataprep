@@ -10,9 +10,9 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/DuneCommon/Utility/SampleTailer.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneCommon/Utility/SampleTailer.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include "TRandom.h"
 
 #undef NDEBUG

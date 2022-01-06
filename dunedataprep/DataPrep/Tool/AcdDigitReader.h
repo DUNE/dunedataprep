@@ -13,7 +13,7 @@
 
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
 
 class AcdDigitReader : TpcDataTool {
 

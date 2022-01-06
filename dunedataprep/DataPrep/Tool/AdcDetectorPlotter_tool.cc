@@ -3,11 +3,11 @@
 #include "AdcDetectorPlotter.h"
 #include <iostream>
 #include <sstream>
-#include "dune/DuneCommon/Utility/TPadManipulator.h"
-#include "dune/DuneCommon/Utility/RootPalette.h"
-#include "dune/DuneCommon/Utility/LineColors.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Tool/AdcChannelStringTool.h"
+#include "dunecore/DuneCommon/Utility/TPadManipulator.h"
+#include "dunecore/DuneCommon/Utility/RootPalette.h"
+#include "dunecore/DuneCommon/Utility/LineColors.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/AdcChannelStringTool.h"
 #include "larcore/Geometry/Geometry.h"
 #include "larevt/CalibrationDBI/Interface/ChannelStatusService.h"
 #include "larevt/CalibrationDBI/Interface/ChannelStatusProvider.h"

@@ -1,10 +1,10 @@
 // CnrGroupWeighted_tool.cc
 
 #include "CnrGroupWeighted.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Data/IndexRange.h"
-#include "dune/DuneInterface/Data/IndexRangeGroup.h"
-#include "dune/DuneInterface/Tool/IndexRangeGroupTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Data/IndexRange.h"
+#include "dunecore/DuneInterface/Data/IndexRangeGroup.h"
+#include "dunecore/DuneInterface/Tool/IndexRangeGroupTool.h"
 #include <iostream>
 #include <iomanip>
 

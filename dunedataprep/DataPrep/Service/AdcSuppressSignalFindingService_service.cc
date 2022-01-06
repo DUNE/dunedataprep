@@ -5,7 +5,7 @@
 #include <sstream>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "art/Framework/Services/Registry/ServiceDefinitionMacros.h"
-#include "dune/DuneInterface/Service/AdcSuppressService.h"
+#include "dunecore/DuneInterface/Service/AdcSuppressService.h"
 
 using std::vector;
 using std::string;

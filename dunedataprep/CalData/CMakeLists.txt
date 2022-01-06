@@ -1,7 +1,7 @@
 
 art_make( BASENAME_ONLY
           MODULE_LIBRARIES larcorealg_Geometry
-	                dune_Geometry
+	                dunecore_Geometry
 			larcore_Geometry_Geometry_service
 	                lardata_Utilities
 			larevt_Filters
@@ -9,8 +9,8 @@ art_make( BASENAME_ONLY
 			lardataobj_RecoBase
 			lardata_ArtDataHelper
 			lardataalg_DetectorInfo
-			SignalShapingServiceDUNEDPhase_service
-                        SignalShapingServiceDUNE_service
+			dunecore::SignalShapingServiceDUNEDPhase_service
+                        dunecore::SignalShapingServiceDUNE_service
                         ART_FRAMEWORK_CORE
 			ART_FRAMEWORK_PRINCIPAL
 			ART_FRAMEWORK_SERVICES_REGISTRY

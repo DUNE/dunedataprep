@@ -1,11 +1,11 @@
 // AdcPedestalFitter_tool.cc
 
 #include "AdcPedestalFitter.h"
-#include "dune/DuneCommon/Utility/TPadManipulator.h"
-#include "dune/DuneInterface/Tool/AdcChannelStringTool.h"
-#include "dune/DuneInterface/Tool/RunDataTool.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneCommon/Utility/RootParFormula.h"
+#include "dunecore/DuneCommon/Utility/TPadManipulator.h"
+#include "dunecore/DuneInterface/Tool/AdcChannelStringTool.h"
+#include "dunecore/DuneInterface/Tool/RunDataTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneCommon/Utility/RootParFormula.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

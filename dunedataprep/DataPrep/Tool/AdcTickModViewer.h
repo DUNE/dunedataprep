@@ -72,8 +72,8 @@
 
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/DataPrep/Utility/TickModTreeData.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunedataprep/DataPrep/Utility/TickModTreeData.h"
 #include "TH1.h"
 #include "TGraph.h"
 #include <string>

@@ -7,8 +7,8 @@
 #include "lardataobj/RawData/RawDigit.h"
 #include "larevt/CalibrationDBI/Interface/DetPedestalService.h"
 #include "larevt/CalibrationDBI/Interface/DetPedestalProvider.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Tool/AdcChannelTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/AdcChannelTool.h"
 
 using std::string;
 using std::cout;

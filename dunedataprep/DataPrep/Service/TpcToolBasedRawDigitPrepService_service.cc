@@ -1,9 +1,9 @@
 // TpcToolBasedRawDigitPrepService_service.cc
 
 #include "TpcToolBasedRawDigitPrepService.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/DuneInterface/Service/AdcWireBuildingService.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Service/AdcWireBuildingService.h"
 #include "art/Framework/Services/Registry/ServiceDefinitionMacros.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include <iostream>

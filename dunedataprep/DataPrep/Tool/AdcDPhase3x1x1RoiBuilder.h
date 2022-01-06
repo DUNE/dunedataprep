@@ -13,8 +13,8 @@
 
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/DuneInterface/Data/AdcTypes.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Data/AdcTypes.h"
 
 class AdcDPhase3x1x1RoiBuilder : TpcDataTool {
 

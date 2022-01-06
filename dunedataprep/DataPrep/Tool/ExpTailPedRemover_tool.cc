@@ -4,9 +4,9 @@
 #include <iostream>
 #include <iomanip>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
-#include "dune/DuneCommon/Utility/SampleTailer.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Tool/IndexRangeTool.h"
+#include "dunecore/DuneCommon/Utility/SampleTailer.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/IndexRangeTool.h"
 #include "dune-raw-data/Services/ChannelMap/PdspChannelMapService.h"
 #include "TVectorD.h"
 #include "TMatrixDSym.h"

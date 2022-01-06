@@ -1,12 +1,12 @@
 // AdcTickModViewer_tool.cc
 
 #include "AdcTickModViewer.h"
-#include "dune/DataPrep/Utility/StickyCodeMetrics.h"
-#include "dune/DuneCommon/Utility/TPadManipulator.h"
-#include "dune/DuneCommon/Utility/StringManipulator.h"
-#include "dune/DuneInterface/Tool/AdcChannelStringTool.h"
-#include "dune/DuneInterface/Tool/TimeOffsetTool.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunedataprep/DataPrep/Utility/StickyCodeMetrics.h"
+#include "dunecore/DuneCommon/Utility/TPadManipulator.h"
+#include "dunecore/DuneCommon/Utility/StringManipulator.h"
+#include "dunecore/DuneInterface/Tool/AdcChannelStringTool.h"
+#include "dunecore/DuneInterface/Tool/TimeOffsetTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

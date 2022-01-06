@@ -11,8 +11,8 @@
 #include <fstream>
 #include <iomanip>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
-#include "dune/ArtSupport/ArtServiceHelper.h"
-#include "dune/DuneInterface/Service/PedestalEvaluationService.h"
+#include "dunecore/ArtSupport/ArtServiceHelper.h"
+#include "dunecore/DuneInterface/Service/PedestalEvaluationService.h"
 
 #undef NDEBUG
 #include <cassert>

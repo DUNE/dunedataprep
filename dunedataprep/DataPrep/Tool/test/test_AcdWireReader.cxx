@@ -11,10 +11,10 @@
 #include <sstream>
 #include <iomanip>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
-#include "dune/DuneInterface/Service/RawDigitPrepService.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/ArtSupport/ArtServiceHelper.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Service/RawDigitPrepService.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/ArtSupport/ArtServiceHelper.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include "lardataobj/RawData/RawDigit.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 

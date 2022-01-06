@@ -5,13 +5,13 @@
 
 # Add plugin for each tool.
 
-cet_build_plugin(AdcThresholdSignalFinder dune::TpcDataTool
+cet_build_plugin(AdcThresholdSignalFinder dunecore::TpcDataTool
                  LIBRARIES PRIVATE
                  ROOT::Core
                  canvas::canvas
                  art::Utilities
-                 dune::ArtSupport
-                 dune::DuneCommon_Utility)
+                 dunecore::ArtSupport
+                 dunecore::DuneCommon_Utility)
 
 cet_build_plugin(StandardAdcChannelStringTool   art::tool
                 art::Utilities canvas
@@ -20,7 +20,7 @@ cet_build_plugin(StandardAdcChannelStringTool   art::tool
              )
 
 cet_build_plugin(AdcResultDumper   art::tool
-                dune_ArtSupport
+                dunecore_ArtSupport
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
@@ -33,22 +33,22 @@ cet_build_plugin(AdcChannelDumper   art::tool
              )
 
 cet_build_plugin(AdcChannelTrimmer  art::tool
-                dune_ArtSupport
+                dunecore_ArtSupport
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(AdcChannelSplitter  art::tool
-                dune_ArtSupport
+                dunecore_ArtSupport
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(AdcChannelPlotter  art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
 		ART_FRAMEWORK_SERVICES_REGISTRY
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
@@ -56,16 +56,16 @@ cet_build_plugin(AdcChannelPlotter  art::tool
              )
 
 cet_build_plugin(AdcPedestalFitter  art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(AdcCodeMitigator  art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
@@ -84,8 +84,8 @@ cet_build_plugin(AdcRangeSampleScaler   art::tool
              )
 
 cet_build_plugin(AdcTimingMitigator  art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
@@ -98,17 +98,17 @@ cet_build_plugin(AdcDataDumper   art::tool
              )
 
 cet_build_plugin(AdcTickModViewer   art::tool
-                dune_DataPrep_Utility
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunedataprep_DataPrep_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(AdcDataPlotter   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
 		ART_FRAMEWORK_SERVICES_REGISTRY
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
@@ -116,9 +116,9 @@ cet_build_plugin(AdcDataPlotter   art::tool
              )
 
 cet_build_plugin(AdcDetectorPlotter   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
-                dune_Geometry
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
+                dunecore_Geometry
 		ART_FRAMEWORK_SERVICES_REGISTRY
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
@@ -126,8 +126,8 @@ cet_build_plugin(AdcDetectorPlotter   art::tool
              )
 
 cet_build_plugin(AdcChannelMetric   art::tool
-                dune_DuneCommon_Utility
-                dune_ArtSupport
+                dunecore_DuneCommon_Utility
+                dunecore_ArtSupport
 		ART_FRAMEWORK_SERVICES_REGISTRY
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
@@ -135,8 +135,8 @@ cet_build_plugin(AdcChannelMetric   art::tool
              )
 
 cet_build_plugin(AdcEventViewer   art::tool
-                dune_DuneCommon_Utility
-                dune_ArtSupport
+                dunecore_DuneCommon_Utility
+                dunecore_ArtSupport
 		ART_FRAMEWORK_SERVICES_REGISTRY
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
@@ -144,7 +144,7 @@ cet_build_plugin(AdcEventViewer   art::tool
              )
 
 cet_build_plugin(AcdDigitReader   art::tool
-                dune_DuneCommon_Utility
+                dunecore_DuneCommon_Utility
                 lardataobj_RawData
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
@@ -152,7 +152,7 @@ cet_build_plugin(AcdDigitReader   art::tool
              )
 
 cet_build_plugin(AcdWireReader   art::tool
-                dune_DuneCommon_Utility
+                dunecore_DuneCommon_Utility
                 lardataobj_RecoBase
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
@@ -183,8 +183,8 @@ cet_build_plugin(UndershootCorr   art::tool
              )
 
 cet_build_plugin(ExpTailRemover   art::tool
-                dune_DuneCommon_Utility
-                dune_ArtSupport
+                dunecore_DuneCommon_Utility
+                dunecore_ArtSupport
                 dune_raw_data::dune-raw-data_Services_ChannelMap_PdspChannelMapService_service
                 ART_FRAMEWORK_CORE
                 ART_FRAMEWORK_PRINCIPAL
@@ -198,8 +198,8 @@ cet_build_plugin(ExpTailRemover   art::tool
              )
 
 cet_build_plugin(ExpTailPedRemover   art::tool
-                dune_DuneCommon_Utility
-                dune_ArtSupport
+                dunecore_DuneCommon_Utility
+                dunecore_ArtSupport
                 dune_raw_data::dune-raw-data_Services_ChannelMap_PdspChannelMapService_service
                 ART_FRAMEWORK_CORE
                 ART_FRAMEWORK_PRINCIPAL
@@ -213,7 +213,7 @@ cet_build_plugin(ExpTailPedRemover   art::tool
              )
 
 cet_build_plugin(VintageDeconvoluter   art::tool
-                SignalShapingServiceDUNE_service
+                dunecore::SignalShapingServiceDUNE_service
                 art::Framework_Services_Registry
                 art::Utilities
                 canvas::canvas
@@ -222,7 +222,7 @@ cet_build_plugin(VintageDeconvoluter   art::tool
              )
 
 cet_build_plugin(PddpVintageDeconvoluter   art::tool
-                SignalShapingServiceDUNEDPhase_service
+                dunecore::SignalShapingServiceDUNEDPhase_service
 		lardata_Utilities
                 art::Framework_Services_Registry
                 art::Utilities
@@ -268,8 +268,8 @@ cet_build_plugin(AdcRegularSignalFinder   art::tool
              )
 
 cet_build_plugin(AdcRoiViewer   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
 		canvas::canvas
                 cetlib::cetlib 
 		cetlib_except::cetlib_except
@@ -277,7 +277,7 @@ cet_build_plugin(AdcRoiViewer   art::tool
              )
 
 cet_build_plugin(AdcDPhase3x1x1LocalRoiBuilder   art::tool
-                dune_DuneCommon_Utility
+                dunecore_DuneCommon_Utility
                 lardataobj_RawData
                 lardataobj_RecoBase
                 art::Utilities canvas
@@ -291,51 +291,51 @@ cet_build_plugin(FembLinearCalibration   art::tool
              )
 
 cet_build_plugin(FloatArrayGainCalibration   art::tool
-                dune_DuneCommon_Utility
-                dune_ArtSupport
+                dunecore_DuneCommon_Utility
+                dunecore_ArtSupport
 		canvas::canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(FembMappedAdcModifier   art::tool
-                dune_ArtSupport
+                dunecore_ArtSupport
 		canvas::canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(AdcChannelFFT   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(AdcDeconvoluteFFT   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
 		canvas::canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 cet_build_plugin(Adc2dConvolute   art::tool
-                dune_ArtSupport
+                dunecore_ArtSupport
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(AdcChannelDftPlotter   art::tool
-                dune_DataPrep_Utility
-                dune_DuneCommon_Utility
-                dune_ArtSupport
+                dunedataprep_DataPrep_Utility
+                dunecore_DuneCommon_Utility
+                dunecore_ArtSupport
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(AdcDPhase3x1x1RoiBuilder   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 lardataobj_RawData
                 lardataobj_RecoBase
                 art::Utilities canvas
@@ -344,16 +344,16 @@ cet_build_plugin(AdcDPhase3x1x1RoiBuilder   art::tool
              )
 
 cet_build_plugin(AdcMultiThreshSignalFinder   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(PdspNoiseRemoval   art::tool
-               dune_ArtSupport
+               dunecore_ArtSupport
                larcorealg_Geometry
-               dune_DuneCommon_Utility
+               dunecore_DuneCommon_Utility
                lardataobj_RawData
                lardataobj_RecoBase
                ART_FRAMEWORK_SERVICES_REGISTRY
@@ -365,8 +365,8 @@ cet_build_plugin(PdspNoiseRemoval   art::tool
              )
 
 cet_build_plugin(RemoveBadChannels   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
 		ART_FRAMEWORK_SERVICES_REGISTRY
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
@@ -374,37 +374,37 @@ cet_build_plugin(RemoveBadChannels   art::tool
              )
 
 cet_build_plugin(AdcRoiSlicer   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(BaselineDetrend   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(AdcRoiToTree   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(CnrByGroup   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
 
 cet_build_plugin(CnrGroupWeighted   art::tool
-                dune_ArtSupport
-                dune_DuneCommon_Utility
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
                 cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )

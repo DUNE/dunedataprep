@@ -9,7 +9,7 @@ include(CetTest)
 
 cet_test(test_StickyCodeMetrics SOURCES test_StickyCodeMetrics.cxx
   LIBRARIES
-    dune_DataPrep_Utility
+    dunedataprep_DataPrep_Utility
     canvas::canvas
     fhiclcpp
     cetlib::cetlib cetlib_except

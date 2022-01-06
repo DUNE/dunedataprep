@@ -1,10 +1,10 @@
 // AdcChannelPlotter_tool.cc
 
 #include "AdcChannelPlotter.h"
-#include "dune/DuneCommon/Utility/StringManipulator.h"
-#include "dune/DuneInterface/Tool/AdcChannelStringTool.h"
-#include "dune/DuneCommon/Utility/TPadManipulator.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneCommon/Utility/StringManipulator.h"
+#include "dunecore/DuneInterface/Tool/AdcChannelStringTool.h"
+#include "dunecore/DuneCommon/Utility/TPadManipulator.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include "larevt/CalibrationDBI/Interface/ChannelStatusService.h"
 #include "larevt/CalibrationDBI/Interface/ChannelStatusProvider.h"
 #include <iostream>

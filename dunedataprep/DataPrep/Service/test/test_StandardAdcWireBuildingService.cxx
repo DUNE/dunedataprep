@@ -13,8 +13,8 @@
 #include <iomanip>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "lardataobj/RawData/RawDigit.h"
-#include "dune/ArtSupport/ArtServiceHelper.h"
-#include "dune/DuneInterface/Service/AdcWireBuildingService.h"
+#include "dunecore/ArtSupport/ArtServiceHelper.h"
+#include "dunecore/DuneInterface/Service/AdcWireBuildingService.h"
 
 #undef NDEBUG
 #include <cassert>

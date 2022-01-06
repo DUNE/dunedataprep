@@ -26,7 +26,7 @@
 #ifndef InterpolatingAdcMitigationService_H
 #define InterpolatingAdcMitigationService_H
 
-#include "dune/DuneInterface/Service/AdcMitigationService.h"
+#include "dunecore/DuneInterface/Service/AdcMitigationService.h"
 
 namespace lariov {
   class DetPedestalProvider;

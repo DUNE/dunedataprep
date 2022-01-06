@@ -40,7 +40,7 @@
 #include "lardata/ArtDataHelper/WireCreator.h"
 #include "lardata/Utilities/LArFFT.h"
 #include "lardata/Utilities/AssociationUtil.h"
-#include "dune/Utilities/SignalShapingServiceDUNE.h"
+#include "dunecore/Utilities/SignalShapingServiceDUNE.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 
 using std::cout;

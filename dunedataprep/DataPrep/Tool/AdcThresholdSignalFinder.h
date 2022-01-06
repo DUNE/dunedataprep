@@ -23,7 +23,7 @@
 #ifndef AdcThresholdSignalFinder_H
 #define AdcThresholdSignalFinder_H
 
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
 #include <string>
 #include <vector>
 

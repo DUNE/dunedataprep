@@ -2,8 +2,8 @@
 
 art_make(BASENAME_ONLY
          LIB_LIBRARIES
-         dune_ArtSupport
-         dune_DuneCommon_Utility
+         dunecore_ArtSupport
+         dunecore_DuneCommon_Utility
          art::Utilities
          canvas::canvas
          cetlib::cetlib

@@ -14,7 +14,7 @@
 // A simple threshold ROI finder is used to find the ROIs, and signals within the ROI are protected from the coherent noise calculation. 
 //
 // Configuration:
-// Defined in dune/DataPrep/fcl/protodune_dataprep_tools.fcl
+// Defined in dunedataprep/DataPrep/fcl/protodune_dataprep_tools.fcl
 //  RemoveHighFrequency: false        # specify if the high frequency noise removal is enabled 
 //  RemoveCoherent: true              # specify if the coherent noise removal is enabled. 
 //                                      If RemoveHighFrequency is true, coherent noise removal is done afterward. 
@@ -41,7 +41,7 @@
 #define PdspNoiseRemoval_H
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
 #include "TFFTRealComplex.h"
 #include "TFFTComplexReal.h"
 #include "dune-raw-data/Services/ChannelMap/PdspChannelMapService.h"

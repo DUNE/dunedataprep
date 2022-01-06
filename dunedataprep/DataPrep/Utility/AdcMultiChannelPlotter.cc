@@ -1,12 +1,12 @@
 // AdcMultiChannelPlotter_t.cc
 
 #include "AdcMultiChannelPlotter.h"
-#include "dune/DuneInterface/Tool/AdcChannelStringTool.h"
-#include "dune/DuneInterface/Tool/IndexRangeTool.h"
-#include "dune/DuneInterface/Tool/IndexRangeGroupTool.h"
-#include "dune/DuneCommon/Utility/TPadManipulator.h"
-#include "dune/DuneCommon/Utility/StringManipulator.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/AdcChannelStringTool.h"
+#include "dunecore/DuneInterface/Tool/IndexRangeTool.h"
+#include "dunecore/DuneInterface/Tool/IndexRangeGroupTool.h"
+#include "dunecore/DuneCommon/Utility/TPadManipulator.h"
+#include "dunecore/DuneCommon/Utility/StringManipulator.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include <iostream>
 #include <sstream>
 

@@ -24,10 +24,10 @@
 
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/DuneInterface/Data/IndexRange.h"
-#include "dune/DuneInterface/Data/RunData.h"
-#include "dune/DuneCommon/Utility/TPadManipulator.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Data/IndexRange.h"
+#include "dunecore/DuneInterface/Data/RunData.h"
+#include "dunecore/DuneCommon/Utility/TPadManipulator.h"
 #include <iostream>
 
 class Roi2dToAdc : TpcDataTool {

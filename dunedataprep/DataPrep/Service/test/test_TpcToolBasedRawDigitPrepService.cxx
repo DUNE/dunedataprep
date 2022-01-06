@@ -13,11 +13,11 @@
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardataobj/RawData/RawDigit.h"
-#include "dune/ArtSupport/ArtServiceHelper.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Data/AdcTypes.h"
-#include "dune/DuneInterface/Service/RawDigitPrepService.h"
-#include "dune/DuneInterface/Data/WiredAdcChannelDataMap.h"
+#include "dunecore/ArtSupport/ArtServiceHelper.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Data/AdcTypes.h"
+#include "dunecore/DuneInterface/Service/RawDigitPrepService.h"
+#include "dunecore/DuneInterface/Data/WiredAdcChannelDataMap.h"
 
 #undef NDEBUG
 #include <cassert>

@@ -9,7 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "dune/DataPrep/Utility/StickyCodeMetrics.h"
+#include "dunedataprep/DataPrep/Utility/StickyCodeMetrics.h"
 #include "TH1F.h"
 #include "TCanvas.h"
 

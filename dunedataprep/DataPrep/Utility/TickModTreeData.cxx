@@ -1,7 +1,7 @@
 // TickModTreeData.cxx
 
 #include "TickModTreeData.h"
-#include "dune/DataPrep/Utility/StickyCodeMetrics.h"
+#include "dunedataprep/DataPrep/Utility/StickyCodeMetrics.h"
 
 #include "TTree.h"
 

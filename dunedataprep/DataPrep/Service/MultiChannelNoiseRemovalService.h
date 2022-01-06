@@ -12,8 +12,8 @@
 #ifndef MultiChannelNoiseRemovalService_H
 #define MultiChannelNoiseRemovalService_H
 
-#include "dune/DuneInterface/Service/AdcNoiseRemovalService.h"
-#include "dune/DuneInterface/Data/AdcTypes.h"
+#include "dunecore/DuneInterface/Service/AdcNoiseRemovalService.h"
+#include "dunecore/DuneInterface/Data/AdcTypes.h"
 
 class AdcChannelNoiseRemovalService;
 

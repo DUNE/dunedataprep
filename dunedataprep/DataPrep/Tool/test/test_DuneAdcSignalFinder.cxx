@@ -8,8 +8,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 
 #undef NDEBUG
 #include <cassert>

@@ -13,8 +13,8 @@
 #ifndef ThresholdNoiseRemovalService_H
 #define ThresholdNoiseRemovalService_H
 
-#include "dune/DuneInterface/Service/AdcChannelNoiseRemovalService.h"
-#include "dune/DuneInterface/Data/AdcTypes.h"
+#include "dunecore/DuneInterface/Service/AdcChannelNoiseRemovalService.h"
+#include "dunecore/DuneInterface/Data/AdcTypes.h"
 
 namespace geo {
   class Geometry;

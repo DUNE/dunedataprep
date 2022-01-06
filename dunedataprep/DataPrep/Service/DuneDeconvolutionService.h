@@ -10,7 +10,7 @@
 // size starting from the first sample.
 //
 // Code is copied from and should be equivalent to that in
-// dunetpc/dune/CalData/CalWireDUNE35t_module.cc.
+// dunetpc/dunedataprep/CalData/CalWireDUNE35t_module.cc.
 //
 // Configuration:
 //   LogLevel - message logging level: 0=none, 1=initialization, 2+=every event
@@ -18,7 +18,7 @@
 #ifndef DuneDeconvolutionService_H
 #define DuneDeconvolutionService_H
 
-#include "dune/DuneInterface/Service/AdcDeconvolutionService.h"
+#include "dunecore/DuneInterface/Service/AdcDeconvolutionService.h"
 namespace detinfo {
   class DetectorClocksData;
 }

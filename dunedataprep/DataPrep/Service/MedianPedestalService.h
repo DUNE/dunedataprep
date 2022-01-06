@@ -16,8 +16,8 @@
 #ifndef MedianPedestalService_H
 #define MedianPedestalService_H
 
-#include "dune/DuneInterface/Service/PedestalEvaluationService.h"
-#include "dune/DuneInterface/Data/AdcTypes.h"
+#include "dunecore/DuneInterface/Service/PedestalEvaluationService.h"
+#include "dunecore/DuneInterface/Data/AdcTypes.h"
 
 namespace geo {
   class Geometry;

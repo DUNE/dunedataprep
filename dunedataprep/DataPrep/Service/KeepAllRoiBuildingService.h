@@ -12,7 +12,7 @@
 #ifndef KeepAllRoiBuildingService_H
 #define KeepAllRoiBuildingService_H
 
-#include "dune/DuneInterface/Service/AdcRoiBuildingService.h"
+#include "dunecore/DuneInterface/Service/AdcRoiBuildingService.h"
 
 class AdcSuppressService;
 

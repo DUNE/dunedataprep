@@ -25,8 +25,8 @@
 #ifndef TpcToolBasedRawDigitPrepService_H
 #define TpcToolBasedRawDigitPrepService_H
 
-#include "dune/DuneInterface/Service/RawDigitPrepService.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Service/RawDigitPrepService.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
 #include <map>
 #include <chrono>
 

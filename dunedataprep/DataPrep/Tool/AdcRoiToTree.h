@@ -14,7 +14,7 @@
 #ifndef AdcRoiToTree_H
 #define AdcRoiToTree_H
 
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
 #include <string>

@@ -10,7 +10,7 @@
 // size starting from the first sample.
 //
 // Code is copied from and should be equivalent to that in
-// dunetpc/dune/CalData/CalWireDUNE35t_module.cc.
+// dunetpc/dunedataprep/CalData/CalWireDUNE35t_module.cc.
 //
 // R.Sulej: copied from DuneDeconvolutionService.h to substitute signal shaping
 // service for double-phase.
@@ -21,7 +21,7 @@
 #ifndef DuneDPhaseDeconvolutionService_H
 #define DuneDPhaseDeconvolutionService_H
 
-#include "dune/DuneInterface/Service/AdcDeconvolutionService.h"
+#include "dunecore/DuneInterface/Service/AdcDeconvolutionService.h"
 
 class DuneDPhaseDeconvolutionService : public AdcDeconvolutionService {
 

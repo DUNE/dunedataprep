@@ -65,9 +65,9 @@
 
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
-#include "dune/DuneInterface/Tool/IndexMapTool.h"
-#include "dune/DuneCommon/Utility/Fw2dFFT.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Tool/IndexMapTool.h"
+#include "dunecore/DuneCommon/Utility/Fw2dFFT.h"
 
 class Tpc2dDeconvolute : TpcDataTool {
 

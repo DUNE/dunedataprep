@@ -58,7 +58,7 @@
 
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "dune/DuneInterface/Tool/AdcChannelStringTool.h"
+#include "dunecore/DuneInterface/Tool/AdcChannelStringTool.h"
 #include <vector>
 
 class StandardAdcChannelStringTool

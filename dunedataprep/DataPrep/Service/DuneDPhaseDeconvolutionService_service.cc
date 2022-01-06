@@ -5,7 +5,7 @@
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "art/Framework/Services/Registry/ServiceDefinitionMacros.h"
 #include "lardata/Utilities/LArFFT.h"
-#include "dune/Utilities/SignalShapingServiceDUNEDPhase.h"
+#include "dunecore/Utilities/SignalShapingServiceDUNEDPhase.h"
 
 using std::string;
 using std::cout;

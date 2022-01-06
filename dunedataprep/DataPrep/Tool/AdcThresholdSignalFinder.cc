@@ -1,9 +1,9 @@
 #include "AdcThresholdSignalFinder.h"
 
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Data/RunData.h"
-#include "dune/DuneInterface/Tool/RunDataTool.h"
-#include "dune/DuneCommon/Utility/RootParFormula.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Data/RunData.h"
+#include "dunecore/DuneInterface/Tool/RunDataTool.h"
+#include "dunecore/DuneCommon/Utility/RootParFormula.h"
 #include <iostream>
 
 using std::string;

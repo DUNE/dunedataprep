@@ -51,9 +51,9 @@
 
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "dune/DuneInterface/Data/IndexRange.h"
-#include "dune/DuneInterface/Data/IndexRangeGroup.h"
-#include "dune/DuneInterface/Tool/TpcDataTool.h"
+#include "dunecore/DuneInterface/Data/IndexRange.h"
+#include "dunecore/DuneInterface/Data/IndexRangeGroup.h"
+#include "dunecore/DuneInterface/Tool/TpcDataTool.h"
 #include <set>
 
 class AdcChannelStringTool;

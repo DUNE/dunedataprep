@@ -38,7 +38,7 @@
 #include "lardata/ArtDataHelper/WireCreator.h"
 #include "lardata/Utilities/LArFFT.h"
 #include "lardata/Utilities/AssociationUtil.h"
-#include "dune/Utilities/SignalShapingServiceDUNEDPhase.h"
+#include "dunecore/Utilities/SignalShapingServiceDUNEDPhase.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 
 ///creation of calibrated signals on wires

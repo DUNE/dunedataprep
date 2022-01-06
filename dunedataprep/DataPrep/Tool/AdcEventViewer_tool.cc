@@ -1,13 +1,13 @@
 // AdcEventViewer_tool.cc
 
 #include "AdcEventViewer.h"
-#include "dune/DuneInterface/Tool/AdcChannelStringTool.h"
-#include "dune/ArtSupport/DuneToolManager.h"
-#include "dune/DuneInterface/Tool/RunDataTool.h"
-#include "dune/DuneInterface/Tool/IndexRangeTool.h"
-#include "dune/DuneCommon/Utility/TPadManipulator.h"
-#include "dune/DuneCommon/Utility/StringManipulator.h"
-#include "dune/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/AdcChannelStringTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+#include "dunecore/DuneInterface/Tool/RunDataTool.h"
+#include "dunecore/DuneInterface/Tool/IndexRangeTool.h"
+#include "dunecore/DuneCommon/Utility/TPadManipulator.h"
+#include "dunecore/DuneCommon/Utility/StringManipulator.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
 #include "TH1.h"
 #include <iostream>
 #include <sstream>
