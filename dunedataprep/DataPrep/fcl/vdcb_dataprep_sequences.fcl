@@ -63,6 +63,13 @@ data.vdbcb_dataprep_seqs.nomcal_cnr_adc: [
   @sequence::data.vdbcb_dataprep_seqs.nomcal_cnr,
   vdbcb_adcScaleKeToAdc
 ]
+
+# rm bad channels
+data.vdbcb_dataprep_seqs.nomcal_cnr_adc_rmbadch: [
+  @sequence::data.vdbcb_dataprep_seqs.nomcal_cnr_adc,
+  vdcb_RemoveBadChannels
+]
+
 # Top. Processing at charge scale.
 data.vdtcb_dataprep_seqs.adc_cnr: [
   digitReader,
@@ -70,3 +77,10 @@ data.vdtcb_dataprep_seqs.adc_cnr: [
   vdtcb_cnr,
   adcKeepAllSignalFinder
 ]
+
+# rm bad channels
+data.vdtcb_dataprep_seqs.adc_cnr_rmbadch: [
+  @sequence::data.vdtcb_dataprep_seqs.adc_cnr,
+  vdcb_RemoveBadChannels
+]
+
