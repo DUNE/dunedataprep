@@ -206,6 +206,14 @@ tools.vdtcb_cnr_ada: {
   Groups: @local::data.vdcb_adaviews
 }
 
+tools.vdtcb_cnrw: {
+  tool_type: CnrGroupWeighted
+  LogLevel: 1
+  Weight: "rawRms"
+  Options: ["median"]
+  Groups: @local::data.vdcb_kelviews
+}
+
 ################# Signal finder ####################
 
 tools.vdc_thresholdSignalFinder: @local::tools.adcThresholdSignalFinder
@@ -497,4 +505,12 @@ tools.adcRoiTreeMaker: {
   LogLevel: 1
   OutFile: "adcrois.root"
   MetadataFields: [samRms]
+}
+
+##### set bad channels ADC to 0
+tools.vdcb_RemoveBadChannels: {
+  tool_type: RemoveBadChannels
+  LogLevel: 1
+  RemoveBadChs: true
+  RemoveNoisyChs: true
 }
