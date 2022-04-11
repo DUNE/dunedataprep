@@ -8,7 +8,8 @@ cmake_minimum_required (VERSION 3.12...3.19 FATAL_ERROR)
 # cetbuildtools contains our cmake modules
 find_package(cetbuildtools REQUIRED)
 
-project(dunedataprep VERSION 09.47.00.01 LANGUAGES CXX)
+project(dunedataprep LANGUAGES CXX)
+set(${PROJECT_NAME}_CMAKE_PROJECT_VERSION_STRING 09.48.00d00)
 
 include(CetCMakeEnv)
 cet_cmake_env()
