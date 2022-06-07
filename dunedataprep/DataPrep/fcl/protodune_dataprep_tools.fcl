@@ -326,6 +326,7 @@ tools.rawAdcDetectorPlotColl: {
   ZMax:  720.0
   SignalThreshold:  20
   SkipChannelStatus: []
+  SkipBadChannels: true
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -350,6 +351,7 @@ tools.rawAdcDetectorPlotInd1: {
   ZMax:  940.0
   SignalThreshold:  20
   SkipChannelStatus: []
+  SkipBadChannels: true
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -374,6 +376,7 @@ tools.rawAdcDetectorPlotInd2: {
   ZMax:  580.0
   SignalThreshold:  20
   SkipChannelStatus: []
+  SkipBadChannels: true
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -400,6 +403,7 @@ tools.preparedAdcDetectorPlotColl: {
   ZMax:  720.0
   SignalThreshold: 5
   SkipChannelStatus: [1]
+  SkipBadChannels: true
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -424,6 +428,7 @@ tools.preparedAdcDetectorPlotInd1: {
   ZMax:  940.0
   SignalThreshold: 5
   SkipChannelStatus: [1]
+  SkipBadChannels: true
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
@@ -448,6 +453,7 @@ tools.preparedAdcDetectorPlotInd2: {
   ZMax:  580.0
   SignalThreshold: 5
   SkipChannelStatus: [1]
+  SkipBadChannels: true
   ShowAllTicks: false
   FirstTick: 0
   LastTick: 0
