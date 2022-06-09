@@ -1,0 +1,41 @@
+# pdsp_dataprep_sequences.fcl
+#
+# David Adams
+# March 2022
+#
+# Dataprep tool sequences for processing Protodune 1 single-phase data.
+# Notation:
+#    pdsp - ProtoDUNE 1 single-phase
+#     cnr - Correlated noise removal.
+#
+# Copy the pdsp dataprep sequences from prolog to data.
+# The latter is a standard convention for storing sequences for all prototypes.
+# Ideally prologs would be avoided entirely with sequences explictly defined
+# here but the prologs are retained until production reco is updated.
+#
+# The prolog-defining file protodune_dataprep_services.fcl must be included
+# ahead of this file.
+#
+# The dataaprep sequence standard is that any sequence is defined with
+#
+# data.<DET>_dataprep_seqs.<SEQ>
+#
+# where <DET> is the prototype label (here pdsp) and <SEQ> is the sequence name.
+# This is the syntax that should be used to include the sequence in production reco.
+
+# Detector data.
+data.pdsp_dataprep_seqs.nocal_tail:     @local::protodune_dataprep_tools_nocal_tail
+data.pdsp_dataprep_seqs.calib_only:     @local::protodune_dataprep_tools_calib_only
+data.pdsp_dataprep_seqs.calib_mit:      @local::protodune_dataprep_tools_calib_mit
+data.pdsp_dataprep_seqs.calib_oldtail:  @local::protodune_dataprep_tools_calib_oldtail
+data.pdsp_dataprep_seqs.calib_tail:     @local::protodune_dataprep_tools_calib_tail
+data.pdsp_dataprep_seqs.calib_noiserem: @local::protodune_dataprep_tools_calib_noiserem
+data.pdsp_dataprep_seqs.wirecell:       @local::protodune_dataprep_tools_wirecell
+
+# MC data.
+data.pdspsim_dataprep_seqs.vintage:   @local::pdsim_dataprep_tools_vintage
+data.pdspsim_dataprep_seqs.adc:       @local::pdsim_dataprep_tools_adc
+data.pdspsim_dataprep_seqs.calib:     @local::pdsim_dataprep_tools_calib
+data.pdspsim_dataprep_seqs.oldtail:   @local::pdsim_dataprep_tools_oldtail
+data.pdspsim_dataprep_seqs.tail:      @local::pdsim_dataprep_tools_tail
+data.pdspsim_dataprep_seqs.wirecell:  @local::pdsim_dataprep_tools_wirecell
