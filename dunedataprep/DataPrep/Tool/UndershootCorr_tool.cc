@@ -6,7 +6,7 @@
 #include "lardata/Utilities/LArFFT.h"
 #include "dunecore/Utilities/SignalShapingServiceDUNE.h"
 #include "TMath.h"
-#include "dune-raw-data/Services/ChannelMap/PdspChannelMapService.h"
+#include "dunepdlegacy/Services/ChannelMap/PdspChannelMapService.h"
 
 
 using std::string;
