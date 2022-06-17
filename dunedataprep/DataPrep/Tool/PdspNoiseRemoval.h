@@ -44,7 +44,7 @@
 #include "dunecore/DuneInterface/Tool/TpcDataTool.h"
 #include "TFFTRealComplex.h"
 #include "TFFTComplexReal.h"
-#include "dune-raw-data/Services/ChannelMap/PdspChannelMapService.h"
+#include "dunepdlegacy/Services/ChannelMap/PdspChannelMapService.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 namespace geo { class Geometry; }
 namespace util { class LArFFT; }

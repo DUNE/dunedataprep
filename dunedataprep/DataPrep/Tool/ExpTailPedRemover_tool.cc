@@ -7,7 +7,7 @@
 #include "dunecore/DuneCommon/Utility/SampleTailer.h"
 #include "dunecore/ArtSupport/DuneToolManager.h"
 #include "dunecore/DuneInterface/Tool/IndexRangeTool.h"
-#include "dune-raw-data/Services/ChannelMap/PdspChannelMapService.h"
+#include "dunepdlegacy/Services/ChannelMap/PdspChannelMapService.h"
 #include "TVectorD.h"
 #include "TMatrixDSym.h"
 #include <iomanip>
