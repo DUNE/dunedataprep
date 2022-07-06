@@ -52,6 +52,8 @@
 //  ChannelWidth - width for channel
 //  FembWidth - width for FEMB
 //  TrigNames - Names for triggers.
+//  TpmPrefix - prefix for tpad files, e.g. "_updated.{tpad,png}"
+//  TpmSuffix - suffix for tpad files, e.g. "new_model_"
 
 #ifndef StandardAdcChannelStringTool_H
 #define StandardAdcChannelStringTool_H
@@ -86,6 +88,8 @@ private:
   Index m_FembWidth;
   Index m_TriggerWidth;
   NameVector m_TrigNames;
+  Name m_TpmPrefix;
+  Name m_TpmSuffix;
 
   static const Index m_nrep = 9;
   Index m_wids[m_nrep];
