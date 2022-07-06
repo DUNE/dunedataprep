@@ -49,6 +49,8 @@ int test_StandardAdcChannelStringTool(bool useExistingFcl =false) {
     fout << "    FembWidth:    3" << endl;
     fout << "    TriggerWidth: 2" << endl;
     fout << "    TrigNames: [unknown]" << endl;
+    fout << "    TpmPrefix: \"prefix_\"" << endl;
+    fout << "    TpmSuffix: \".png\"" << endl;
     fout << "  }" << endl;
     fout << "}" << endl;
     fout.close();
@@ -86,6 +88,7 @@ int test_StandardAdcChannelStringTool(bool useExistingFcl =false) {
     "data_run%RUN%-%SUBRUN%_ev%EVENT%_ch%CHAN%_%COUNT%.dat",
     "data_run%5RUN%-%5SUBRUN%_ev%5EVENT%_ch%5CHAN%_%5COUNT%.dat",
     "data_run%0RUN%-%0SUBRUN%_ev%0EVENT%_ch%0CHAN%_%0COUNT%.dat",
+    "%TPMPRE%data_run%0RUN%-%0SUBRUN%_ev%0EVENT%_ch%0CHAN%_%0COUNT%%TPMSUF%",
     "data_run%0RUN%_run%8RUN%.dat",
     "Units are %SUNIT%",
     "Units are %(SUNIT)%",
@@ -105,6 +108,7 @@ int test_StandardAdcChannelStringTool(bool useExistingFcl =false) {
     "data_run123-45_ev246_ch1357_23.dat",
     "data_run00123-00045_ev00246_ch01357_00023.dat",
     "data_run0123-045_ev000246_ch01357_000023.dat",
+    "prefix_data_run0123-045_ev000246_ch01357_000023.png",
     "data_run0123_run00000123.dat",
     "Units are my units",
     "Units are (my units)",
