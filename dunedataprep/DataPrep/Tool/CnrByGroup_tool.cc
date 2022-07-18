@@ -32,26 +32,35 @@ CnrByGroup::CnrByGroup(fhicl::ParameterSet const& ps)
   string crtName = "channelGroups";
   DuneToolManager* ptm = DuneToolManager::instance();
   const IndexRangeGroupTool* pcrt = ptm == nullptr ? nullptr : ptm->getShared<IndexRangeGroupTool>(crtName);
+  int nerr = 0;
   for ( Name sgrp : m_Groups ) {
     IndexRangeGroup grp;
     if ( pcrt != nullptr ) grp = pcrt->get(sgrp);
     if ( ! grp.isValid() ) {
       grp = IndexRangeGroup(sgrp);
     }
-    if ( ! grp.isValid() ) {
+    if ( ! grp.isValid() || grp.name.size() == 0 ) {
       cout << myname << "WARNING: Unable to find range group " << sgrp << endl;
+      ++nerr;
     } else {
       grp.getIndices(m_chg[grp.name]);
     }
   }
-       
+  if ( nerr ) {
+    if ( pcrt == nullptr ) {
+      cout << myname << "Channel groups tool " << crtName << " was not found." << endl;
+    } else {
+      cout << myname << "Channel groups tool " << crtName << " listing:" << endl;
+      pcrt->get("list");
+    }
+  }
   // Log the configuration.
   if ( m_LogLevel >= 1 ) {
     cout << myname << "  LogLevel: " << m_LogLevel << endl;
     cout << myname << "    Groups: [";
     int count = 0;
     for ( Name nam : m_Groups ) {
-      if ( count && count%10 == 0 ) cout << "\n             ";
+      if ( count && count%10 == 0 ) cout << "\n" + myname + "             ";
       if ( count++ ) cout << ", ";
       cout << nam;
     }
@@ -66,9 +75,13 @@ CnrByGroup::CnrByGroup(fhicl::ParameterSet const& ps)
     cout << myname << "Using " << (m_useMedian ? "median" : "mean") << " correction." << endl;
     cout << myname << "Using " << (m_dropSignal ? "all" : "non-signal") << " samples." << endl;
     cout << myname << (m_requireGoodChannel ? "R" : "Not r") << "equiring good channel status." << endl;
-    cout << myname << "    Group   #chan" << endl;
-    for ( const auto& ient : m_chg ) {
-      cout << myname << setw(10) << ient.first << setw(8) << ient.second.size() << endl;
+    if ( m_chg.size() ) {
+      cout << myname << "     Group   #chan" << endl;
+      for ( const auto& ient : m_chg ) {
+        cout << myname << setw(10) << ient.first << setw(8) << ient.second.size() << endl;
+      }
+    } else {
+      cout << myname << "No channel groups found." << endl;
     }
   }
 }
