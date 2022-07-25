@@ -570,13 +570,13 @@ tools.ibmet_adcChannelUtcPlotter.MetricLabel: "UTC [sec]"
 tools.ibmet_adcChannelUtcPlotter.Label: "UTC [sec]"
 tools.ibmet_adcChannelUtcPlotter.HistName: "hchutc%CRNAME%_run%0RUN%_%0EVENT%"
 tools.ibmet_adcChannelUtcPlotter.HistTitle: "ADC UTC for Iceberg run %RUN% event %EVENT%"
-tools.ibmet_adcChannelUtcPlotter.PlotFileName: "chmet_utc_%CRNAME%_run%0RUN%.png"
+tools.ibmet_adcChannelUtcPlotter.PlotFileName: "%TPMPRE%chmet_utc_%CRNAME%_run%0RUN%%TPMSUF%"
 
 # UTC range: (val-error, val+error)
 tools.ibmet_adcChannelUtcRangePlotter: @local::tools.ibmet_adcChannelUtcPlotter
 tools.ibmet_adcChannelUtcRangePlotter.MetricSummaryView: "center:halfRange"
 tools.ibmet_adcChannelUtcRangePlotter.HistTitle: "ADC UTC range for Iceberg run %RUN% event %EVENT%"
-tools.ibmet_adcChannelUtcRangePlotter.PlotFileName: "chmet_utcran_%CRNAME%_run%0RUN%.{png,tpad}"
+tools.ibmet_adcChannelUtcRangePlotter.PlotFileName: "%TPMPRE%chmet_utcran_%CRNAME%_run%0RUN%%TPMSUF%"
 
 # -- Noise signal finder plots --
 

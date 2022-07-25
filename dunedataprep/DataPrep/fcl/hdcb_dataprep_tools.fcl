@@ -8,6 +8,16 @@
 # Start from the PDSP tool configurations.
 #include "protodune_dataprep_tools.fcl"
 
+data.FembChannelBounds: [
+      0,   40,   80,  120,  160,  200,  240,  280,  320,  360,
+    400,  440,  480,  520,  560,  600,  640,  680,  720,  760,
+    800,  840,  880,  920,  960, 1000, 1040, 1080, 1120, 1160,
+   1200, 1240, 1280, 1320, 1360, 1400, 1440, 1480, 1520, 1560,
+   1600, 1648, 1696, 1744, 1792, 1840, 1888, 1936, 1984, 2032,
+   2080, 2128, 2176, 2224, 2272, 2320, 2368, 2416, 2464, 2512,
+   2560
+]
+
 # Raw channel vs. tick waveforms.
 tools.chtr_hdcbz: @local::tools.pdcht_Zplanes
 tools.chtr_hdcbc: @local::tools.pdcht_Cplanes
@@ -16,14 +26,21 @@ tools.chtr_hdcbz.ChannelRanges: [tpp0z]
 tools.chtr_hdcbc.ChannelRanges: [tpp0c]
 tools.chtr_hdcbi.ChannelRanges: [tpp0u, tpp0v]
 
-# Prepared channel vs. tick waveforms.
-tools.chtp_hdcbz: @local::tools.pdchtp_Zplanes
-tools.chtp_hdcbc: @local::tools.pdchtp_Cplanes
-tools.chtp_hdcbi: @local::tools.pdchtp_Iplanes
-tools.chtp_hdcbz.ChannelRanges: [tpp0z]
-tools.chtp_hdcbc.ChannelRanges: [tpp0c]
-tools.chtp_hdcbi.ChannelRanges: [tpp0u, tpp0v]
-tools.chtp_hdcbz.MaxSignal: 1.25
-tools.chtp_hdcbc.MaxSignal: 1.25
-tools.chtp_hdcbi.MaxSignal: 1.25
+# Raw channel vs. tick waveforms.
+tools.chtr_hdcb: @local::tools.pdcht_Zplanes
+tools.chtr_hdcb.ChannelRanges: [tpp0u, tpp0v, tpp0c, tpp0z]
+tools.chtr_hdcb.HistTitle: "Raw ADC for coldbox %CRLABEL%"
+tools.chtr_hdcb.MaxSignal: 50
+tools.chtr_hdcb.ChannelLinePattern: @local::data.FembChannelBounds
 
+# Area-calibrated channel vs. tick waveforms.
+tools.chtp_hdcb: @local::tools.pdchtp_Zplanes
+tools.chtp_hdcb.ChannelRanges: [tpp0u, tpp0v, tpp0c, tpp0z]
+tools.chtp_hdcb.HistTitle: "Calibrated signal for coldbox %CRLABEL%"
+tools.chtp_hdcb.MaxSignal: 1.25
+tools.chtp_hdcb.ChannelLinePattern: @local::data.FembChannelBounds
+
+# Prepared channel vs. tick vaveforms at ADC scale.
+tools.chta_hdcb: @local::tools.chtp_hdcb
+tools.chta_hdcb.HistTitle: "ADC-scale signal for coldbox %CRLABEL%"
+tools.chta_hdcb.MaxSignal: 50

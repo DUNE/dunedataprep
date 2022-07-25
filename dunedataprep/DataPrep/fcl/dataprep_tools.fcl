@@ -90,6 +90,8 @@ tools.adcStringBuilder: {
   TrigNames: [ "flag 0",  "flag 1",  "flag 2",  "flag 3",  "flag 4",
                "flag 5",  "flag 6",  "flag 7",  "random",  "flag 9",
                "flag 10", "flag 11",    "beam",     "CRT", "NGT"]
+  TpmPrefix: ""
+  TpmSuffix: ".png"
 }
 
 # Dump raw ADC channel waveform to a histogram.
@@ -216,7 +218,7 @@ tools.adcDumper: {
   ShowOpt: 2
 }
 
-# Create png files showing ADC contents (ADC vs. channel vs. time).
+# Create tpad files showing ADC contents (ADC vs. channel vs. time).
 tools.preparedAdcPlotter: {
   tool_type: AdcDataPlotter
   LogLevel: 1
@@ -240,7 +242,7 @@ tools.preparedAdcPlotter: {
   PlotTitle: ""
   PlotSizeX: 1400
   PlotSizeY: 1000
-  PlotFileName: "adcprep_evt%EVENT%_ch%CHAN1%-%CHAN2%.png"
+  PlotFileName: "%TPMPRE%adcprep_evt%EVENT%_ch%CHAN1%-%CHAN2%%TPMSUF%"
   RootFileName: ""    # or "adc_evt%EVENT%.root"
 }
 tools.signalAdcPlotter: {
@@ -266,7 +268,7 @@ tools.signalAdcPlotter: {
   PlotTitle: ""
   PlotSizeX: 1400
   PlotSizeY: 1000
-  PlotFileName: "adcsig_evt%EVENT%_ch%CHAN1%-%CHAN2%.png"
+  PlotFileName: "%TPMPRE%adcsig_evt%EVENT%_ch%CHAN1%-%CHAN2%%TPMSUF%"
   RootFileName: ""    # or "adc_evt%EVENT%.root"
 }
 tools.rawAdcPlotter: {
@@ -292,7 +294,7 @@ tools.rawAdcPlotter: {
   PlotTitle: ""
   PlotSizeX: 1400
   PlotSizeY: 1000
-  PlotFileName: "adcrawRun%0RUN%Event%0EVENT%Chan%CHAN1%-%CHAN2%.png"
+  PlotFileName: "%TPMPRE%adcrawRun%0RUN%Event%0EVENT%Chan%CHAN1%-%CHAN2%%TPMSUF%"
   RootFileName: ""   # or "adc_evt%EVENT%.root"
 }
 
@@ -321,7 +323,7 @@ tools.adcChannelPedestalPlotter: {
   HistTitle: "ADC pedestals for run %RUN% event %EVENT%"
   PlotSizeX: 1400
   PlotSizeY:  500
-  PlotFileName: "hchped_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%.png"
+  PlotFileName: "%TPMPRE%hchped_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%%TPMSUF%"
   RootFileName: ""
   MetadataFlags: []
 }
@@ -347,7 +349,7 @@ tools.adcChannelPedestalRmsPlotter: {
   HistTitle: "ADC pedestal RMS for run %RUN% event %EVENT%"
   PlotSizeX: 1400
   PlotSizeY:  500
-  PlotFileName: "hchpedrms_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%.png"
+  PlotFileName: "%TPMPRE%hchpedrms_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%%TPMSUF%"
   RootFileName: ""
   MetadataFlags: []
 }
@@ -358,7 +360,7 @@ tools.adcChannelSamplelRmsPlotter.Metric: samRms
 tools.adcChannelSamplelRmsPlotter.MetricLabel: "RMS [ke]"
 tools.adcChannelSamplelRmsPlotter.HistName: "hchsamrms_%0RUN%_%0EVENT%_%0CHAN1%_%0CHAN2%"
 tools.adcChannelSamplelRmsPlotter.HistTitle: "ADC sample RMS for run %RUN% event %EVENT%"
-tools.adcChannelSamplelRmsPlotter.PlotFileName: "hchsamrms_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%.png"
+tools.adcChannelSamplelRmsPlotter.PlotFileName: "%TPMPRE%hchsamrms_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%%TPMSUF%"
 
 # Signal RMS
 tools.adcChannelSignalRmsPlotter: @local::tools.adcChannelPedestalRmsPlotter
@@ -366,7 +368,7 @@ tools.adcChannelSignalRmsPlotter.Metric: sigRms
 tools.adcChannelSignalRmsPlotter.MetricLabel: "RMS [ke]"
 tools.adcChannelSignalRmsPlotter.HistName: "hchsigrms_%0RUN%_%0EVENT%_%0CHAN1%_%0CHAN2%"
 tools.adcChannelSignalRmsPlotter.HistTitle: "ADC signal RMS for run %RUN% event %EVENT%"
-tools.adcChannelSignalRmsPlotter.PlotFileName: "hchsigrms_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%.png"
+tools.adcChannelSignalRmsPlotter.PlotFileName: "%TPMPRE%hchsigrms_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%%TPMSUF%"
 
 # Not-signal RMS
 tools.adcChannelNotSignalRmsPlotter: @local::tools.adcChannelPedestalRmsPlotter
@@ -374,7 +376,7 @@ tools.adcChannelNotSignalRmsPlotter.Metric: nsgRms
 tools.adcChannelNotSignalRmsPlotter.MetricLabel: "RMS [ke]"
 tools.adcChannelNotSignalRmsPlotter.HistName: "hchnsgrms_%0RUN%_%0EVENT%_%0CHAN1%_%0CHAN2%"
 tools.adcChannelNotSignalRmsPlotter.HistTitle: "ADC not-signal RMS for run %RUN% event %EVENT%"
-tools.adcChannelNotSignalRmsPlotter.PlotFileName: "hchnsgrms_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%.png"
+tools.adcChannelNotSignalRmsPlotter.PlotFileName: "%TPMPRE%hchnsgrms_run%0RUN%_evt%0EVENT%_chans%0CHAN1%-%0CHAN2%%TPMSUF%"
 
 adcSampleFreq: 2000
 adcPlotDftTemplate: {
@@ -406,14 +408,14 @@ tools.adcPlotDftMag.SampleFreq: @local::adcSampleFreq
 tools.adcPlotDftMag.YMax: 50
 tools.adcPlotDftMag.HistName: "hdftmags_run%0RUN%_evt%0EVENT%_ch%0CHAN%"
 tools.adcPlotDftMag.HistTitle: "DFT amplitudes for run %RUN% event %EVENT% channel %CHAN%"
-tools.adcPlotDftMag.PlotName: "dftmag_run%0RUN%_evt%0EVENT%_ch%0CHAN%.png"
+tools.adcPlotDftMag.PlotName: "%TPMPRE%dftmag_run%0RUN%_evt%0EVENT%_ch%0CHAN%%TPMSUF%"
 
 # DFT Phases
 tools.adcPlotDftPhase: @local::adcPlotDftTemplate
 tools.adcPlotDftPhase.Variable: phase
 tools.adcPlotDftPhase.HistName: "hdftphas_run%0RUN%_evt%0EVENT%_ch%0CHAN%"
 tools.adcPlotDftPhase.HistTitle: "DFT phases for run %RUN% event %EVENT% channel %CHAN%"
-tools.adcPlotDftPhase.PlotName: "dftpha_run%0RUN%_evt%0EVENT%_ch%0CHAN%.png"
+tools.adcPlotDftPhase.PlotName: "%TPMPRE%dftpha_run%0RUN%_evt%0EVENT%_ch%0CHAN%%TPMSUF%"
 
 # DFT power
 tools.adcPlotDftPower: @local::adcPlotDftTemplate
@@ -423,8 +425,8 @@ tools.adcPlotDftPower.NBinX: 50
 tools.adcPlotDftPower.HistName: "hdftpower_run%0RUN%_evt%0EVENT%_ch%0CHAN%"
 tools.adcPlotDftPower.HistTitle: "DFT power for run %RUN% event %EVENT% channel %CHAN%"
 tools.adcPlotDftPower.HistSummaryTitles:["DFT power for run %RUN%", "DFT power for run %RUN% event %EVENT%"]
-tools.adcPlotDftPower.PlotName: "dftpower_run%0RUN%_evt%0EVENT%_ch%0CHAN%.png"
-tools.adcPlotDftPower.PlotSummaryNames: ["dftpowtlog_run%0RUN%.{png,tpad}", ""]
+tools.adcPlotDftPower.PlotName: "%TPMPRE%dftpower_run%0RUN%_evt%0EVENT%_ch%0CHAN%%TPMSUF%"
+tools.adcPlotDftPower.PlotSummaryNames: ["%TPMPRE%dftpowtlog_run%0RUN%%TPMSUF", ""]
 
 
 # DFT power/tick
@@ -434,7 +436,7 @@ tools.adcPlotDftTickPower.YMax: -2.0
 tools.adcPlotDftTickPower.NBinX: 50
 tools.adcPlotDftTickPower.HistName: "hdftpowt_run%0RUN%_evt%0EVENT%_ch%0CHAN%"
 tools.adcPlotDftTickPower.HistTitle: "DFT power for run %RUN% event %EVENT% channel %CHAN%"
-tools.adcPlotDftTickPower.PlotName: "dftpowt_run%0RUN%_evt%0EVENT%_ch%0CHAN%.png"
+tools.adcPlotDftTickPower.PlotName: "%TPMPRE%dftpowt_run%0RUN%_evt%0EVENT%_ch%0CHAN%%TPMSUF%"
 tools.adcPlotDftPower.PlotSummaryNames: []
 
 # DFT power/tick with log scale.
@@ -442,7 +444,7 @@ tools.adcPlotDftTickPowerLog: @local::tools.adcPlotDftTickPower
 tools.adcPlotDftTickPowerLog.YMinLog: 0.01
 tools.adcPlotDftTickPowerLog.YMax: 100.0
 tools.adcPlotDftTickPowerLog.HistName: "hdftpowtlog_run%0RUN%_evt%0EVENT%_ch%0CHAN%"
-tools.adcPlotDftTickPowerLog.PlotName: "dftpowtlog_run%0RUN%_evt%0EVENT%_ch%0CHAN%.png"
+tools.adcPlotDftTickPowerLog.PlotName: "%TPMPRE%dftpowtlog_run%0RUN%_evt%0EVENT%_ch%0CHAN%%TPMSUF%"
 tools.adcPlotDftPower.PlotSummaryNames: []
 
 ################################################################################

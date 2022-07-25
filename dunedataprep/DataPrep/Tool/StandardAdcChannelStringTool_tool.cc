@@ -27,7 +27,9 @@ StandardAdcChannelStringTool(fhicl::ParameterSet const& ps)
   m_CountWidth(ps.get<Index>("CountWidth")),
   m_FembWidth(ps.get<Index>("FembWidth")),
   m_TriggerWidth(ps.get<Index>("TriggerWidth")),
-  m_TrigNames(ps.get<NameVector>("TrigNames")) {
+  m_TrigNames(ps.get<NameVector>("TrigNames")),
+  m_TpmPrefix(ps.get<Name>("TpmPrefix")),
+  m_TpmSuffix(ps.get<Name>("TpmSuffix")) {
   const string myname = "StandardAdcChannelStringTool::ctor: ";
   m_reps[0] = "RUN";
   m_reps[1] = "SUBRUN";
@@ -77,6 +79,8 @@ StandardAdcChannelStringTool(fhicl::ParameterSet const& ps)
       ++icnt;
     }
     cout << "]" << endl;
+    cout << myname << "     TpmPrefix: " << m_TpmPrefix << endl;
+    cout << myname << "     TpmSuffix: " << m_TpmSuffix << endl;
   }
 }
 
@@ -195,6 +199,9 @@ build(const AdcChannelData& acd, const DataMap& dm, string spat) const {
     if ( strig.size() ) strig[0] = std::toupper(strig[0]);
     sman.replace("%TRIGNAMECAP%", strig);
   }
+  // TPad fields.
+  sman.replace("%TPMPRE%", m_TpmPrefix);
+  sman.replace("%TPMSUF%", m_TpmSuffix);
   // Next replace time name.
   string spatpre = "%UTCTIME";
   ipos = sout.find(spatpre);
