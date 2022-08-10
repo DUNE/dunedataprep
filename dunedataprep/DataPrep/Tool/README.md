@@ -33,7 +33,7 @@ and (most useful) power as function of frequency. The DFT data must be populated
 [AdcChannelMetric](AdcChannelMetric.h) evaluates a named metric (e.g. samRms for sample RMS), stores the reults in the channel metadata amd 
 plot metric vs. channel for each event or all combined.
 
-[AdcChannelPlotter](AdcChannelPlotter.h) plots waveforms or sample distributions for wither raw or prepared data in each channel.
+[AdcChannelPlotter](AdcChannelPlotter.h) plots waveforms or sample distributions for either raw or prepared data in each channel.
 
 
 ## Debugging tools
