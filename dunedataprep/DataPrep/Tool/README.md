@@ -20,7 +20,27 @@ This is typically the first tool to be run in a sequence embeddded in a larsoft 
 [AdcWireReader](AdcWireeReader.h) populates the prepared ADC waveform for each channel from the associated recob::Wire object.
 This would be used when another actor (Monte Carlo, another reco framewor or an earlier dataprep job) has written TPC data in the format.
 
-## Simulation Tools
+[AdcChannelFFT](AdcChannelFFT.h) performs forward and back FFT transforms with the prepared waveform and DFT data (amplitudes and phases)
+stored in a channel data object.
+
+## Display tools
+
+[AdcChannelDftPlotter](AdcChannelDftPlotter.h) makes plots of DFT (discrete Fourire transform) quantities including amplitude, phase
+and (most useful) power as function of frequency. The DFT data must be populated in advance, e.g. with the AdcChannelFFT tool.
+
+## Analysis tools
+
+[AdcChannelMetric](AdcChannelMetric.h) evaluates a named metric (e.g. samRms for sample RMS), stores the reults in the channel metadata amd 
+plot metric vs. channel for each event or all combined.
+
+[AdcChannelPlotter](AdcChannelPlotter.h) plots waveforms or sample distributions for wither raw or prepared data in each channel.
+
+
+## Debugging tools
+
+[AdcChannelDumper](AdcChannelDumper.h) dumps the data from channel data objects to text files.
+
+## Simulation tools
 
 [Adc2dConvolute](Adc2dConvolute) convolutes the prepared waveforms with a 2D (channel-wire) kernel provided as part of the tool configuration.
 
