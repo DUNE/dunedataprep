@@ -38,6 +38,7 @@ int test_AdcDataDumper(bool useExistingFcl =false) {
     fout << "tools: {" << endl;
     fout << "  mytool: {" << endl;
     fout << "    tool_type: AdcDataDumper" << endl;
+    fout << "    LogLevel: 1" << endl;
     fout << "    FileName: \"\"" << endl;
     fout << "    Prefix: \"ADC dump for \"" << endl;
     fout << "    NewFile: false" << endl;
@@ -45,6 +46,7 @@ int test_AdcDataDumper(bool useExistingFcl =false) {
     fout << "    ShowTickCounts: true" << endl;
     fout << "    ShowRaw: true" << endl;
     fout << "    ShowPrepared: true" << endl;
+    fout << "    ShowFlags: true" << endl;
     fout << "    ShowFirst: 10" << endl;
     fout << "    ShowRebin: 5" << endl;
     fout << "    ShowMax: 16" << endl;
@@ -92,6 +94,7 @@ int test_AdcDataDumper(bool useExistingFcl =false) {
         AdcCount iadc = xadc;
         data.raw.push_back(iadc);
         data.samples.push_back(iadc - ped);
+        data.flags.push_back(itic%2);
       }
       AdcIndex tp = 10*ievt + 60 - 2.3*icha;
       AdcIndex tm = tp - 8;
@@ -99,6 +102,7 @@ int test_AdcDataDumper(bool useExistingFcl =false) {
       data.samples[tp] += 100;
       data.raw[tm] -= 100;
       data.samples[tm] -= 100;
+
     }
     assert( padv->viewMap(datamap) == 0 );
   }
