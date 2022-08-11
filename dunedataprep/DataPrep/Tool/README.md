@@ -17,8 +17,10 @@ description may be found.
 [AdcDigitReader](AdcDigitReader.h) populates the raw ADC waveform and pedestal for each channel using the associated raw::RawDigit.
 This is typically the first tool to be run in a sequence embeddded in a larsoft event loop.
 
-[AdcWireReader](AdcWireeReader.h) populates the prepared ADC waveform for each channel from the associated recob::Wire object.
+[AdcWireReader](AdcWireReader.h) populates the prepared ADC waveform for each channel from the associated recob::Wire object.
 This would be used when another actor (Monte Carlo, another reco framewor or an earlier dataprep job) has written TPC data in the format.
+
+[AdcChannelTrimmer]{AdcChannelTrimmer.h) trims or pads the channels waveforms to be a spcified length.
 
 [AdcChannelFFT](AdcChannelFFT.h) performs forward and back FFT transforms with the prepared waveform and DFT data (amplitudes and phases)
 stored in a channel data object.
@@ -43,5 +45,9 @@ plot metric vs. channel for each event or all combined.
 ## Simulation tools
 
 [Adc2dConvolute](Adc2dConvolute) convolutes the prepared waveforms with a 2D (channel-wire) kernel provided as part of the tool configuration.
+
+## Other tools
+
+[AdcChannelSplitter](AdcChannelSplitter.h) selects arange of the raw and prepared waveforms.
 
 ## More to come...
