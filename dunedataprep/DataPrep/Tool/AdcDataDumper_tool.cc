@@ -88,21 +88,40 @@ char charThresh(double val, double thresh) {
 //**********************************************************************
 
 AdcDataDumper::AdcDataDumper(fhicl::ParameterSet const& ps)
-: m_FileName(ps.get<string>("FileName")),
+: m_LogLevel(ps.get<int>("LogLevel")),
+  m_FileName(ps.get<string>("FileName")),
   m_Prefix(ps.get<string>("Prefix")),
   m_NewFile(ps.get<bool>("NewFile")),
   m_ShowChannelCount(ps.get<bool>("ShowChannelCount")),
   m_ShowTickCounts(ps.get<bool>("ShowTickCounts")),
   m_ShowRaw(ps.get<bool>("ShowRaw")),
   m_ShowPrepared(ps.get<bool>("ShowPrepared")),
+  m_ShowFlags(ps.get<bool>("ShowFlags")),
   m_ShowFirst(ps.get<unsigned int>("ShowFirst")),
   m_ShowRebin(ps.get<unsigned int>("ShowRebin")),
   m_ShowMax(ps.get<unsigned int>("ShowMax")),
   m_ShowThreshold(ps.get<float>("ShowThreshold")),
   m_ShowOpt(ps.get<unsigned int>("ShowOpt")),
   m_pout(nullptr) {
+  string myname = "AdcDataDumper: ";
   if ( m_FileName.size() == 0 ) m_pout = &cout;
   else if ( ! m_NewFile ) m_pout = new ofstream(m_FileName.c_str());
+  if ( m_LogLevel ) {
+    cout << myname << "          LogLevel: " << m_LogLevel << endl;
+    cout << myname << "          FileName: " << m_FileName << endl;
+    cout << myname << "            Prefix: " << m_Prefix << endl;
+    cout << myname << "           NewFile: " << m_NewFile << endl;
+    cout << myname << "  ShowChannelCount: " << m_ShowChannelCount << endl;
+    cout << myname << "    ShowTickCounts: " << m_ShowTickCounts << endl;
+    cout << myname << "           ShowRaw: " << m_ShowRaw << endl;
+    cout << myname << "      ShowPrepared: " << m_ShowPrepared << endl;
+    cout << myname << "         ShowFlags: " << m_ShowFlags << endl;
+    cout << myname << "         ShowFirst: " << m_ShowFirst << endl;
+    cout << myname << "         ShowRebin: " << m_ShowRebin << endl;
+    cout << myname << "           ShowMax: " << m_ShowMax << endl;
+    cout << myname << "     ShowThreshold: " << m_ShowThreshold << endl;
+    cout << myname << "           ShowOpt: " << m_ShowOpt << endl;
+  }
 }
 
 //**********************************************************************
@@ -160,7 +179,7 @@ DataMap AdcDataDumper::viewMap(const AdcChannelDataMap& acds) const {
   if ( m_ShowChannelCount ) out << pre << "  Channel count: " << acds.size() << endl;
   Index wcha = 6;
   Index wcou = 0;
-  if ( m_ShowRaw || m_ShowPrepared ) {
+  if ( m_ShowRaw || m_ShowPrepared || m_ShowFlags ) {
     out << pre << " Values are displayed starting at tick " << m_ShowFirst;
     if ( m_ShowRebin > 1 ) out << " with rebinning of " << m_ShowRebin;
     else out << " without rebinning";
@@ -200,6 +219,19 @@ DataMap AdcDataDumper::viewMap(const AdcChannelDataMap& acds) const {
     if ( m_ShowPrepared ) {
       DisplayVector<AdcSignalVector> dvec(m_ShowFirst, m_ShowRebin, m_ShowMax, acd.samples);
       out << chanpre << " Prp:";
+      if ( m_ShowOpt == 2 ) {
+        out << " |";
+        for ( AdcCount val : dvec.vout ) out << setw(1) << charThresh(val, m_ShowThreshold);
+        out << "|";
+      } else {
+        for ( AdcCount val : dvec.vout ) out << setw(6) << int(round(val));
+      }
+      out << endl;
+      chanpre = nochanpre;
+    }
+    if ( m_ShowFlags ) {
+      DisplayVector<AdcFlagVector> dvec(m_ShowFirst, m_ShowRebin, m_ShowMax, acd.flags);
+      out << chanpre << " Flg:";
       if ( m_ShowOpt == 2 ) {
         out << " |";
         for ( AdcCount val : dvec.vout ) out << setw(1) << charThresh(val, m_ShowThreshold);
