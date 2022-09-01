@@ -553,8 +553,10 @@ void DataPrepModule::produce(art::Event& evt) {
   // We have to have read digits to store those results (yech).
   if ( skipEvent ) {
     if ( logInfo ) cout << myname << "Skipping event with " << srdstat << endl;
-    evt.put(std::move(pwires), m_WireName);
-    if ( m_DoAssns ) evt.put(std::move(passns), m_WireName);
+    if ( m_WireName.size() ) {
+      evt.put(std::move(pwires), m_WireName);
+      if ( m_DoAssns ) evt.put(std::move(passns), m_WireName);
+    }
     ++m_nskip;
     return;
   }
