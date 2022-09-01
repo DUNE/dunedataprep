@@ -243,7 +243,7 @@ tools.cht_vdcb_raw: {
   SkipChannelStatus: []
   EmptyColor: 18
   ChannelLineModulus: 3200
-  ChannelLinePattern: @local::data.vdbcb_fembBounds
+  ChannelLinePattern: @local::data.vdtcb_adaBounds
   Palette: 2020
   HistName: "hadcraw_%CRNAME%_run%0RUN%_evt%0EVENT%"
   HistTitle: "Pedestal subtracted ADC"

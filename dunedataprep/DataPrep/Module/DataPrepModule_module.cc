@@ -135,9 +135,14 @@ DEFINE_ART_MODULE(DataPrepModule)
 DataPrepModule::DataPrepModule(fhicl::ParameterSet const& pset) : EDProducer{pset} {
   const Name myname = "DataPrepModule::ctor: ";
   this->reconfigure(pset);
-  produces<std::vector<recob::Wire>>(m_WireName);
-  if ( m_DoAssns ) {
-    produces<art::Assns<raw::RawDigit, recob::Wire>>(m_WireName);
+  if ( m_WireName.size() ) {
+    produces<std::vector<recob::Wire>>(m_WireName);
+    if ( m_DoAssns ) {
+      produces<art::Assns<raw::RawDigit, recob::Wire>>(m_WireName);
+    }
+    cout << myname << "Wires will be saved with name " << m_WireName << endl;
+  } else {
+    cout << myname << "Wires will be not be saved." << endl;
   }
   for ( string sname : m_IntermediateStates ) {
     if ( m_LogLevel > 0 ) cout << myname << "Module will produce intermediate Wires with name " << sname << endl;
@@ -749,9 +754,11 @@ void DataPrepModule::produce(art::Event& evt) {
   if ( pwires->size() == 0 ) mf::LogWarning("DataPrepModule") << "No wires made for this event.";
 
   // Record wires and associations in the event.
-  evt.put(std::move(pwires), m_WireName);
-  if ( m_DoAssns ) {
-    evt.put(std::move(passns), m_WireName);
+  if ( m_WireName.size() ) {
+    evt.put(std::move(pwires), m_WireName);
+    if ( m_DoAssns ) {
+      evt.put(std::move(passns), m_WireName);
+    }
   }
 
   // Record decoder containers.
