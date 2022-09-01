@@ -6,6 +6,7 @@
 // Tool to dump information about an ADC channel data map.
 //
 // Configuration:
+//   LogLevel: 0=quiet, 1=init only, ...
 //   FileName: Name of the output file. Blank for std out.
 //             The following substitutions are made:
 //               %PAT% --> the pattern passed by the caller
@@ -18,6 +19,7 @@
 //                   Also show the number of ROIs.
 //   ShowRaw - Show the raw data.
 //   ShowPrepared - Show the prepared (pedstal removed, ...) data.
+//   ShowFlags - Show the sample flags (0 = OK)
 //   ShowFirst - First tick number to display
 //   ShowRebin - Rebinning factor for show.
 //               Displayed values are averages over this number of ticks.
@@ -48,6 +50,7 @@ public:
 private:
 
   // Configuration data.
+  int m_LogLevel;
   std::string m_FileName;
   std::string m_Prefix;
   bool m_NewFile;
@@ -55,6 +58,7 @@ private:
   bool m_ShowTickCounts;
   bool m_ShowRaw;
   bool m_ShowPrepared;
+  bool m_ShowFlags;
   unsigned int m_ShowFirst;
   unsigned int m_ShowRebin;
   unsigned int m_ShowMax;

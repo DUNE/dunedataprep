@@ -190,7 +190,7 @@ DataMap AdcChannelPlotter::view(const AdcChannelData& acd) const {
       }
       if ( ph == nullptr ) {
         htitl += "; ADC count; # samples";
-        unsigned int nadc = 4096;
+        unsigned int nadc = 4*4096;
         ph = new TH1F(hname.c_str(), htitl.c_str(), nadc, 0, nadc);
         if ( ! useExistingHist ) hists.push_back(ph);
         if ( useExistingHist ) getState().hists[hname] = ph;

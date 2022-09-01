@@ -187,6 +187,7 @@ tools.def_adcPedestalFit: {
 # Dump ADC map raw contents to the log file.
 tools.adcRawDumper: {
   tool_type: AdcDataDumper
+  LogLevel: 1
   FileName: ""
   Prefix: "ADC raw dump for "
   NewFile: false
@@ -194,6 +195,7 @@ tools.adcRawDumper: {
   ShowTickCounts: false
   ShowRaw: true
   ShowPrepared: false
+  ShowFlags: false
   ShowFirst: 0
   ShowRebin: 0
   ShowMax: 20
@@ -204,6 +206,7 @@ tools.adcRawDumper: {
 # Dump ADC map contents to the log file.
 tools.adcDumper: {
   tool_type: AdcDataDumper
+  LogLevel: 1
   FileName: ""
   Prefix: "ADC dump for "
   NewFile: false
@@ -211,9 +214,10 @@ tools.adcDumper: {
   ShowTickCounts: false
   ShowRaw: false
   ShowPrepared: true
+  ShowFlags: false
   ShowFirst: 10
   ShowRebin: 5
-  ShowMax: 30
+  ShowMax: 20
   ShowThreshold: 10
   ShowOpt: 2
 }
