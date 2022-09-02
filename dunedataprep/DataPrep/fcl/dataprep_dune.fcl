@@ -351,7 +351,7 @@ producer_adcprep_notool: {
   DigitLabel:               "daq"       # Label for input digits if decoder tool is not used
   TimeStampName:               ""       # Non-blank writes RDTimeStamps if decoder tool is used
   OutputDigitName:             ""       # Non-blank writes digits if decoder tool is used
-  WireName:            "dataprep"       # non-blank writes wires
+  WireName:                    ""
   DoAssns:                   true
   DoGroups:                  true
   ChannelRanges:               []
@@ -370,7 +370,7 @@ producer_adcprep_tool_old: {
   DigitLabel:                ""       # Label for input digits if decoder tool is not used
   TimeStampName:     "dataprep"       # Non-blank writes RDTimeStamps if decoder tool is used
   OutputDigitName:           ""       # Non-blank writes digits if decoder tool is used
-  WireName:          "dataprep"       # non-blank writes wires
+  WireName:                  ""
   DoAssns:                 true
   DoGroups:                true
   ChannelRanges:             []
