@@ -142,7 +142,11 @@ DataPrepModule::DataPrepModule(fhicl::ParameterSet const& pset) : EDProducer{pse
     }
     cout << myname << "Wires will be saved with name " << m_WireName << endl;
   } else {
-    cout << myname << "Wires will be not be saved." << endl;
+    cout << myname << "Wires will not be saved." << endl;
+    if ( m_DoAssns ) {
+      cout << myname << "But associations of digits and wires were requested.  Overriding: not making associations either." << endl;
+      m_DoAssns = false;
+    }
   }
   for ( string sname : m_IntermediateStates ) {
     if ( m_LogLevel > 0 ) cout << myname << "Module will produce intermediate Wires with name " << sname << endl;
