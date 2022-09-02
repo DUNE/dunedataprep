@@ -117,6 +117,10 @@ private:
   // Tools.
   std::string m_OnlineChannelMapTool;
 
+  // Control flags.
+  bool m_saveWires;               // True to save wires
+  bool m_associateWires;          // True to save wire associations
+
   std::unique_ptr<PDSPTPCDataInterfaceParent> m_pDecoderTool;
   std::unique_ptr<IndexMapTool> m_onlineChannelMapTool;
 
@@ -132,21 +136,21 @@ DEFINE_ART_MODULE(DataPrepModule)
   
 //**********************************************************************
 
-DataPrepModule::DataPrepModule(fhicl::ParameterSet const& pset) : EDProducer{pset} {
+DataPrepModule::DataPrepModule(fhicl::ParameterSet const& pset)
+: EDProducer{pset},
+  m_saveWires(false), m_associateWires(false) {
   const Name myname = "DataPrepModule::ctor: ";
   this->reconfigure(pset);
-  if ( m_WireName.size() ) {
+  if ( m_saveWires ) {
     produces<std::vector<recob::Wire>>(m_WireName);
-    if ( m_DoAssns ) {
+    if ( m_associateWires ) {
       produces<art::Assns<raw::RawDigit, recob::Wire>>(m_WireName);
+      cout << myname << "Wires ande associations will be saved with name " << m_WireName << endl;
+    } else {
+      cout << myname << "Wires (and not associations) will be saved with name " << m_WireName << endl;
     }
-    cout << myname << "Wires will be saved with name " << m_WireName << endl;
   } else {
     cout << myname << "Wires will not be saved." << endl;
-    if ( m_DoAssns ) {
-      cout << myname << "But associations of digits and wires were requested.  Overriding: not making associations either." << endl;
-      m_DoAssns = false;
-    }
   }
   for ( string sname : m_IntermediateStates ) {
     if ( m_LogLevel > 0 ) cout << myname << "Module will produce intermediate Wires with name " << sname << endl;
@@ -194,6 +198,9 @@ void DataPrepModule::reconfigure(fhicl::ParameterSet const& pset) {
   pset.get_if_present<AdcChannelVector>("SkipChannels", m_SkipChannels);
   pset.get_if_present<AdcChannelVector>("KeepFembs", m_KeepFembs);
   pset.get_if_present<std::string>("OnlineChannelMapTool", m_OnlineChannelMapTool);
+
+  m_saveWires = m_WireName != "" && m_WireName != "NOSAVE";
+  m_associateWires = m_saveWires && m_DoAssns;
 
   size_t ipos = m_DigitLabel.find(":");
   if ( ipos == std::string::npos ) {
@@ -557,7 +564,7 @@ void DataPrepModule::produce(art::Event& evt) {
   // We have to have read digits to store those results (yech).
   if ( skipEvent ) {
     if ( logInfo ) cout << myname << "Skipping event with " << srdstat << endl;
-    if ( m_WireName.size() ) {
+    if ( m_saveWires ) {
       evt.put(std::move(pwires), m_WireName);
       if ( m_DoAssns ) evt.put(std::move(passns), m_WireName);
     }
@@ -760,7 +767,7 @@ void DataPrepModule::produce(art::Event& evt) {
   if ( pwires->size() == 0 ) mf::LogWarning("DataPrepModule") << "No wires made for this event.";
 
   // Record wires and associations in the event.
-  if ( m_WireName.size() ) {
+  if ( m_saveWires ) {
     evt.put(std::move(pwires), m_WireName);
     if ( m_DoAssns ) {
       evt.put(std::move(passns), m_WireName);
