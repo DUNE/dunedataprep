@@ -22,7 +22,7 @@
 // Configuration parameters:
 //             LogLevel - Usual logging level.
 //           DigitLabel - Full label for the input digit container, e.g. daq
-//             WireName - Name for the output wire container.
+//             WireName - Name for the output wire container. Use "NOSAVE" to not save wires.
 //   IntermediateStates - Names of intermediate states to record.
 //             DoGroups - Process channels in groups obtained from ChannelGroupService
 //                        if ChannelRanges is empty.
@@ -199,7 +199,7 @@ void DataPrepModule::reconfigure(fhicl::ParameterSet const& pset) {
   pset.get_if_present<AdcChannelVector>("KeepFembs", m_KeepFembs);
   pset.get_if_present<std::string>("OnlineChannelMapTool", m_OnlineChannelMapTool);
 
-  m_saveWires = m_WireName != "" && m_WireName != "NOSAVE";
+  m_saveWires = m_WireName != "NOSAVE";
   m_associateWires = m_saveWires && m_DoAssns;
 
   size_t ipos = m_DigitLabel.find(":");
@@ -566,7 +566,7 @@ void DataPrepModule::produce(art::Event& evt) {
     if ( logInfo ) cout << myname << "Skipping event with " << srdstat << endl;
     if ( m_saveWires ) {
       evt.put(std::move(pwires), m_WireName);
-      if ( m_DoAssns ) evt.put(std::move(passns), m_WireName);
+      if ( m_associateWires) evt.put(std::move(passns), m_WireName);
     }
     ++m_nskip;
     return;
@@ -739,7 +739,7 @@ void DataPrepModule::produce(art::Event& evt) {
     if ( rstat != 0 ) mf::LogWarning("DataPrepModule") << "Data preparation service returned error " << rstat;
 
     // Build associations between wires and digits.
-    if ( m_DoAssns && !useDecoderTool ) {
+    if ( m_associateWires && !useDecoderTool ) {
       for ( const AdcChannelDataMap::value_type& iacd : datamap ) {
         const AdcChannelData& acd = iacd.second;
         AdcIndex idig = acd.digitIndex;
@@ -769,7 +769,7 @@ void DataPrepModule::produce(art::Event& evt) {
   // Record wires and associations in the event.
   if ( m_saveWires ) {
     evt.put(std::move(pwires), m_WireName);
-    if ( m_DoAssns ) {
+    if ( m_associateWires ) {
       evt.put(std::move(passns), m_WireName);
     }
   }
