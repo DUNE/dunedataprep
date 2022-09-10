@@ -22,7 +22,7 @@
 // Configuration parameters:
 //             LogLevel - Usual logging level.
 //           DigitLabel - Full label for the input digit container, e.g. daq
-//             WireName - Name for the output wire container.
+//             WireName - Name for the output wire container. Use "NOSAVE" to not save wires.
 //   IntermediateStates - Names of intermediate states to record.
 //             DoGroups - Process channels in groups obtained from ChannelGroupService
 //                        if ChannelRanges is empty.
@@ -117,6 +117,10 @@ private:
   // Tools.
   std::string m_OnlineChannelMapTool;
 
+  // Control flags.
+  bool m_saveWires;               // True to save wires
+  bool m_associateWires;          // True to save wire associations
+
   std::unique_ptr<PDSPTPCDataInterfaceParent> m_pDecoderTool;
   std::unique_ptr<IndexMapTool> m_onlineChannelMapTool;
 
@@ -132,12 +136,21 @@ DEFINE_ART_MODULE(DataPrepModule)
   
 //**********************************************************************
 
-DataPrepModule::DataPrepModule(fhicl::ParameterSet const& pset) : EDProducer{pset} {
+DataPrepModule::DataPrepModule(fhicl::ParameterSet const& pset)
+: EDProducer{pset},
+  m_saveWires(false), m_associateWires(false) {
   const Name myname = "DataPrepModule::ctor: ";
   this->reconfigure(pset);
-  produces<std::vector<recob::Wire>>(m_WireName);
-  if ( m_DoAssns ) {
-    produces<art::Assns<raw::RawDigit, recob::Wire>>(m_WireName);
+  if ( m_saveWires ) {
+    produces<std::vector<recob::Wire>>(m_WireName);
+    if ( m_associateWires ) {
+      produces<art::Assns<raw::RawDigit, recob::Wire>>(m_WireName);
+      cout << myname << "Wires ande associations will be saved with name " << m_WireName << endl;
+    } else {
+      cout << myname << "Wires (and not associations) will be saved with name " << m_WireName << endl;
+    }
+  } else {
+    cout << myname << "Wires will not be saved." << endl;
   }
   for ( string sname : m_IntermediateStates ) {
     if ( m_LogLevel > 0 ) cout << myname << "Module will produce intermediate Wires with name " << sname << endl;
@@ -185,6 +198,9 @@ void DataPrepModule::reconfigure(fhicl::ParameterSet const& pset) {
   pset.get_if_present<AdcChannelVector>("SkipChannels", m_SkipChannels);
   pset.get_if_present<AdcChannelVector>("KeepFembs", m_KeepFembs);
   pset.get_if_present<std::string>("OnlineChannelMapTool", m_OnlineChannelMapTool);
+
+  m_saveWires = m_WireName != "NOSAVE";
+  m_associateWires = m_saveWires && m_DoAssns;
 
   size_t ipos = m_DigitLabel.find(":");
   if ( ipos == std::string::npos ) {
@@ -548,8 +564,10 @@ void DataPrepModule::produce(art::Event& evt) {
   // We have to have read digits to store those results (yech).
   if ( skipEvent ) {
     if ( logInfo ) cout << myname << "Skipping event with " << srdstat << endl;
-    evt.put(std::move(pwires), m_WireName);
-    if ( m_DoAssns ) evt.put(std::move(passns), m_WireName);
+    if ( m_saveWires ) {
+      evt.put(std::move(pwires), m_WireName);
+      if ( m_associateWires) evt.put(std::move(passns), m_WireName);
+    }
     ++m_nskip;
     return;
   }
@@ -721,7 +739,7 @@ void DataPrepModule::produce(art::Event& evt) {
     if ( rstat != 0 ) mf::LogWarning("DataPrepModule") << "Data preparation service returned error " << rstat;
 
     // Build associations between wires and digits.
-    if ( m_DoAssns && !useDecoderTool ) {
+    if ( m_associateWires && !useDecoderTool ) {
       for ( const AdcChannelDataMap::value_type& iacd : datamap ) {
         const AdcChannelData& acd = iacd.second;
         AdcIndex idig = acd.digitIndex;
@@ -749,9 +767,11 @@ void DataPrepModule::produce(art::Event& evt) {
   if ( pwires->size() == 0 ) mf::LogWarning("DataPrepModule") << "No wires made for this event.";
 
   // Record wires and associations in the event.
-  evt.put(std::move(pwires), m_WireName);
-  if ( m_DoAssns ) {
-    evt.put(std::move(passns), m_WireName);
+  if ( m_saveWires ) {
+    evt.put(std::move(pwires), m_WireName);
+    if ( m_associateWires ) {
+      evt.put(std::move(passns), m_WireName);
+    }
   }
 
   // Record decoder containers.
