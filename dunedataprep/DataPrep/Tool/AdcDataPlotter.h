@@ -134,6 +134,7 @@ private:
   // Derived configuration data.
   IndexRange m_tickRange;
   bool m_needRunData;
+  Index m_rebin;
 
   // Channel ranges.
   IndexRangeVector m_crs;

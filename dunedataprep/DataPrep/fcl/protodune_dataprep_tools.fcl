@@ -476,7 +476,7 @@ pdcht_template: {
   DataType: 1      # 0 for prepared, 1 for raw-pedestal, 2 is signal
   DataView: ""
   TickRange: plotTicks
-  TickRebin: 1
+  TickRebin: 0
   ChannelRanges: []
   ClockFactor: 0.0
   ClockOffset: 12524

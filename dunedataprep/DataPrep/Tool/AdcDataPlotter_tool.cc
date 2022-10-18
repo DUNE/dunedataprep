@@ -57,6 +57,7 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
   m_PlotFileName(ps.get<string>("PlotFileName")),
   m_RootFileName(ps.get<string>("RootFileName")),
   m_needRunData(false),
+  m_rebin(0),
   m_pOnlineChannelMapTool(nullptr),
   m_prdtool(nullptr) {
   const string myname = "AdcDataPlotter::ctor: ";
@@ -79,6 +80,7 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
   }
   // Fetch tick range.
   string descTickRange;
+  Index ntick = 0;
   if ( m_TickRange.size() ) {
     const string tnam = "tickRanges";
     const IndexRangeTool* ptool = ptm->getShared<IndexRangeTool>(tnam);
@@ -92,6 +94,8 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
       if ( m_tickRange.label(0) == "" ) {
         cout << myname << "WARNING: Tick range not found: " << m_TickRange << endl;
       }
+    } else {
+      ntick = m_tickRange.end - m_tickRange.begin;
     }
     descTickRange = m_TickRange + " " + m_tickRange.rangeString();
   }
@@ -135,6 +139,27 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
       cout << myname << "RunDataTool retrieved." << endl;
     }
   }
+  // Set the rebinning.
+  // Oct2022: Add auto rebin for rebin = 0.
+  // Note rebin is set to 1 if TickRange is invalid (ntick = 0).
+  m_rebin = m_TickRebin;
+  if ( m_rebin == 0 ) {
+    // Try to make sure we have at least one pixel/(tick bin)
+    // Do not rebin for standard 1000 ticks in 1400 pixels.
+    int npix = int(0.72*m_PlotSizeX);
+    Index rbval = 1 + ntick/npix;
+    vector<Index> rebins = {1, 2, 4, 5, 8, 10, 16, 20, 32, 50, 64, 100, 128, 200, 256, 400, 500, 1000, 2000, 4000, 10000};
+    m_rebin = rebins.back();
+    for ( Index rebin : rebins ) {
+      if ( rbval <= rebin ) {
+        m_rebin = rebin;
+        break;
+      }
+    }
+    if ( ntick == 0 ) {
+      cout  << myname << "WARNING: Auto rebin set to 1 because range is invalid." << endl;
+    }
+  }
   // Display configuration.
   if ( m_LogLevel ) {
     cout << myname << "Configuration: " << endl;
@@ -142,7 +167,9 @@ AdcDataPlotter::AdcDataPlotter(fhicl::ParameterSet const& ps)
     cout << myname << "              DataType: " << m_DataType << endl;
     cout << myname << "              DataView: " << m_DataView << endl;
     cout << myname << "             TickRange: " << descTickRange << endl;
-    cout << myname << "             TickRebin: " << m_TickRebin << endl;
+    cout << myname << "             TickRebin: " << m_TickRebin;
+    if ( m_rebin != m_TickRebin ) cout << " (" << m_rebin << ")";
+    cout << endl;
     cout << myname << "       ChannelRanges: [";
     bool first = true;
     for ( const IndexRange& ran : m_crs ) {
@@ -298,12 +325,11 @@ DataMap AdcDataPlotter::viewMap(const AdcChannelDataMap& acds) const {
     bool zhasTick = zunit.find("Tick") != string::npos || zunit.find("tick") != string::npos;
     if ( ! zhasTick ) zunit += "/tick";
     zunit += "/channel";
-    htitl += "; Tick; Channel; Signal [" + zunit + "]";
+    htitl += "; Tick";
+    if ( m_rebin != 1 ) htitl += " (rebin " + std::to_string(m_rebin) +  ")";
+    htitl += "; Channel; Signal [" + zunit + "]";
     // Set flag indicating we want to show empty bins with the color m_EmptyColor.
-    // We initialize all bins below zmin and fill with zmin where the value would be lower.
-    // We do not attempt this this where rebinning is done.
-    //bool colorEmptyBins = m_EmptyColor >= 0 && m_TickRebin <= 1;
-    bool colorEmptyBins = m_TickRebin <= 1;
+    bool colorEmptyBins = m_rebin <= 1;
     // Create histogram.
     TH2* ph = new TH2F(hname.c_str(), htitl.c_str(), ntick, tick1, tick2, nchan, chanBegin, chanEnd);
     ph->SetDirectory(nullptr);
@@ -421,13 +447,12 @@ DataMap AdcDataPlotter::viewMap(const AdcChannelDataMap& acds) const {
         }
       }
     }
-    // Rebin.
-    if ( m_TickRebin > 1 ) {
+    if ( m_rebin > 1 ) {
       TH2* ph0 = ph;
-      ph = ph0->RebinX(m_TickRebin, ph->GetName());
+      ph = ph0->RebinX(m_rebin, ph->GetName());
       ph->SetDirectory(nullptr);
       delete ph0;
-      ph->Scale(1.0/m_TickRebin);
+      ph->Scale(1.0/m_rebin);
       ph->GetZaxis()->SetRangeUser(-zmax, zmax);
     }
 /*
