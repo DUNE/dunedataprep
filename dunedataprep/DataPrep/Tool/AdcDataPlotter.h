@@ -14,7 +14,7 @@
 //               If blank or not defined, the full range is used.
 //   TickRebin - If > 1, histo bins include this # ticks.
 //   ChannelRanges - Names of channel ranges to display.
-//                   Ranges are obtained from the tool channelRanges.
+//                   Ranges are obtained from the IndexRangeTool channelRanges.
 //                   Special name "" or "data" plots all channels in data with label "All data".
 //                   If the list is empty, data are plotted.
 //   ClockFactor - Clock to tick conversion factor (0.04 for protoDUNE).
@@ -51,6 +51,8 @@
 //     %EVENT%  --> event number
 //     %CHAN1%  --> First channel number 
 //     %CHAN2%  --> Last channel number 
+//     %CRNAME%, %CRLABEL%, %CRLABEL1%, %CRLABEL2% are obtained from the IndexRangeTool channelranges.
+//
 // Drawings may include horizontal lines intended to show boundaries of APAs,
 // FEMBs, wire planes, etc.
 //
