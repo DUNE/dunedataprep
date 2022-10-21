@@ -9,7 +9,7 @@ cmake_minimum_required (VERSION 3.12...3.19 FATAL_ERROR)
 find_package(cetbuildtools REQUIRED)
 
 project(dunedataprep LANGUAGES CXX)
-set(${PROJECT_NAME}_CMAKE_PROJECT_VERSION_STRING 09.61.00d00.genie.G1810b0211a)
+set(${PROJECT_NAME}_CMAKE_PROJECT_VERSION_STRING 09.61.00d00G1810b0211a)
 
 include(CetCMakeEnv)
 cet_cmake_env()
