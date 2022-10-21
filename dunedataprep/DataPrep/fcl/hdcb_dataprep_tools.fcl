@@ -3,10 +3,28 @@
 # David Adams
 # December 2021
 #
-# Dataprep tool configurations for the 2021 horizontal-drift coldbox test.
+# Dataprep tool configurations for the 2021-2022 horizontal-drift coldbox tests.
 
 # Start from the PDSP tool configurations.
 #include "protodune_dataprep_tools.fcl"
+
+# Define channel ranges.
+# See https://wiki.dunescience.org/wiki/ProtoDUNE2-HD_Geometry
+# We add the apa1 range so we can used the protodune channel group tool
+# in the dataprep module.
+tools.channelRangesHdcb: {
+  tool_type: FclIndexRangeTool
+  LogLevel: 2
+  tppu:  { labels:["u"]  begin:0    end:799 }
+  tppv:  { labels:["v"]  begin:800  end:1599}
+  tppz1: { labels:["z1"] begin:1600 end:2079}
+  tppz2: { labels:["z2"] begin:2080 end:2559}
+  apa1:  { labels:["Coldbox APA"] begin:0 end:2559}
+}
+
+tools.channelRanges: @local::tools.channelRangesHdcb
+
+data.cht_title: "Run %RUN% event %EVENT% %UTCTIME2% UTC"
 
 data.FembChannelBounds: [
       0,   40,   80,  120,  160,  200,  240,  280,  320,  360,
@@ -28,15 +46,17 @@ tools.chtr_hdcbi.ChannelRanges: [tpp0u, tpp0v]
 
 # Raw channel vs. tick waveforms.
 tools.chtr_hdcb: @local::tools.pdcht_Zplanes
-tools.chtr_hdcb.ChannelRanges: [tpp0u, tpp0v, tpp0c, tpp0z]
+tools.chtr_hdcb.ChannelRanges: [tppu, tppv, tppz1, tppz2]
 tools.chtr_hdcb.HistTitle: "Raw ADC for coldbox %CRLABEL%"
+tools.chtr_hdcb.PlotTitle: @local::data.cht_title
 tools.chtr_hdcb.MaxSignal: 50
 tools.chtr_hdcb.ChannelLinePattern: @local::data.FembChannelBounds
 
 # Area-calibrated channel vs. tick waveforms.
 tools.chtp_hdcb: @local::tools.pdchtp_Zplanes
-tools.chtp_hdcb.ChannelRanges: [tpp0u, tpp0v, tpp0c, tpp0z]
+tools.chtp_hdcb.ChannelRanges: [tppu, tppv, tppz1, tppz2]
 tools.chtp_hdcb.HistTitle: "Calibrated signal for coldbox %CRLABEL%"
+tools.chtp_hdcb.PlotTitle: @local::data.cht_title
 tools.chtp_hdcb.MaxSignal: 1.25
 tools.chtp_hdcb.ChannelLinePattern: @local::data.FembChannelBounds
 
