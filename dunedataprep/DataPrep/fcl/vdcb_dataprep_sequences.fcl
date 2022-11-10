@@ -56,14 +56,6 @@ data.vdtcb1_dataprep_seqs.nomcal_cnr: [
   vdtcb1_cnr,
   adcKeepAllSignalFinder
 ]
-# Top CRP2 and later
-data.vdtcb2_dataprep_seqs.nomcal_cnr: [
-  digitReader,
-  adcSampleFiller,
-  vdtcb_adcScaleAdcToKe,
-  vdtcb2_cnr,
-  adcKeepAllSignalFinder
-]
 
 # CNR with output at ADC scale for wirecell.
 # Bottom. Processing at charge scale then converted back to ADC.
@@ -86,24 +78,35 @@ data.vdtcb1_dataprep_seqs.adc_cnr: [
   adcKeepAllSignalFinder
 ]
 # Top processing at charge scale. CRP2 and later.
+
+# ADC scale
 data.vdtcb2_dataprep_seqs.adc_cnr: [
   digitReader,
   adcSampleFiller,
   vdtcb2_cnr,
   adcKeepAllSignalFinder
 ]
+data.vdtcb2_dataprep_seqs.adc_cnrw: [
+  digitReader,
+  vdtcb_adcChannelRawRmsFiller,
+  adcSampleFiller,
+  vdtcb2_cnrw,
+  adcKeepAllSignalFinder
+]
+
+# charge scale
 data.vdtcb2_dataprep_seqs.nomcal_cnr: [
  digitReader,
  adcSampleFiller,
- vdcb_RemoveBadChannels,
- vdtcb_cnrw,
+ vdtcb2_adcScaleAdcToKe,
+ vdtcb2_cnr,
  adcKeepAllSignalFinder
 ]
 data.vdtcb2_dataprep_seqs.nomcal_cnrw: [
  digitReader,
- vdbcb_adcChannelRawRmsFiller,
+ vdtcb_adcChannelRawRmsFiller,
  adcSampleFiller,
- vdcb_RemoveBadChannels,
+ vdtcb2_adcScaleAdcToKe,
  vdtcb2_cnrw,
  adcKeepAllSignalFinder
 ]
@@ -111,6 +114,14 @@ data.vdtcb2_dataprep_seqs.nomcal_cnrw: [
 # rm bad channels
 data.vdtcb1_dataprep_seqs.adc_cnr_rmbadch: [
   @sequence::data.vdtcb1_dataprep_seqs.adc_cnr,
+  vdcb_RemoveBadChannels
+]
+data.vdtcb2_dataprep_seqs.adc_cnr_rmbadch: [
+  @sequence::data.vdtcb2_dataprep_seqs.adc_cnr,
+  vdcb_RemoveBadChannels
+]
+data.vdtcb2_dataprep_seqs.adc_cnrw_rmbadch: [
+  @sequence::data.vdtcb2_dataprep_seqs.adc_cnrw,
   vdcb_RemoveBadChannels
 ]
 data.vdtcb2_dataprep_seqs.nomcal_cnrw_rmbadch: [

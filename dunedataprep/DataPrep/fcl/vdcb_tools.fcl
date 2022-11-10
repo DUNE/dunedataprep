@@ -205,6 +205,13 @@ tools.vdtcb_adcScaleAdcToKe.ScaleFactor: 0.034
 tools.vdtcb_adcScaleKeToAdc: @local::tools.adcScaleKeToAdc
 tools.vdtcb_adcScaleKeToAdc.ScaleFactor: 29.41
 
+# scale samples from ke to ADC count for Top CRP2/3
+tools.vdtcb2_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
+tools.vdtcb2_adcScaleAdcToKe.ScaleFactor: 0.0319
+tools.vdtcb2_adcScaleKeToAdc: @local::tools.adcScaleKeToAdc
+tools.vdtcb2_adcScaleKeToAdc.ScaleFactor: 31.35
+
+
 ################# Noise removal. ####################
 
 # Raw RMS for each TPS channel.
