@@ -103,7 +103,7 @@ int test_AdcDetectorPlotter(bool useExistingFcl =false) {
   Index nevt = 2;
   vector<vector<AdcChannelDataMap>> evtdatamaps(nevt);
   Index icry = 0;
-  const geo::CryostatGeo& gcry = pgeo->Cryostat(icry);
+  const geo::CryostatGeo& gcry = pgeo->Cryostat(geo::CryostatID{icry});
   Index ntpc = gcry.NTPC();
   Index ncha = pgeo->Nchannels();
   // Loop over events.
