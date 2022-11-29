@@ -305,7 +305,7 @@ tools.cht_vdtcbz_raw.TickRange: plotTicks10000
 # Prepared data.
 tools.cht_vdcb_prp: @local::tools.cht_vdcb_raw
 tools.cht_vdcb_prp.DataType: 0
-tools.cht_vdcb_prp.MaxSignal: 10
+tools.cht_vdcb_prp.MaxSignal: 1
 tools.cht_vdcb_prp.SkipChannelStatus: [1, 2]
 tools.cht_vdcb_prp.HistName: "hadcprp_%CRNAME%_run%0RUN%_evt%0EVENT%"
 tools.cht_vdcb_prp.HistTitle: "Calibrated sample"
@@ -426,7 +426,7 @@ tools.vdbcb_adcChannelSamRmsPlotter.PlotFileName: "%TPMPRE%chmet_samrms_%CRNAME%
 # Integrated RMS for each TPS channel.
 tools.vdbcb_adcChannelSamRms30Plotter: @local::tmp.vdbcb_chmet_template
 tools.vdbcb_adcChannelSamRms30Plotter.Metric: samRms30
-tools.vdbcb_adcChannelSamRms30Plotter.MetricMax: 20.0
+tools.vdbcb_adcChannelSamRms30Plotter.MetricMax: 5.0
 tools.vdbcb_adcChannelSamRms30Plotter.HistName: "hchsamrms30%CRNAME%_ped_%0RUN%_%0EVENT%"
 tools.vdbcb_adcChannelSamRms30Plotter.HistTitle: "30-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdbcb_adcChannelSamRms30Plotter.MetricLabel: "RMS [ke]"
@@ -435,7 +435,7 @@ tools.vdbcb_adcChannelSamRms30Plotter.PlotFileName: "%TPMPRE%chmet_samrms30_%CRN
 # Integrated 50-sample RMS for each TPS channel.
 tools.vdbcb_adcChannelSamRms50Plotter: @local::tmp.vdbcb_chmet_template
 tools.vdbcb_adcChannelSamRms50Plotter.Metric: samRms50
-tools.vdbcb_adcChannelSamRms50Plotter.MetricMax: 20.0
+tools.vdbcb_adcChannelSamRms50Plotter.MetricMax: 5.0
 tools.vdbcb_adcChannelSamRms50Plotter.HistName: "hchsamrms50%CRNAME%_ped_%0RUN%_%0EVENT%"
 tools.vdbcb_adcChannelSamRms50Plotter.HistTitle: "50-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdbcb_adcChannelSamRms50Plotter.MetricLabel: "RMS [ke]"
@@ -531,7 +531,7 @@ tools.adcRoiTreeMaker: {
   tool_type: AdcRoiToTree
   LogLevel: 1
   OutFile: "adcrois.root"
-  MetadataFields: [samRms]
+  MetadataFields: [apaFembID, fembChannel, samRms, samRms30, samRms50]
 }
 
 ##### set bad channels ADC to 0
