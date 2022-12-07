@@ -19,7 +19,7 @@ Fcl configuration files for dataprep. These are not top-level config
 * [vdcb_dataprep_sequences.fcl](vdcb_dataprep_sequences.fcl) - Dataprep sequences for VD CB.
 * [vdcb_tools.fcl](vdcb_tools.fcl) - Obsolete. used to hold VD CB tool configs.
 
-# Terminology
+### Terminology
 
 * CB - CERN cold box data taken in 2021-2022.
 * config - Fcl configuration.
