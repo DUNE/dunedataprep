@@ -246,8 +246,6 @@ tools.cht_vdcb2z_sig.ChannelRanges: [cruCz]
 
 ################# Metric plotters ####################
 
-##### Tools for bottom channels.
-
 # FEMB for each TPS channel.
 tools.vdcb2_adcChannelFembIdPlotter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelFembIdPlotter.Metric: apaFembID
@@ -296,8 +294,9 @@ tools.vdcb2_adcChannelRawRmsPlotter.MetricLabel: "RMS [ADC count]"
 tools.vdcb2_adcChannelRawRmsPlotter.PlotFileName: "%TPMPRE%chmet_rawrms_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
 
 # Sample RMS for each TPS channel.
-tools.vdcb2_adcChannelSamRmsPlotter: @local::tmp.vdcb_chmet_template
-tools.vdcb2_adcChannelSamRmsPlotter.Metric: samRms
+tools.vdcb2_adcChannelSamRmsGetter: @local::tmp.vdcb_chmet_template
+tools.vdcb2_adcChannelSamRmsGetter.Metric: samRms
+tools.vdcb2_adcChannelSamRmsPlotter: @local::tools.vdcb2_adcChannelSamRmsGetter
 tools.vdcb2_adcChannelSamRmsPlotter.MetricMax: 0.4
 tools.vdcb2_adcChannelSamRmsPlotter.HistName: "hchsamrms%CRNAME%_ped_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelSamRmsPlotter.HistTitle: "Sample RMS for run %RUN% event %EVENT% %CRLABEL%"
