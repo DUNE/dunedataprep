@@ -244,13 +244,13 @@ tools.cht_vdcb2v_sig.ChannelRanges: [cruCv]
 tools.cht_vdcb2z_sig: @local::tools.cht_vdcb2_sig
 tools.cht_vdcb2z_sig.ChannelRanges: [cruCz]
 
-################# Metric plotters ####################
+################# Single-event metric plotters ####################
 
 # FEMB for each TPS channel.
 tools.vdcb2_adcChannelFembIdPlotter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelFembIdPlotter.Metric: apaFembID
 tools.vdcb2_adcChannelFembIdPlotter.MetricMax: 15
-tools.vdcb2_adcChannelFembIdPlotter.HistName: "hchpd%CRNAME%_fembid_%0RUN%_%0EVENT%"
+tools.vdcb2_adcChannelFembIdPlotter.HistName: "hchmet%CRNAME%_fembid_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelFembIdPlotter.HistTitle: "FEMB IDs for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdcb2_adcChannelFembIdPlotter.MetricLabel: "FEMB ID"
 tools.vdcb2_adcChannelFembIdPlotter.PlotFileName: "%TPMPRE%chmet_fembid_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
@@ -260,7 +260,7 @@ tools.vdcb2_adcChannelAsicPlotter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelAsicPlotter.Metric: asic
 tools.vdcb2_adcChannelAsicPlotter.MetricMin: 0
 tools.vdcb2_adcChannelAsicPlotter.MetricMax: 9
-tools.vdcb2_adcChannelAsicPlotter.HistName: "hchpd%CRNAME%_asic_%0RUN%_%0EVENT%"
+tools.vdcb2_adcChannelAsicPlotter.HistName: "hchmet%CRNAME%_asic_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelAsicPlotter.HistTitle: "ASIC IDs for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdcb2_adcChannelAsicPlotter.MetricLabel: "ASIC ID"
 tools.vdcb2_adcChannelAsicPlotter.PlotFileName: "%TPMPRE%chmet_asic_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
@@ -270,7 +270,7 @@ tools.vdcb2_adcChannelFembChanPlotter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelFembChanPlotter.Metric: fembChannel
 tools.vdcb2_adcChannelFembChanPlotter.MetricMin: -1
 tools.vdcb2_adcChannelFembChanPlotter.MetricMax: 129
-tools.vdcb2_adcChannelFembChanPlotter.HistName: "hchpd%CRNAME%_fembchan_%0RUN%_%0EVENT%"
+tools.vdcb2_adcChannelFembChanPlotter.HistName: "hchmet%CRNAME%_fembchan_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelFembChanPlotter.HistTitle: "FEMB channels for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdcb2_adcChannelFembChanPlotter.MetricLabel: "FEMB channel"
 tools.vdcb2_adcChannelFembChanPlotter.PlotFileName: "%TPMPRE%chmet_fembchan_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
@@ -279,7 +279,7 @@ tools.vdcb2_adcChannelFembChanPlotter.PlotFileName: "%TPMPRE%chmet_fembchan_%CRN
 tools.vdcb2_adcChannelPedestalPlotter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelPedestalPlotter.Metric: pedestal
 tools.vdcb2_adcChannelPedestalPlotter.MetricMax: 4096
-tools.vdcb2_adcChannelPedestalPlotter.HistName: "hchpd%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdcb2_adcChannelPedestalPlotter.HistName: "hchmet%CRNAME%_ped_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelPedestalPlotter.HistTitle: "ADC pedestals for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdcb2_adcChannelPedestalPlotter.MetricLabel: "Pedestal [ADC count]"
 tools.vdcb2_adcChannelPedestalPlotter.PlotFileName: "%TPMPRE%chmet_ped_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
@@ -288,7 +288,7 @@ tools.vdcb2_adcChannelPedestalPlotter.PlotFileName: "%TPMPRE%chmet_ped_%CRNAME%_
 tools.vdcb2_adcChannelRawRmsPlotter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelRawRmsPlotter.Metric: rawRms
 tools.vdcb2_adcChannelRawRmsPlotter.MetricMax: 10
-tools.vdcb2_adcChannelRawRmsPlotter.HistName: "hchrawrms%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdcb2_adcChannelRawRmsPlotter.HistName: "hchmet%CRNAME%_rawrms_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelRawRmsPlotter.HistTitle: "ADC-pedestal RMS for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdcb2_adcChannelRawRmsPlotter.MetricLabel: "RMS [ADC count]"
 tools.vdcb2_adcChannelRawRmsPlotter.PlotFileName: "%TPMPRE%chmet_rawrms_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
@@ -296,18 +296,26 @@ tools.vdcb2_adcChannelRawRmsPlotter.PlotFileName: "%TPMPRE%chmet_rawrms_%CRNAME%
 # Sample RMS for each TPS channel.
 tools.vdcb2_adcChannelSamRmsGetter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelSamRmsGetter.Metric: samRms
+
 tools.vdcb2_adcChannelSamRmsPlotter: @local::tools.vdcb2_adcChannelSamRmsGetter
 tools.vdcb2_adcChannelSamRmsPlotter.MetricMax: 0.4
-tools.vdcb2_adcChannelSamRmsPlotter.HistName: "hchsamrms%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdcb2_adcChannelSamRmsPlotter.HistName: "hchmet%CRNAME%_samrms_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelSamRmsPlotter.HistTitle: "Sample RMS for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdcb2_adcChannelSamRmsPlotter.MetricLabel: "RMS [ke]"
 tools.vdcb2_adcChannelSamRmsPlotter.PlotFileName: "%TPMPRE%chmet_samrms_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
+
+# Not-signal sample RMS for each TPS channel.
+tools.vdcb2_adcChannelNosigSamRmsPlotter: @local::tools.vdcb2_adcChannelSamRmsPlotter
+tools.vdcb2_adcChannelNosigSamRmsPlotter.Metric: nsgRms
+tools.vdcb2_adcChannelNosigSamRmsPlotter.HistName: "hchmet%CRNAME%_nosig_samrms_%0RUN%_%0EVENT%"
+tools.vdcb2_adcChannelNosigSamRmsPlotter.HistTitle: "No-signal sample RMS for run %RUN% %EVENT% %CRLABEL%"
+tools.vdcb2_adcChannelNosigSamRmsPlotter.PlotFileName: "%TPMPRE%chmet_nosig_samrms_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
 
 # Integrated RMS for each TPS channel.
 tools.vdcb2_adcChannelSamRms30Plotter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelSamRms30Plotter.Metric: samRms30
 tools.vdcb2_adcChannelSamRms30Plotter.MetricMax: 8.0
-tools.vdcb2_adcChannelSamRms30Plotter.HistName: "hchsamrms30%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdcb2_adcChannelSamRms30Plotter.HistName: "hchmet30%CRNAME%_samrms30_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelSamRms30Plotter.HistTitle: "30-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdcb2_adcChannelSamRms30Plotter.MetricLabel: "RMS [ke]"
 tools.vdcb2_adcChannelSamRms30Plotter.PlotFileName: "%TPMPRE%chmet_samrms30_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
@@ -316,10 +324,18 @@ tools.vdcb2_adcChannelSamRms30Plotter.PlotFileName: "%TPMPRE%chmet_samrms30_%CRN
 tools.vdcb2_adcChannelSamRms50Plotter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelSamRms50Plotter.Metric: samRms50
 tools.vdcb2_adcChannelSamRms50Plotter.MetricMax: 8.0
-tools.vdcb2_adcChannelSamRms50Plotter.HistName: "hchsamrms50%CRNAME%_ped_%0RUN%_%0EVENT%"
+tools.vdcb2_adcChannelSamRms50Plotter.HistName: "hchmet50%CRNAME%_samrms50_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelSamRms50Plotter.HistTitle: "50-sample RMS for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdcb2_adcChannelSamRms50Plotter.MetricLabel: "RMS [ke]"
 tools.vdcb2_adcChannelSamRms50Plotter.PlotFileName: "%TPMPRE%chmet_samrms50_%CRNAME%_run%0RUN%_evt%0EVENT%%TPMSUF%"
+
+################# Median metric plotters ####################
+
+tools.vdcb2_adcChannelMedianSamRmsPlotter: @local::tools.vdcb2_adcChannelSamRmsPlotter
+tools.vdcb2_adcChannelMedianSamRmsPlotter.MetricSummaryView: "median:dmedian"
+tools.vdcb2_adcChannelMedianSamRmsPlotter.HistName: "hchmet%CRNAME%_samrms_%0RUN%"
+tools.vdcb2_adcChannelMedianSamRmsPlotter.HistTitle: "Median sample RMS for run %RUN% %CRLABEL%"
+tools.vdcb2_adcChannelMedianSamRmsPlotter.PlotFileName: "%TPMPRE%chmet_samrms_%CRNAME%_run%0RUN%%TPMSUF%"
 
 ################# Roi tree ####################
 
