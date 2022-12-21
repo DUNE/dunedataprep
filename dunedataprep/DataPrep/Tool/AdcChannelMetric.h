@@ -109,6 +109,7 @@
 #include "dunecore/DuneInterface/Data/IndexRange.h"
 #include "dunecore/DuneInterface/Tool/TpcDataTool.h"
 #include <vector>
+#include <algorithm>
 
 class AdcChannelStringTool;
 namespace lariov {
@@ -230,6 +231,7 @@ private:
     double sumsq = 0.0;
     double minval = 0.0;
     double maxval = 0.0;
+    std::vector<double> vals;
     // Add an entry.
     void add(double val, double weight) {
       ++eventCount;
@@ -240,6 +242,7 @@ private:
       weightSum += weight;
       sum += weight*val;
       sumsq += weight*val*val;
+      vals.push_back(val);
     }
     double neff() const { return weightFlag ? weightSum : weightedEventCount; }
     double mean() const { return weightSum ? sum/weightSum : 0.0; }
@@ -266,8 +269,26 @@ private:
       const std::set<Name> sumVals =
         {"weightFlag", "eventCount", "weightedEventCount", "weightSum",
          "mean", "rms", "sdev", "min", "max", "dmean", "drms",
-         "center", "range", "halfRange"};
+         "center", "range", "halfRange", "median", "dmedian"};
       return sumVals.find(vnam) != sumVals.end();
+    }
+    double median() const {
+      std::vector<double> mvals = vals;
+      std::sort(mvals.begin(), mvals.end());
+      Index nval = mvals.size();
+      Index ival = nval/2;
+      if ( 2*ival != nval ) return mvals[ival];
+      return 0.5*(mvals[ival-1] + mvals[ival]);
+    }
+    double dmedian() const {
+      std::vector<double> mvals = vals;
+      std::sort(mvals.begin(), mvals.end());
+      double x1 = 0.5 - 0.3414;
+      double x2 = 0.5 + 0.3414;
+      Index nval = mvals.size();
+      Index ival1 = int(x1*nval);
+      Index ival2 = int(x2*nval);
+      return 0.5*(mvals[ival2] - mvals[ival1]);
     }
     // Return a value by name.
     double getValue(Name vnam) const {
@@ -285,6 +306,8 @@ private:
       if ( vnam == "halfRange" ) return 0.5*range();
       if ( vnam == "dmean" ) return dmean();
       if ( vnam == "drms" ) return drms();
+      if ( vnam == "median" ) return median();
+      if ( vnam == "dmedian" ) return dmedian();
       return 0.0;
     }
   };

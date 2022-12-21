@@ -893,7 +893,14 @@ processMetricsForOneRange(const IndexRange& ran, const MetricMap& mets, TH1* ph,
       TGraph* pg = graphs[igra];
       pg->SetName(gname.c_str());
       pg->SetTitle(gtitl.c_str());
-      if ( ! useErrors ) pg->SetMarkerStyle(2);
+      if ( ! useErrors ) {
+        if ( m_LogLevel > 1 ) cout << myname << "INFO: Setting marker style." << endl;
+        pg->SetMarkerStyle(2);
+        pg->SetMarkerSize(0.5);
+      } else {
+        if ( m_LogLevel > 1 ) cout << myname << "INFO: Not setting marker style." << endl;
+      }
+      if ( m_LogLevel > 1 ) cout << myname << "INFO: Marker style is " << pg->GetMarkerStyle() << endl;
       pg->SetMarkerColor(statCols[igra]);
       pg->SetLineColor(statCols[igra]);
       pg->GetXaxis()->SetTitle("Channel");
