@@ -74,7 +74,9 @@
 //   PlotFileName - Name for output plot file.
 //                  If blank, no file is written.
 //                  Existing file with the same name is replaced.
-//   PlotUsesStatus - If nonzero plot colors indicate channel status (good, bad noisy).
+//   PlotUsesStatus - If nonzero plot colors indicate channel status (good, bad or noisy).
+//                      1 - No caching. Service is called for each channnel each event.
+//                      2 - Channel status is retrieved only in ctor.
 //   RootFileName - Name for the output root file.
 //                  If blank, histograms are not written out.
 //                  Existing file with the same is updated.
@@ -136,7 +138,7 @@ public:
   // Initialize this tool.
   // We cache the status for each channel.
   // Does nothing if already called unlesss force is true.
-  void initialize(bool force =false);
+  void initialize(bool force =false) const;
 
   // Tool interface.
   DataMap view(const AdcChannelData& acd) const override;

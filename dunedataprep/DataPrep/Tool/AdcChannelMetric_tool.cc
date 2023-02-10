@@ -198,15 +198,6 @@ AdcChannelMetric::AdcChannelMetric(fhicl::ParameterSet const& ps)
     m_summaryValue = vnam;
     m_summaryError = enam;
   }
-  // Fetch the channel status service.
-  if ( m_PlotUsesStatus ) {
-    if ( m_LogLevel >= 1 ) cout << myname << "Fetching channel status service." << endl;
-    m_pChannelStatusProvider = &art::ServiceHandle<lariov::ChannelStatusService>()->GetProvider();
-    if ( m_pChannelStatusProvider == nullptr ) {
-      cout << myname << "WARNING: Channel status provider not found." << endl;
-      m_PlotUsesStatus = false;
-    }
-  }
   // Display the configuration.
   if ( m_LogLevel ) {
     cout << myname << "Configuration: " << endl;
@@ -274,8 +265,27 @@ AdcChannelMetric::AdcChannelMetric(fhicl::ParameterSet const& ps)
     }
     cout << "]" << endl;
   }
-  // We might have to move this to getMetric.
-  initialize();
+  // Fetch the channel status service.
+  if ( m_PlotUsesStatus < 0 || m_PlotUsesStatus > 2 ) {
+    cout << myname << "ERROR: Invalid value for PlotUsesStatus: " << m_PlotUsesStatus << endl;
+    abort();
+  } else if ( m_PlotUsesStatus > 0 ) {
+    if ( m_LogLevel >= 1 ) cout << myname << "Fetching channel status service." << endl;
+    m_pChannelStatusProvider = &art::ServiceHandle<lariov::ChannelStatusService>()->GetProvider();
+    if ( m_pChannelStatusProvider == nullptr ) {
+      cout << myname << "WARNING: Channel status provider not found." << endl;
+      m_PlotUsesStatus = -m_PlotUsesStatus;
+    }
+  }
+  // If channel status values are cached for the run, fetch them now.
+  if ( m_PlotUsesStatus <= 0 ) {
+    cout << myname << "INFO: Channel status is not used." << endl;
+  } else if ( m_PlotUsesStatus == 1 ) {
+    cout << myname << "INFO: Channel status is used without caching." << endl;
+  } else if ( m_PlotUsesStatus == 2 ) {
+    cout << myname << "INFO: Caching channel status." << endl;
+    initialize();
+  }
 }
 
 //**********************************************************************
@@ -385,7 +395,7 @@ AdcChannelMetric::~AdcChannelMetric() {
 
 //**********************************************************************
 
-void AdcChannelMetric::initialize(bool force) {
+void AdcChannelMetric::initialize(bool force) const {
   const string myname = "AdcChannelMetric::initialize: ";
   if ( !force && getState().initCount ) return;
   if ( m_LogLevel >= 1 ) cout << myname << "Initializing " << m_crs.size()
@@ -849,7 +859,7 @@ void AdcChannelMetric::
 processMetricsForOneRange(const IndexRange& ran, const MetricMap& mets, TH1* ph,
                           Name ofpname, Name ofrname, bool useErrors) const {
   const string myname = "AdcChannelMetric::processMetricsForOneRange: ";
-  unsigned int ngraph = m_PlotUsesStatus ? 4 : 1;
+  unsigned int ngraph = m_PlotUsesStatus > 0 ? 4 : 1;
   NameVector statNames = {"All", "Good", "Bad", "Noisy"};
   LineColors lc;
   std::vector<int> statCols = {lc.blue(), lc.green(), lc.red(), lc.brown()};
@@ -926,7 +936,7 @@ processMetricsForOneRange(const IndexRange& ran, const MetricMap& mets, TH1* ph,
       float xcha = icha + 0.5;
       pgAll->SetPoint(iptAll, xcha, gval);
       if ( pgeAll != nullptr ) pgeAll->SetPointError(iptAll, ex, err);
-      if ( m_PlotUsesStatus ) {
+      if ( m_PlotUsesStatus > 0 ) {
         Index stat = channelStatus(icha);
         if ( stat > 0 ) {
           TGraph* pgStat = graphs[stat];
@@ -945,7 +955,7 @@ processMetricsForOneRange(const IndexRange& ran, const MetricMap& mets, TH1* ph,
       //man.add(ph, "hist");
       //man.add(ph, "axis");
       man.add(pgAll, "P");
-      if ( m_PlotUsesStatus ) {
+      if ( m_PlotUsesStatus > 0 ) {
         for ( int igra : {1, 3, 2} ) {
           TGraph* pgra = graphs[igra];
           if ( pgra->GetN() ) man.add(pgra, "P");
@@ -1019,9 +1029,14 @@ TH1* AdcChannelMetric::createHisto(const AdcChannelData& acd, const IndexRange& 
 //**********************************************************************
 
 Index AdcChannelMetric::channelStatus(Index icha) const {
-  IndexVector& stats = getState().channelStatuses;
-  if ( icha >= stats.size() ) stats.resize(icha + 1, 0);
-  Index& stat = stats[icha];
+  Index tmpstat = 0;
+  Index* pstat = &tmpstat;
+  if ( m_PlotUsesStatus > 1 ) {
+    IndexVector& stats = getState().channelStatuses;
+    if ( icha >= stats.size() ) stats.resize(icha + 1, 0);
+    pstat = &stats[icha];
+  }
+  Index& stat = *pstat;
   if ( stat == 0 && m_pChannelStatusProvider != nullptr ) {
     if      ( m_pChannelStatusProvider->IsBad(icha) )   stat = 2;
     else if ( m_pChannelStatusProvider->IsNoisy(icha) ) stat = 3;
