@@ -20,7 +20,7 @@ This is typically the first tool to be run in a sequence embeddded in a larsoft 
 [AdcWireReader](AdcWireReader.h) populates the prepared ADC waveform for each channel from the associated recob::Wire object.
 This would be used when another actor (Monte Carlo, another reco framewor or an earlier dataprep job) has written TPC data in the format.
 
-[AdcChannelTrimmer]{AdcChannelTrimmer.h) trims or pads the channels waveforms to be a spcified length.
+[AdcChannelTrimmer](AdcChannelTrimmer.h) trims or pads the channels waveforms to be a spcified length.
 
 [AdcChannelFFT](AdcChannelFFT.h) performs forward and back FFT transforms with the prepared waveform and DFT data (amplitudes and phases)
 stored in a channel data object.
