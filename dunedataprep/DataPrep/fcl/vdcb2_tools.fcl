@@ -134,7 +134,6 @@ tools.vdtcb2_adcScaleKeToAdc.ScaleFactor: 31.35
 # Raw RMS for each TPS channel.
 tools.vdcb_adcChannelRawRmsFiller: @local::tmp.vdcb_chmet_template
 tools.vdcb_adcChannelRawRmsFiller.Metric: rawRms
-tools.vdcb_adcChannelRawRmsFiller: @local::tools.vdcb_adcChannelRawRmsFiller
 tools.vdcb_adcChannelRawRmsFiller.ChannelRanges: [cruC]       # Why this?
 
 #### Top CRP2 ####

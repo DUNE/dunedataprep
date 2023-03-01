@@ -42,7 +42,7 @@ data.vdtcb_dataprep_seqs.nomcal: [
 # Bottom
 data.vdbcb_dataprep_seqs.nomcal_cnr: [
   digitReader,
-  vdbcb_adcChannelRawRmsFiller,
+  vdcb_adcChannelRawRmsFiller,
   adcSampleFiller,
   vdbcb_adcScaleAdcToKe,
   vdbcb_cnrw,
@@ -88,7 +88,7 @@ data.vdtcb2_dataprep_seqs.adc_cnr: [
 ]
 data.vdtcb2_dataprep_seqs.adc_cnrw: [
   digitReader,
-  vdtcb_adcChannelRawRmsFiller,
+  vdcb_adcChannelRawRmsFiller,
   adcSampleFiller,
   vdtcb2_cnrw,
   adcKeepAllSignalFinder
@@ -104,7 +104,7 @@ data.vdtcb2_dataprep_seqs.nomcal_cnr: [
 ]
 data.vdtcb2_dataprep_seqs.nomcal_cnrw: [
  digitReader,
- vdtcb_adcChannelRawRmsFiller,
+ vdcb_adcChannelRawRmsFiller,
  adcSampleFiller,
  vdtcb2_adcScaleAdcToKe,
  vdtcb2_cnrw,
