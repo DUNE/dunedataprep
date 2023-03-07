@@ -12,6 +12,11 @@
 //   - intersection point between induction and collection chans
 //   
 //
+// To avoid juggling multiple indices (cryo, tpc, plane, wire) the 
+// geo::WireID is hashed with a boost::hash_combine function
+// The look up tables between wires and channels are then built
+// using the hased values.
+//
 // vgalymov, March, 2023
 // 
 
@@ -30,8 +35,11 @@ class DetectorChannelInfo
   
  public:
   using Index = unsigned int;
-  using MapIndex = std::unordered_map<Index, Index>;
-  using VectorWid = std::vector<geo::WireID>;
+  using MapWireChan = std::unordered_map<size_t, Index>;
+  using MapChanWire = std::unordered_map<Index, std::vector<size_t>>;
+
+  //using MapHashGeo   = std::unordered_map<size_t, Index>;
+  //using VectorWid = std::vector<geo::WireID>;
   
   DetectorChannelInfo(int loglevel = 0);
   ~DetectorChannelInfo();
@@ -40,6 +48,14 @@ class DetectorChannelInfo
   //
   int m_LogLevel;
   
+  // map of a wire to channel
+  //  i.e., hashed WireID to ChannelID
+  MapWireChan m_WireToChan;
+
+  // map channel to wire
+  // it is possible several "wires" are assigned to same channel
+  MapChanWire m_ChanToWire;
+
 };
 
 }// dataprep::util
