@@ -4,7 +4,10 @@ art_make(BASENAME_ONLY
          LIB_LIBRARIES
          dunecore_ArtSupport
          dunecore_DuneCommon_Utility
+	 larcorealg::Geometry
+	 larcore::Geometry_Geometry_service	
          art::Utilities
+	 art::Framework_Services_Registry
          canvas::canvas
          cetlib::cetlib
 	 cetlib_except::cetlib_except
