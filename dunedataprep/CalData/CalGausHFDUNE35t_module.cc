@@ -32,7 +32,7 @@
 
 #include "dunecore/Utilities/SignalShapingServiceDUNE.h"
 #include "larcoreobj/SimpleTypesAndConstants/RawTypes.h" // raw::ChannelID_t
-#include "larcore/Geometry/Geometry.h"
+#include "larcore/Geometry/WireReadout.h"
 #include "larevt/Filters/ChannelFilter.h"
 #include "lardataobj/RawData/RawDigit.h"
 #include "lardataobj/RawData/raw.h"
@@ -225,7 +225,7 @@ namespace calgaushf {
 
 
     // get the geometry
-    art::ServiceHandle<geo::Geometry> geom;
+    auto const& wireReadout = art::ServiceHandle<geo::WireReadout>()->Get();
 
 
     // Get signal shaping service.
@@ -346,8 +346,8 @@ namespace calgaushf {
 	    rawadc_conv[bin]=(rawadc[bin]-digitVec->GetPedestal());
 
 
-	  sigType = geom->SignalType(channel);
-	  view = geom->View(channel);
+          sigType = wireReadout.SignalType(channel);
+          view = wireReadout.View(channel);
 
 	  if(sigType == geo::kCollection){
 
@@ -772,7 +772,7 @@ namespace calgaushf {
 	    if(FitGoodnes > fChi2NDF){continue;}
 	    
 	    // get the WireID for this hit
-	    std::vector<geo::WireID> wids = geom->ChannelToWire(channel);
+            std::vector<geo::WireID> wids = wireReadout.ChannelToWire(channel);
 	    ///\todo need to have a disambiguation algorithm somewhere in here
 	    // for now, just take the first option returned from ChannelToWire
 	    geo::WireID wid = wids[0];
