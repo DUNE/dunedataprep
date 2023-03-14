@@ -7,7 +7,7 @@
 #include <iostream>
 #include "lardataobj/RawData/raw.h" 
 #include "dunecore/ArtSupport/DuneToolManager.h"
-#include "larcore/Geometry/Geometry.h"
+#include "larcore/Geometry/WireReadout.h"
 #include "lardata/Utilities/LArFFT.h"
 #include "larevt/CalibrationDBI/Interface/ChannelStatusService.h"
 #include "larevt/CalibrationDBI/Interface/ChannelStatusProvider.h"
@@ -74,7 +74,7 @@ PdspNoiseRemoval::PdspNoiseRemoval(fhicl::ParameterSet const& ps)
   fRoiPadLow               = ps.get<int>("RoiPadLow");
   fRoiPadHigh              = ps.get<int>("RoiPadHigh");
   
-  fGeometry = &*art::ServiceHandle<geo::Geometry>();
+  fWireReadoutGeom = &art::ServiceHandle<geo::WireReadout>()->Get();
   fFFT = &*art::ServiceHandle<util::LArFFT>(); 
   if(ps.get<std::string>("CorrMode") == "mean") { fMode = 1; }
   else if(ps.get<std::string>("CorrMode") == "median") { fMode = 2; }
@@ -210,7 +210,7 @@ std::vector< float > PdspNoiseRemoval::fftFlt(const std::vector< float > & adc, 
 GroupChannelMap PdspNoiseRemoval::makeGroupsByOfflineChannels(size_t gsize, const std::vector< size_t > & gidx) const {
   GroupChannelMap groups;
   auto const & chStatus = art::ServiceHandle< lariov::ChannelStatusService >()->GetProvider();
-  const unsigned int nchan = fGeometry->Nchannels();
+  const unsigned int nchan = fWireReadoutGeom->Nchannels();
   for(unsigned int ch = 0; ch < nchan; ++ch) {
     size_t g = ch / gsize;
     if(gidx.empty() || has(gidx, g)) {
@@ -224,7 +224,7 @@ GroupChannelMap PdspNoiseRemoval::makeGroupsByOfflineChannels(size_t gsize, cons
 GroupChannelMap PdspNoiseRemoval::makeGroupsByDAQChannels(size_t gsize, const std::vector< size_t > & gidx) const {
   GroupChannelMap groups;
   auto const & chStatus = art::ServiceHandle< lariov::ChannelStatusService >()->GetProvider();
-  const unsigned int nchan = fGeometry->Nchannels();
+  const unsigned int nchan = fWireReadoutGeom->Nchannels();
   for(unsigned int ch = 0; ch < nchan; ++ch) {
     size_t g = getDAQChan(ch) / gsize;
     if(gidx.empty() || has(gidx, g)) {
@@ -239,14 +239,14 @@ GroupChannelMap PdspNoiseRemoval::makeGroupsByDAQChannels(size_t gsize, const st
 //**********************************************************************
 GroupChannelMap PdspNoiseRemoval::makeGroupsByFEMBPlaneType(size_t gsize, const std::vector< size_t > & gidx) const {
   // Get channel map
-  art::ServiceHandle<dune::PdspChannelMapService> channelMap;
+  art::ServiceHandle<dune::PdspChannelMapService> wireReadout;
   GroupChannelMap groups;
   auto const & chStatus = art::ServiceHandle< lariov::ChannelStatusService >()->GetProvider();
-  const unsigned int nchan = fGeometry->Nchannels();
+  const unsigned int nchan = fWireReadoutGeom->Nchannels();
   for(unsigned int ch = 0; ch < nchan; ++ch) {
     //size_t g = ch / gsize;
     size_t g = getDAQChan(ch) / gsize;
-    size_t plane = channelMap->PlaneFromOfflineChannel(ch);
+    size_t plane = wireReadout->PlaneFromOfflineChannel(ch);
     if(gidx.empty() || has(gidx, g) ) {
       if(chStatus.IsPresent(ch) && !chStatus.IsBad(ch) && !chStatus.IsNoisy(ch)) { 
       	switch (plane) {
@@ -395,11 +395,11 @@ std::vector<bool> PdspNoiseRemoval::roiMask(const AdcChannelData & acd) const {
 //**********************************************************************
 size_t PdspNoiseRemoval::getDAQChan(size_t LAr_chan) {
 	// Get channel map
-  art::ServiceHandle<dune::PdspChannelMapService> channelMap;
-  size_t apa = channelMap->APAFromOfflineChannel(LAr_chan);
-  size_t wib = channelMap->WIBFromOfflineChannel(LAr_chan);
-  size_t femb = channelMap->FEMBFromOfflineChannel(LAr_chan);
-  size_t fembChan = channelMap->FEMBChannelFromOfflineChannel(LAr_chan);
+  art::ServiceHandle<dune::PdspChannelMapService> wireReadout;
+  size_t apa = wireReadout->APAFromOfflineChannel(LAr_chan);
+  size_t wib = wireReadout->WIBFromOfflineChannel(LAr_chan);
+  size_t femb = wireReadout->FEMBFromOfflineChannel(LAr_chan);
+  size_t fembChan = wireReadout->FEMBChannelFromOfflineChannel(LAr_chan);
   size_t DaqChan = 2560*apa + 512* wib + 128* femb + fembChan; //does not depend on RCE or FELIX
   return DaqChan;
 }
