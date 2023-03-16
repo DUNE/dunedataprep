@@ -21,14 +21,6 @@ cet_build_plugin(Roi2dToAdc   art::tool
                 ROOT_BASIC_LIB_LIST
              )
 
-cet_build_plugin(TpcIsoDepRoi   art::tool
-                dunecore_DuneInterface_Data
-		dunedataprep_DataPrep_Utility
-                art::Utilities canvas
-                cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
-             )
-
 simple_plugin(Tpc2dDeconvolute   "tool"
                 dunecore_DuneInterface_Data
                 dunecore_DuneCommon_Utility
