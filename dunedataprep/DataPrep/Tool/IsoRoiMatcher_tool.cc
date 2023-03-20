@@ -48,7 +48,7 @@ IsoRoiMatcher::IsoRoiMatcher(fhicl::ParameterSet const& ps)
   const string myname = "IsoRoiMatcher::ctor: ";
 
   NameVector gsets = ps.get<NameVector>("GroupSets");
-  m_MaxTDelta = ps.get<Index>("MaxTDelta");
+  m_MaxTDelta = ps.get<int>("MaxTDelta");
   
   // detector channel info from geo service
   m_DetChInfo = std::make_unique<DetChInfo>(m_LogLevel);
@@ -119,7 +119,93 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
     return ret.setStatus(1);
   }
 
+  //
+  
+
   return ret;
+}
+
+IsoRoiMatcher::ChRoiVector 
+IsoRoiMatcher::buildRoisFrame(const IndexVector& channels, const AdcChannelDataMap& acds) const {
+  ChRoiVector chrois;
+  for( auto const &ch : channels ){
+    auto iacd = acds.find( ch );
+    if( iacd == acds.end() ) {
+      continue;
+    }
+    auto const &acd = iacd->second;
+    for( auto const &roi: acd.rois ){
+      Index tstart = roi.first;
+      Index tend   = roi.second;
+      auto const it_start = acd.samples.begin() + tstart;
+      auto const it_end   = acd.samples.begin() + tend;
+      // find max value in ROI
+      auto it_max = std::max_element( it_start, it_end );
+      Index tmax  = std::distance(std::begin(acd.samples), it_max);
+      // find min value in the range max to end of ROI
+      auto it_min = std::min_element( it_max, it_end );
+      Index tmin  = std::distance(std::begin(acd.samples), it_min);
+
+      //
+      ChRoi chroi;
+      chroi.chan   = ch;
+      chroi.rid    = chrois.size();
+      chroi.tstart = tstart;
+      chroi.tend   = tend;
+      chroi.tmax   = tmax;
+      chroi.tmin   = tmin;
+      //chroi.psum   = std::accumulate( it_start, it_end, 0.0 ); 
+      //chroi.pheight = *it_max;
+      chrois.push_back( chroi );
+    } // channel rois
+  }//channels
+
+  return chrois;
+}
+
+IsoRoiMatcher::ChRoiVector 
+IsoRoiMatcher::findRoiMatch( const ChRoi &col_roi, 
+			     const ChRoiVector &ind_rois, 
+			     const ChInterceptsMap &intercepts ) const {
+  // simply loop over the hit channels in other rois 
+  // not very efficient, but clear ...
+
+  const string myname = "IsoRoiMatcher::findRoiMatch: ";
+  ChRoiVector matched_rois;
+  
+  auto it = intercepts.find( col_roi.chan );
+  if( it == intercepts.end() ){
+    cout<<myname<<"WARNING: could not find intercepts for col channel "<<col_roi.chan<<endl;
+    return matched_rois;
+  }
+  
+  int absMaxTDelta = std::abs(m_MaxTDelta);
+
+  // intercepts with induction channel
+  auto const &ind_ints = it->second;
+  // loop over the induction ROIs
+  for( auto const &ind_roi : ind_rois ){
+    // check that this channel intercept is valid
+    auto pnts = ind_ints.get( ind_roi.chan );
+    if( pnts.empty() ) continue; // no intercepts with this channel
+    
+    // required some overlap between rois
+    bool no_overlap = col_roi.tend < ind_roi.tstart || col_roi.tstart > ind_roi.tend;
+    if( no_overlap ) continue;
+    
+    // check if pulse height is within MaxTDelta
+    int tdiff = (int)ind_roi.tmax - (int)col_roi.tmax;
+    if( std::abs(tdiff) > absMaxTDelta ) continue;
+    // if MaxTDelta is negative require induction pulse to be before collection
+    if( m_MaxTDelta < 0 && tdiff > 0 ) continue;
+    
+    //
+    ChRoi matched_roi = ind_roi;
+    matched_roi.ipnts = pnts;
+    matched_rois.push_back( matched_roi );
+  }
+  
+  return matched_rois;
 }
 
 

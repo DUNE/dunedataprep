@@ -4,8 +4,9 @@
 // March, 2023
 //
 //
-// Match (isolated) ROIs found in different planes and dump matched
-// results to a ROOT file. 
+// Match (isolated) ROIs found in different planes. The matched ROIs are saved
+// for each channel while others are removed. 
+//
 // The groups of channels associated to readout planes of a tpcset
 // should be specified via Sets argument. The format is <ind1>:<ind2>:<col>.
 // The first sub-string <ind1> is interpeted as the group name for induction 1
@@ -18,14 +19,17 @@
 // combination of the three planes.
 // To match the ROIs a tick cooridante of the pick in induction is required to be 
 //  1) before the tick of the peak in collection
-//  2) within time (tick) window specifed by MaxTDelta option
+//  2) within time (tick) window specifed by MaxTDelta option. A negative value
+//     will in addition require that pulses in the induction planes come before
+//     the ones in collection.
 //
 // Configuration:
 //   LogLevel:  Log frequency: 0=none, 1=initialization, 2=every event
 //   GroupSets: List of group plane sets in format <ind1>:<ind2>:<col>
 //              Eg., cruCu:cruCv:cruCz for coldbox
 //   MaxTDelta: Max number of ticks in peak separation -> m_MaxTDelta
-//    
+//              A negative value specified here would in addition require
+//              that an pulse in induction is before collection
 
 #ifndef IsoRoiMatcher_H
 #define IsoRoiMatcher_H
@@ -112,6 +116,7 @@ class IsoRoiMatcher : TpcDataTool {
     std::unordered_map<Index, std::vector<Point2d_t>> pmap;
   };
   
+
   using ChInterceptsMap    = std::unordered_map<Index, ChIntercepts>;
   //using ChInterceptsVector = std::vector<ChIntercepts>;
   using ChInterceptsMapVec  = std::vector<ChInterceptsMap>;
@@ -120,8 +125,26 @@ class IsoRoiMatcher : TpcDataTool {
   using GroupSet       = std::vector<ChGroup>;
   using GroupSetVector = std::vector<GroupSet>;
   
+  // structure for a given ROI info
+  struct ChRoi {
+    Index chan;
+    Index rid;
+    Index tstart;
+    Index tend;
+    Index tmin;
+    Index tmax;
+    //float psum;
+    //float pheight;
+    std::vector<Point2d_t> ipnts; //intersection points
+  };
+  using ChRoiVector = std::vector<ChRoi>;
+
+  //
+  
+
+  //
   int   m_LogLevel;
-  Index m_MaxTDelta;
+  int   m_MaxTDelta;
   GroupSetVector m_GroupSets;
 
   DetChInfoPtr m_DetChInfo;
@@ -136,7 +159,15 @@ class IsoRoiMatcher : TpcDataTool {
   // built all possible intercept maps with
   void buildInterceptsMap();
   ChInterceptsMap buildRopIntercepts( IndexRange r, ChGroup g );
-   
+
+  //
+  ChRoiVector buildRoisFrame(const IndexVector& channels, const AdcChannelDataMap& acds) const;
+  ChRoiVector findRoiMatch( const ChRoi &col_roi, const ChRoiVector &ind_rois, 
+			    const ChInterceptsMap &intercepts ) const;
+  // find ROIs that match based on available geo info from intercept points
+  // if successful returns vector of ROIs with size 2 where the first element is
+  // taken from rois1 and the second from rois2
+  ChRoiVector findRoiMatch( const ChRoiVector &rois1, const ChRoiVector &rois2 );
 };
 
 
