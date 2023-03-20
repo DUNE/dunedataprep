@@ -416,5 +416,13 @@ cet_build_plugin(IsoRoiByGroup   art::tool
                 ROOT_BASIC_LIB_LIST
              )
 
+cet_build_plugin(IsoRoiMatcher   art::tool
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
+                dunedataprep_DataPrep_Utility
+                cetlib::cetlib cetlib_except
+                ROOT_BASIC_LIB_LIST
+             )
+
 add_subdirectory(test)
 install_source()
