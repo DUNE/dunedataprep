@@ -3,6 +3,7 @@
 // David Adams
 // July 2016
 // November 2016 - Add option to group channels.
+// March 2023 - Add optional producer and name labels for the RDStatus.
 //
 // Module that reads RawData and writes Wire and their associations.
 // It uses RawDigitPrepService to build the wires.
@@ -22,6 +23,13 @@
 // Configuration parameters:
 //             LogLevel - Usual logging level.
 //           DigitLabel - Full label for the input digit container, e.g. daq
+//                        Can be either "name" or "producer:name"
+//                        Default value is "daq".
+//          StatusLabel - Full label for the input RDStatus container, e.g. daq
+//                        Can be either "name" or "producer:name"
+//                        "none" - Do not open RDStatus container.
+//                        "same-as-digit" - Use the value from DigitLabel.
+//                        Default value is "same-as-digit".
 //             WireName - Name for the output wire container. Use "NOSAVE" to not save wires.
 //   IntermediateStates - Names of intermediate states to record.
 //             DoGroups - Process channels in groups obtained from ChannelGroupService
@@ -92,6 +100,7 @@ private:
   int m_LogLevel;
   Name m_DecoderTool; // Name for the decoder tool
   Name m_DigitLabel;  ///< Full label for the input digit container, e.g. daq:
+  Name m_StatusLabel;  ///< Full label for the input RDStatus container, e.g. daq:
   Name m_TimeStampName;    // Label for the output RDTimeStamp conainer
   Name m_OutputDigitName;  // Label for the output raw::RawDigit conainer
   Name m_WireName;    ///< Second field in full label for the output wire container.
@@ -108,6 +117,8 @@ private:
   // Split label into producer and name: PRODUCER or PRODUCER:NAME
   std::string m_DigitProducer;
   std::string m_DigitName;
+  std::string m_StatusProducer;
+  std::string m_StatusName;
 
   // Accessed services.
   const lariov::ChannelStatusProvider* m_pChannelStatusProvider;
@@ -185,6 +196,7 @@ void DataPrepModule::reconfigure(fhicl::ParameterSet const& pset) {
   m_LogLevel           = pset.get<int>("LogLevel");
   m_DecoderTool        = pset.get<Name>("DecoderTool");
   m_DigitLabel         = pset.get<Name>("DigitLabel", "daq");
+  m_StatusLabel        = pset.get<Name>("StatusLabel", "same-as-digit");
   m_TimeStampName      = pset.get<Name>("TimeStampName");
   m_OutputDigitName    = pset.get<Name>("OutputDigitName");
   m_WireName           = pset.get<Name>("WireName", "");
@@ -208,6 +220,19 @@ void DataPrepModule::reconfigure(fhicl::ParameterSet const& pset) {
   } else {
     m_DigitProducer = m_DigitLabel.substr(0, ipos);
     m_DigitName = m_DigitLabel.substr(ipos + 1);
+  }
+
+  if ( m_StatusLabel == "same-as-digit" ) {
+    m_StatusProducer = m_DigitProducer;
+    m_StatusName = m_DigitName;
+  } else {
+    ipos = m_StatusLabel.find(":");
+    if ( ipos == std::string::npos ) {
+      m_StatusProducer = m_StatusLabel;
+    } else {
+      m_StatusProducer = m_StatusLabel.substr(0, ipos);
+      m_StatusName = m_StatusLabel.substr(ipos + 1);
+    }
   }
 
   m_pChannelStatusProvider = &art::ServiceHandle<lariov::ChannelStatusService>()->GetProvider();
@@ -241,6 +266,8 @@ void DataPrepModule::reconfigure(fhicl::ParameterSet const& pset) {
     cout << myname << "          DecoderTool: " << m_DecoderTool << endl;
     cout << myname << "           DigitLabel: " << m_DigitLabel << " (" << m_DigitProducer
                    << ", " << m_DigitName << ")" << endl;
+    cout << myname << "          StatusLabel: " << m_StatusLabel << " (" << m_StatusProducer
+                   << ", " << m_StatusName << ")" << endl;
     cout << myname << "        TimeStampName: " << m_TimeStampName << endl;
     cout << myname << "      OutputDigitName: " << m_OutputDigitName << endl;
     cout << myname << "             WireName: " << m_WireName << endl;
@@ -325,6 +352,8 @@ void DataPrepModule::produce(art::Event& evt) {
     itim = beginTime.timeLow();
   }
 
+  bool useDecoderTool = bool(m_pDecoderTool);
+
   // Log event processing header.
   if ( logInfo ) {
     cout << myname << "Run " << evt.run();
@@ -333,7 +362,20 @@ void DataPrepModule::produce(art::Event& evt) {
     cout << ", nproc=" << m_nproc;
     if ( m_nskip ) cout << ", nskip=" << m_nskip;
     cout << endl;
-    if ( m_LogLevel >= 3 ) cout << myname << "Reading raw digits for producer, name: " << m_DigitProducer << ", " << m_DigitName << endl;
+    if ( m_LogLevel >= 3 ) {
+      if ( useDecoderTool ) {
+        cout << myname << "Reading raw digits and status with decoder tool " << m_DecoderTool << "." << endl;
+      } else {
+        cout << myname << "Reading raw digits from container with producer, name: "
+             << m_DigitProducer << ", " << m_DigitName << endl;
+        if ( m_StatusLabel == "none" ) {
+          cout << myname << "Not reading raw digit status." << endl;
+        } else {
+          cout << myname << "Reading raw digit status from container with producer, name: "
+               << m_StatusProducer << ", " << m_StatusName << endl;
+        }
+      }
+    }
     if ( evt.isRealData() ) {
       TTimeStamp rtim(itim, itimrem);
       string stim = string(rtim.AsString("s")) + " UTC";
@@ -388,7 +430,6 @@ void DataPrepModule::produce(art::Event& evt) {
 
   // If the decoder tool is used, use it to retrive the raw digits, their status
   // and the channelclocks.
-  bool useDecoderTool = bool(m_pDecoderTool);
   using StatVector  = std::vector<raw::RDStatus>;
   using DigitVector = std::vector<raw::RawDigit>;
   std::unique_ptr<TimeVector>  ptimsFromTool;
@@ -473,8 +514,8 @@ void DataPrepModule::produce(art::Event& evt) {
   const std::vector<raw::RDStatus>* pstats = nullptr;
   if ( useDecoderTool ) {
     pstats = pstatsFromTool.get();
-  } else {
-    art::InputTag itag2(m_DigitProducer, m_DigitName);
+  } else if ( m_StatusLabel != "none" ) {
+    art::InputTag itag2(m_StatusProducer, m_StatusName);
     auto hstats = evt.getHandle<std::vector<raw::RDStatus>>(itag2);
     if ( hstats ) {
       pstats = &*hstats;
