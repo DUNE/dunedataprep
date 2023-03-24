@@ -41,6 +41,11 @@ find_ups_product( larcorealg )
 find_ups_product( lardata )
 find_ups_product( lardataalg )
 find_ups_product( lardataobj )
+find_ups_product( lawirecell )
+find_ups_product( wirecell )
+find_ups_product( jsoncpp )
+find_ups_product( spdlog )
+find_ups_product( eigen )
 
 include(MakeDuneToolBuilder)
 include(dunecore::ToolTypes) # Enable simpler building of tools.

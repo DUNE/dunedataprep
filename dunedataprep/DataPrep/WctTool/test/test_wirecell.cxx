@@ -4,6 +4,7 @@
 // March 2023
 //
 // Test access to wirecell code.
+
 #include "WireCellSigProc/OmnibusSigProc.h"
 #include <string>
 #include <iostream>
@@ -19,8 +20,8 @@ using std::cout;
 using std::endl;
 using std::ostringstream;
 using std::ofstream;
-using fhicl::ParameterSet;
 using std::vector;
+using WireCell::SigProc::OmnibusSigProc;
 
 //**********************************************************************
 
