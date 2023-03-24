@@ -9,7 +9,7 @@ cmake_minimum_required (VERSION 3.12...3.19 FATAL_ERROR)
 find_package(cetbuildtools REQUIRED)
 
 project(dunedataprep LANGUAGES CXX)
-set(${PROJECT_NAME}_CMAKE_PROJECT_VERSION_STRING 09.69.01g01)
+set(${PROJECT_NAME}_CMAKE_PROJECT_VERSION_STRING 09.70.00d00)
 
 include(CetCMakeEnv)
 cet_cmake_env()
@@ -41,6 +41,11 @@ find_ups_product( larcorealg )
 find_ups_product( lardata )
 find_ups_product( lardataalg )
 find_ups_product( lardataobj )
+find_ups_product( lawirecell )
+find_ups_product( wirecell )
+find_ups_product( jsoncpp )
+find_ups_product( spdlog )
+find_ups_product( eigen )
 
 include(MakeDuneToolBuilder)
 include(dunecore::ToolTypes) # Enable simpler building of tools.
