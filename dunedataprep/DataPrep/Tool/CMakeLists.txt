@@ -409,6 +409,13 @@ cet_build_plugin(CnrGroupWeighted   art::tool
                 ROOT_BASIC_LIB_LIST
              )
 
+cet_build_plugin(AdcSumSignalFinder   art::tool
+                dunecore_ArtSupport
+                dunecore_DuneCommon_Utility
+                cetlib::cetlib cetlib_except
+                ROOT_BASIC_LIB_LIST
+             )
+
 cet_build_plugin(IsoRoiByGroup   art::tool
                 dunecore_ArtSupport
                 dunecore_DuneCommon_Utility
