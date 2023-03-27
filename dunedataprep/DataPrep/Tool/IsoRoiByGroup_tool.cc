@@ -100,15 +100,23 @@ DataMap IsoRoiByGroup::updateMap(AdcChannelDataMap& acds) const {
       if ( iacd == acds.end() ) continue;
       AdcChannelData& acd = iacd->second;
       if ( acd.samples.size() == 0 ) continue;
-
+      
+      //!IMPORTANT! need to force rebuild AdcRoiVector
+      //            to propagate the changes coherently
       Index nsa = acd.samples.size();
       acd.signal.clear();
-      acd.signal.resize(nsa, false);
+      acd.signal.resize(nsa, false); 
       auto irois = isorois.find(ich);
-      if( irois == isorois.end() ) continue;
-      //cout<<entry.first<<" "<<ich<<" "<<nsa<<" "<<irois->second.size()<<endl;
-      acd.signal = buildFilterVector(nsa, irois->second);
-      stats[entry.first] += irois->second.size();
+      if( irois != isorois.end() ) {
+      	cout<<entry.first<<" "<<ich<<" "<<(ich-1904)<<" "<<irois->second.size()<<" ";
+       	for( auto const &r : irois->second ){
+       	  cout<<r.first<<" "<<r.second<<" ";
+      	}
+       	cout<<endl;
+	acd.signal = buildFilterVector(nsa, irois->second);
+	stats[entry.first] += irois->second.size();
+      }
+      // rebuild AdcRoiVector for this channel
       acd.roisFromSignal();
     }
   }
@@ -152,6 +160,11 @@ IsoRoiByGroup::buildIsodepRois( const IndexVector& channels,
     rois[idx] = acd.rois;
     nsam[idx] = acd.samples.size();
     count_rois1 += rois[idx].size();
+    cout<<idx<<" "<<ich<<" "<<rois[idx].size();
+    for( auto const &tmpr : rois[idx] ){
+      cout<<" "<<tmpr.first<<" "<<tmpr.second;
+    }
+    cout<<endl;
   }
   
   Index ich_start = m_NchEz;

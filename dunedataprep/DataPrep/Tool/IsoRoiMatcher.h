@@ -8,7 +8,7 @@
 // for each channel while others are removed. 
 //
 // The groups of channels associated to readout planes of a tpcset
-// should be specified via Sets argument. The format is <ind1>:<ind2>:<col>.
+// should be specified via GroupSets argument. The format is <ind1>:<ind2>:<col>.
 // The first sub-string <ind1> is interpeted as the group name for induction 1
 // The second sub-string <ind2> is interpeted as the group name for induction 2
 // The last sub-string <col> is interpeted as the group name for collection.
@@ -22,6 +22,9 @@
 //  2) within time (tick) window specifed by MaxTDelta option. A negative value
 //     will in addition require that pulses in the induction planes come before
 //     the ones in collection.
+//  3) The ROIs matched for col and ind1 and col and ind2 are then compare to
+//     determine the intercept point on which all views agree. The MaxDist parameter
+//     sets an acceptable tollerance (normally its value should be ~ind_pitch/2)
 //
 // Configuration:
 //   LogLevel:  Log frequency: 0=none, 1=initialization, 2=every event
@@ -30,7 +33,15 @@
 //   MaxTDelta: Max number of ticks in peak separation -> m_MaxTDelta
 //              A negative value specified here would in addition require
 //              that an pulse in induction is before collection
-
+//   MaxDist  : max distance tolerance for matching the intersect between
+//              two iduction views in cm
+//   AlignMode : tick alignment mode :
+//                      "peak" - align on peak in the first plane
+//                      "zerocrossing" - align on the tick of zero crossing
+//                                       relevant for induction view
+//   NRoiPreSamples : number of ticks to save before tick0 (see AlignMode)
+//   NRoiTotSamples : number of total ticks in ROI windows (includes NRoiPreSample ticks)
+//
 #ifndef IsoRoiMatcher_H
 #define IsoRoiMatcher_H
 
@@ -55,7 +66,7 @@ class IsoRoiMatcher : TpcDataTool {
   // Dtor
   ~IsoRoiMatcher() override =default;
 
-  // filter isolated ROIs
+  // match isolated ROIs
   DataMap updateMap(AdcChannelDataMap& acds) const override;
   
  private:
@@ -133,11 +144,13 @@ class IsoRoiMatcher : TpcDataTool {
     Index tend;
     Index tmin;
     Index tmax;
+    Index inuse;
     //float psum;
     //float pheight;
     std::vector<Point2d_t> ipnts; //intersection points
   };
-  using ChRoiVector = std::vector<ChRoi>;
+  using ChRoiVector   = std::vector<ChRoi>;
+  using ChRoiVector2d = std::vector<ChRoiVector>;
 
   //
   
@@ -145,6 +158,11 @@ class IsoRoiMatcher : TpcDataTool {
   //
   int   m_LogLevel;
   int   m_MaxTDelta;
+  float m_MaxDist;
+  std::string m_AlignMode;
+  Index m_NRoiPreSamples;
+  Index m_NRoiTotSamples;
+  
   GroupSetVector m_GroupSets;
 
   DetChInfoPtr m_DetChInfo;
@@ -152,6 +170,7 @@ class IsoRoiMatcher : TpcDataTool {
   //
   // intercepts of collection channels with ch in other planes
   ChInterceptsMapVec m_ChIntercepts;
+  
   
   //get
   void buildChGroupSets(const NameVector &sets);
@@ -167,7 +186,9 @@ class IsoRoiMatcher : TpcDataTool {
   // find ROIs that match based on available geo info from intercept points
   // if successful returns vector of ROIs with size 2 where the first element is
   // taken from rois1 and the second from rois2
-  ChRoiVector findRoiMatch( const ChRoiVector &rois1, const ChRoiVector &rois2 );
+  ChRoiVector findRoiVecMatch( const ChRoiVector &rois1, const ChRoiVector &rois2 ) const;
+
+  bool doCenterAndCrop( ChRoiVector &amatch, const AdcChannelDataMap& acds ) const ; 
 };
 
 
