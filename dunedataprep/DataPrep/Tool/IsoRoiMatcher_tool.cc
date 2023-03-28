@@ -6,8 +6,12 @@
 #include "dunecore/DuneInterface/Data/IndexRangeGroup.h"
 #include "dunecore/DuneInterface/Tool/IndexRangeGroupTool.h"
 
+#include "TFile.h"
+#include "TTree.h"
+
 #include <iostream>
 #include <iomanip>
+#include <numeric>
 
 using std::string;
 using std::cout;
@@ -39,6 +43,22 @@ namespace {
   
     return;
   }
+
+
+  template< typename Iterator >
+  Iterator closest_index(Iterator begin, Iterator end, float val ){
+    //
+    float min_dist = std::numeric_limits<float>::infinity();
+    auto min_it = begin;
+    for(auto it=begin; it!=end; ++it){
+      float d = std::abs(*it - val);
+      if( d < min_dist ){
+	min_dist = d;
+      min_it   = it;
+      }
+    }
+    return min_it;
+  }
 }
 
 
@@ -55,6 +75,7 @@ IsoRoiMatcher::IsoRoiMatcher(fhicl::ParameterSet const& ps)
   m_AlignMode = ps.get<string>("AlignMode");
   m_NRoiPreSamples = ps.get<Index>("NRoiPreSamples");
   m_NRoiTotSamples = ps.get<Index>("NRoiTotSamples");
+  m_OutFile        = ps.get<Name>("OutputFile", "");
 
   // detector channel info from geo service
   m_DetChInfo = std::make_unique<DetChInfo>(m_LogLevel);
@@ -94,10 +115,10 @@ IsoRoiMatcher::IsoRoiMatcher(fhicl::ParameterSet const& ps)
     cout<<myname<<"  Tick alignment mode             : "<<m_AlignMode<<endl;
     cout<<myname<<"  Number of ROI presamples        : "<<m_NRoiPreSamples<<endl;
     cout<<myname<<"  Number of total ROI samples     : "<<m_NRoiTotSamples<<endl;
+    cout<<myname<<"  Output file                     : "<<m_OutFile<<endl;
   }
   
   // loop over intercept maps
-  //int debug = 0;
   for( auto const gset : m_GroupSets ){
     auto const &col   = gset.back();
     auto const &chans = col.channels;
@@ -109,16 +130,12 @@ IsoRoiMatcher::IsoRoiMatcher(fhicl::ParameterSet const& ps)
 	  cout<<myname<<"WARNING no intercept of "<<ch<<" with ROPID "<<idx<<endl;
 	  continue;
 	}
-	//if( debug < 2 ){
-	//auto const &pnts = it->second;
-	//cout<<ch<<" "<<idx<<" "<<pnts<<endl;
-	//debug++;
-	//}
       } // loop over ROPs
     } // loop over collection channels in set
   }//loop over sets
   
   //
+  prepOutfile();
 }
 
 
@@ -127,7 +144,6 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
   const string myname = "IsoRoiMatcher::updateMap: ";
   DataMap ret;
   
-  //m_MatchedIsoRois.clear();
   if ( acds.size() == 0 ) {
     cout << myname << "WARNING: No channels found." << endl;
     return ret.setStatus(1);
@@ -148,7 +164,7 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
 
   //
   //ChRoiVector2d matched_iso_rois;
-  ChRoiVector2d m_MatchedIsoRois;
+  ChRoiVector2d matchedIsoRois;
   for( auto const gset : m_GroupSets ){
     if( gset.size() != nsrops + 1 ){
       cout<<myname<<"ERROR : bad number of channel groups : "<<gset.size()<<endl;
@@ -166,12 +182,13 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
       for( auto const &roi_col : rois_col ){
 	ChRoiVector2d rois_matched(nsrops);
 	int nomatch = 0;
-	cout<<roi_col.chan<<" "<<roi_col.rid<<" "
-	    <<roi_col.tstart<<" "<<roi_col.tend<<" "<<roi_col.inuse<<endl;
+	//cout<<roi_col.chan<<" "<<roi_col.rid<<" "
+	//<<roi_col.tstart<<" "<<roi_col.tend<<" "<<roi_col.inuse<<endl;
 	for(Index idx = 0; idx < nsrops; ++idx ){
 	  rois_matched[idx] = findRoiMatch( roi_col, rois_inds[idx], 
 					    m_ChIntercepts[idx] );
 	  if( rois_matched[idx].empty() ) nomatch++;
+	  /*
 	  if( !rois_matched[idx].empty() ){
 	    //cout<<roi_col.chan<<" "<<roi_col.rid<<" "
 	    //<<roi_col.tstart<<" "<<roi_col.tend<<" "<<roi_col.inuse<<endl;
@@ -181,6 +198,7 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
 	    }
 	    cout<<endl;
 	  }
+	  */
 	}
 	if( nomatch ) continue;
 
@@ -198,11 +216,11 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
 	aCol.ipnts = aMatch.back().ipnts;
 	aMatch.push_back( aCol );
 	// set the roi index for the entire group
-	//for( auto &aRoi: aMatch ){ aRoi.rid = m_MatchedIsoRois.size(); }
+	//for( auto &aRoi: aMatch ){ aRoi.rid = matchedIsoRois.size(); }
 	bool rval = doCenterAndCrop( aMatch, acds );
 	if( not rval ) continue;
 	// add it ...
-	m_MatchedIsoRois.push_back( aMatch );
+	matchedIsoRois.push_back( aMatch );
       }// collection channels in a given group
      
     } catch (...) { // try block exception
@@ -210,7 +228,7 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
     }
   }//loop over groups
 
-  // reset all rois in specified channels
+
   /*
   for( auto &[ch, acd] : acds ){
     if ( acd.samples.size() == 0 ) continue;
@@ -219,7 +237,7 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
     acd.signal.resize(nsa, false);
   }
   */    
-  
+  // reset all rois in specified channels  
   for( auto const &gset : m_GroupSets ){
     for ( auto const &ient : gset ) {
       for ( Index ch : ient.channels ){
@@ -237,12 +255,12 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
   }
   
   // copy matched ROIs
-  for(auto const &amatch: m_MatchedIsoRois ){
+  for(auto const &amatch: matchedIsoRois ){
     for( auto const &aroi: amatch ){
       Index ch = aroi.chan;
       Index ts = aroi.tstart;
       Index te = aroi.tend;
-      cout<<" "<<aroi.rid<<" "<<aroi.chan<<" "<<aroi.tstart;
+      //cout<<" "<<aroi.rid<<" "<<aroi.chan<<" "<<aroi.tstart;
       auto iacd = acds.find(ch);
       if ( iacd == acds.end() ) continue;
       AdcChannelData& acd = iacd->second;
@@ -254,18 +272,20 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
       acd.signal = sig;
       acd.roisFromSignal();
     }
-    cout<<endl;
+    //cout<<endl;
   }
   if( m_LogLevel >= 2 ){
-    cout << myname << "     Number of grouped ROIs : " << m_MatchedIsoRois.size()<< endl;
+    cout << myname << "     Number of grouped ROIs : " << matchedIsoRois.size()<< endl;
   }
 
+  // write matched ROI output to tree if output file was specified
+  writeTree( matchedIsoRois, acds );
   
-  ret.setInt("nroi_matched", m_MatchedIsoRois.size() );
+  ret.setInt("nroi_matched", matchedIsoRois.size() );
   return ret;
 }
 
-
+//
 //
 IsoRoiMatcher::ChRoiVector 
 IsoRoiMatcher::buildRoisFrame(const IndexVector& channels, const AdcChannelDataMap& acds) const {
@@ -358,7 +378,7 @@ IsoRoiMatcher::findRoiMatch( const ChRoi &col_roi,
 IsoRoiMatcher::ChRoiVector 
 IsoRoiMatcher::findRoiVecMatch( const ChRoiVector &rois1, const ChRoiVector &rois2 ) const {
   const string myname = "IsoRoiMatcher::findRoiVecMatch: ";
-
+  
   // loop over the points of each ROI and find the pair with closest distance
   Index badidx = std::numeric_limits<Index>::max();
   Index iroi1  = badidx;
@@ -396,11 +416,17 @@ IsoRoiMatcher::findRoiVecMatch( const ChRoiVector &rois1, const ChRoiVector &roi
   
   ChRoiVector matched_rois;
   if( dmin > m_MaxDist ){ // no match was found
+    if(m_LogLevel >= 2 ){
+      cout<<myname<<"dmin bad "<<dmin<<endl;
+    }
     return matched_rois;
   }
   
   if( iroi1 == badidx || ipnt1 == badidx ||
       iroi2 == badidx || ipnt2 == badidx  ) {
+    if(m_LogLevel >= 2){
+      cout<<myname<<"bad index "<<endl;
+    }
     return matched_rois;
   }
   
@@ -408,7 +434,9 @@ IsoRoiMatcher::findRoiVecMatch( const ChRoiVector &rois1, const ChRoiVector &roi
   // with an intercept point being the average of the two
   matched_rois.resize(2);
   matched_rois[0] = rois1[iroi1];
+  matched_rois[0].delta = dmin; // save delta of the intersection points
   matched_rois[1] = rois2[iroi2];
+  matched_rois[1].delta = dmin;
   auto const &pnt1 = matched_rois[0].ipnts[ipnt1];
   auto const &pnt2 = matched_rois[1].ipnts[ipnt2];
   Point2d_t avg;
@@ -418,13 +446,17 @@ IsoRoiMatcher::findRoiVecMatch( const ChRoiVector &rois1, const ChRoiVector &roi
   matched_rois[0].ipnts.push_back( avg );
   matched_rois[1].ipnts = matched_rois[0].ipnts;
   
+  //cout<<matched_rois.size()<<" "<<matched_rois[0]<<" "<<matched_rois[1]
+  //<<" "<<matched_rois[0].ipnts.front()
+  //<<" "<<matched_rois[1].ipnts.front()<<endl;
+  
   return matched_rois;
 }
 
 //
 bool IsoRoiMatcher::doCenterAndCrop( ChRoiVector &amatch, 
 				     const AdcChannelDataMap& acds ) const {
-
+  const string myname = "IsoRoiMatcher::doCenterAndCrop: ";
   if( m_AlignMode == "peak" ){
     Index t0 = amatch.front().tmax;
     Index ts = (t0<m_NRoiPreSamples)?0:(t0-m_NRoiPreSamples);
@@ -445,9 +477,15 @@ bool IsoRoiMatcher::doCenterAndCrop( ChRoiVector &amatch,
     auto const it_start = acd.samples.begin() + tmax;
     auto const it_end   = acd.samples.begin() + tmin + 1;
     
-    auto it_low = std::lower_bound( it_start, it_end, 0.0 );
+    auto it_low = closest_index( it_start, it_end, 0.0 );
     Index t0    = std::distance(std::begin(acd.samples), it_low);
-    if( t0 == tmax || t0 == tmin ) return false;
+    if( t0 == tmax || t0 == tmin ) {
+      cout<<myname<<"WARNING: bad zero crossing index for roi "<<amatch.front()<<endl;
+      // for(auto it=it_start;it!=it_end;it++){
+      // 	cout<<std::distance(std::begin(acd.samples), it)<<" "<<*it<<endl;
+      // }
+      return false;
+    }
     Index ts = (t0<m_NRoiPreSamples)?0:(t0-m_NRoiPreSamples);
     Index te = ts + m_NRoiTotSamples;
     for( auto &roi : amatch ){
@@ -568,6 +606,141 @@ void IsoRoiMatcher::buildInterceptsMap(){
   } // loop over sets
 
   // 
+}
+
+//
+//
+void IsoRoiMatcher::prepOutfile() const {
+  if( m_OutFile.empty() ){ return; }
+  const string myname = "IsoRoiMatcher::prepOutfile: ";
+  
+  if ( m_LogLevel >=2 ) cout << myname << "Creating output file." << endl;
+  TFile* pfil = TFile::Open(m_OutFile.c_str(), "RECREATE");
+  if ( pfil == nullptr || ! pfil->IsOpen() ) {
+    cout << myname << "ERROR: Unable to create output file " << m_OutFile << endl;
+    return;
+  } 
+
+  TreeData tdat;
+  TTree* ptre = new TTree(treeName().c_str(), "ADC ROIs");
+  ptre->Branch("run",     &tdat.run);
+  ptre->Branch("event",   &tdat.event);
+  ptre->Branch("channel", &tdat.channel);
+  ptre->Branch("ropid", &tdat.ropid);
+  ptre->Branch("grpid", &tdat.grpid);
+  ptre->Branch("coord1", &tdat.coord1);
+  ptre->Branch("coord2", &tdat.coord2);
+  ptre->Branch("cdelta", &tdat.cdelta);
+  ptre->Branch("qroi", &tdat.qroi);
+  ptre->Branch("hmin", &tdat.hmin);
+  ptre->Branch("hmax", &tdat.hmax);
+  ptre->Branch("isam", &tdat.isam);
+  ptre->Branch("nsa", &tdat.nsa);
+  tdat.data.resize( m_NRoiTotSamples );
+  ptre->Branch("data", &tdat.data[0], "data[nsa]/F");
+
+  ptre->ResetBranchAddresses();
+  ptre->Write();
+  pfil->Close();
+  delete pfil;
+}
+  
+
+
+//
+//
+void IsoRoiMatcher::writeTree( const ChRoiVector2d &matched_rois, 
+			       const AdcChannelDataMap& acds) const {
+  //
+  if( m_OutFile.empty() ){ return; }
+  const string myname = "IsoRoiMatcher::writeTree: ";
+  
+  //
+  auto pfil = TFile::Open(m_OutFile.c_str(), "UPDATE");
+  if ( pfil == nullptr || ! pfil->IsOpen() ) {
+    cout << myname << "ERROR: Unable to open output file " << m_OutFile << endl;
+    return;
+  }
+  
+  //
+  TTree* ptre = dynamic_cast<TTree*>(pfil->Get(treeName().c_str()));
+  if( ptre == nullptr ) {
+    cout << myname << "ERROR: Unable to open tree " << treeName() << endl;
+    return;
+  }
+
+  //
+  TreeData tdat;
+  ptre->SetBranchAddress("run", &tdat.run );
+  ptre->SetBranchAddress("event",   &tdat.event);
+  ptre->SetBranchAddress("channel", &tdat.channel);
+  ptre->SetBranchAddress("ropid", &tdat.ropid);
+  ptre->SetBranchAddress("grpid", &tdat.grpid);
+  ptre->SetBranchAddress("coord1", &tdat.coord1);
+  ptre->SetBranchAddress("coord2", &tdat.coord2);
+  ptre->SetBranchAddress("cdelta", &tdat.cdelta);
+  ptre->SetBranchAddress("qroi", &tdat.qroi);
+  ptre->SetBranchAddress("hmin", &tdat.hmin);
+  ptre->SetBranchAddress("hmax", &tdat.hmax);
+  ptre->SetBranchAddress("isam", &tdat.isam);
+  ptre->SetBranchAddress("nsa", &tdat.nsa);
+  tdat.data.resize( m_NRoiTotSamples );
+  ptre->SetBranchAddress("data", &tdat.data[0]);
+  
+  for( Index grpid=0;grpid<matched_rois.size();++grpid ){
+    tdat.grpid = grpid;
+    auto amatch = matched_rois[grpid];
+
+    // get group coordinates from the first ROI in the group
+    tdat.coord1 = amatch.front().ipnts.front().X();
+    tdat.coord2 = amatch.front().ipnts.front().Y();
+    tdat.cdelta = amatch.front().delta;
+    for( Index ropid=0;ropid<amatch.size(); ++ropid ){
+      tdat.ropid = ropid;
+      Index ch = amatch[ropid].chan;
+      tdat.channel = ch;
+      auto iacd = acds.find(ch);
+      if ( iacd == acds.end() ) {
+	cout<<myname<<"ERROR ch "<<ch<<" was not found. Normally this should never happen\n";
+	break; // next ROI group
+      }
+
+      Index tstart = amatch[ropid].tstart;
+      Index tend   = amatch[ropid].tend;
+      
+      Index nsa    = tend - tstart;
+      if( nsa != m_NRoiTotSamples ){
+	cout<<myname<<"ERROR number of samples appears to be wrong\n";
+	break; // next ROI group
+      }
+      
+      auto const &acd     = iacd->second;
+      auto const it_start = acd.samples.cbegin() + tstart;
+      auto const it_end   = acd.samples.cbegin() + tend;
+      auto const it_max   = acd.samples.cbegin() + amatch[ropid].tmax;
+      auto const it_min   = acd.samples.cbegin() + amatch[ropid].tmin;
+      
+      tdat.run     = acd.run();
+      tdat.event   = acd.event();
+      tdat.channel = acd.channel();
+      tdat.isam    = tstart;
+      tdat.qroi    = std::reduce( it_start, it_end );
+      tdat.hmin    = *it_min;
+      tdat.hmax    = *it_max;
+      tdat.nsa     = nsa;
+      for( auto it = it_start; it!=it_end; ++it ){
+	Index idx = std::distance(it_start, it);
+	tdat.data[idx] = *it;
+      }
+      ptre->Fill();
+    }
+  }//
+      
+  ptre->ResetBranchAddresses();
+  ptre->Write();
+  gDirectory->Purge();
+  pfil->Close();
+  delete pfil;
 }
 
 

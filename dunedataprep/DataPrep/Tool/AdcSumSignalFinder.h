@@ -35,6 +35,8 @@
 //   SamplesToSum : Number of samples to sum
 //   SampleSumStep: Step (lag) for moving sum search win
 //   
+#ifndef AdcSumSignalFinder_H
+#define AdcSumSignalFinder_H
 
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
@@ -85,3 +87,5 @@ public:
   
   RoiResult findChRois( Index ch, const AdcSignalVector &vec ) const;
 };
+
+#endif

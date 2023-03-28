@@ -41,7 +41,10 @@
 //                                       relevant for induction view
 //   NRoiPreSamples : number of ticks to save before tick0 (see AlignMode)
 //   NRoiTotSamples : number of total ticks in ROI windows (includes NRoiPreSample ticks)
+//   OutputFile     : output file to optionally write out grouped ROIs to TTree
 //
+//
+
 #ifndef IsoRoiMatcher_H
 #define IsoRoiMatcher_H
 
@@ -68,13 +71,15 @@ class IsoRoiMatcher : TpcDataTool {
 
   // match isolated ROIs
   DataMap updateMap(AdcChannelDataMap& acds) const override;
-  
+  //DataMap viewMap(const AdcChannelDataMap& acds) const override;
+
  private:
   
   using Name         = std::string;
   using NameVector   = std::vector<Name>;
   using Index        = unsigned int;
   using IndexVector  = std::vector<Index>;
+  using FloatVector  = std::vector<float>;
   using DetChInfo    = dataprep::util::DetectorChannelInfo;
   using DetChInfoPtr = std::unique_ptr<DetChInfo>;
 
@@ -129,8 +134,7 @@ class IsoRoiMatcher : TpcDataTool {
   
 
   using ChInterceptsMap    = std::unordered_map<Index, ChIntercepts>;
-  //using ChInterceptsVector = std::vector<ChIntercepts>;
-  using ChInterceptsMapVec  = std::vector<ChInterceptsMap>;
+  using ChInterceptsMapVec = std::vector<ChInterceptsMap>;
 
   //
   using GroupSet       = std::vector<ChGroup>;
@@ -145,15 +149,41 @@ class IsoRoiMatcher : TpcDataTool {
     Index tmin;
     Index tmax;
     Index inuse;
+    float delta;
     //float psum;
     //float pheight;
     std::vector<Point2d_t> ipnts; //intersection points
+
+    friend std::ostream& operator<< (std::ostream &os, 
+				     const ChRoi &roi){
+      os<<roi.chan<<" "<<roi.rid<<" "
+	<<roi.tstart<<" - "<<roi.tend<<" "
+	<<roi.tmax<<" "<<roi.tmin<<" "
+	<<roi.ipnts.size();
+      return os;
+    }
+
   };
   using ChRoiVector   = std::vector<ChRoi>;
   using ChRoiVector2d = std::vector<ChRoiVector>;
 
   //
-  
+  struct TreeData {
+    Index event   =0;
+    Index run     =0;
+    Index channel =0;
+    Index ropid   =0;
+    Index grpid   =0;   //ID of grouped iso ROIs
+    float coord1  =0.0; //CRP coordinate 1
+    float coord2  =0.0; //CRP coordinate 2
+    float cdelta  =0.0; //difference in coords from u/v planes
+    Index isam =0;
+    float qroi =0.0;
+    float hmin =0.0;
+    float hmax =0.0;
+    Index nsa =0;
+    FloatVector data;
+  };
 
   //
   int   m_LogLevel;
@@ -162,16 +192,24 @@ class IsoRoiMatcher : TpcDataTool {
   std::string m_AlignMode;
   Index m_NRoiPreSamples;
   Index m_NRoiTotSamples;
-  
-  GroupSetVector m_GroupSets;
+  Name  m_OutFile;
 
-  DetChInfoPtr m_DetChInfo;
+  
+  //
+  GroupSetVector m_GroupSets;
+  DetChInfoPtr   m_DetChInfo;
 
   //
   // intercepts of collection channels with ch in other planes
   ChInterceptsMapVec m_ChIntercepts;
+
+  // matched ROIs, mutable since we clear it 
+  // in the updateMap function
+  //mutable ChRoiVector2d m_MatchedIsoRois;
   
-  
+  //
+  Name treeName() const { return "isorois"; }
+    
   //get
   void buildChGroupSets(const NameVector &sets);
   
@@ -189,6 +227,9 @@ class IsoRoiMatcher : TpcDataTool {
   ChRoiVector findRoiVecMatch( const ChRoiVector &rois1, const ChRoiVector &rois2 ) const;
 
   bool doCenterAndCrop( ChRoiVector &amatch, const AdcChannelDataMap& acds ) const ; 
+  
+  void prepOutfile() const;
+  void writeTree( const ChRoiVector2d &matched_rois, const AdcChannelDataMap& acds) const;
 };
 
 

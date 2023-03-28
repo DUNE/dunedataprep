@@ -108,11 +108,7 @@ DataMap IsoRoiByGroup::updateMap(AdcChannelDataMap& acds) const {
       acd.signal.resize(nsa, false); 
       auto irois = isorois.find(ich);
       if( irois != isorois.end() ) {
-      	cout<<entry.first<<" "<<ich<<" "<<(ich-1904)<<" "<<irois->second.size()<<" ";
-       	for( auto const &r : irois->second ){
-       	  cout<<r.first<<" "<<r.second<<" ";
-      	}
-       	cout<<endl;
+       	// copy signals to acd.signal
 	acd.signal = buildFilterVector(nsa, irois->second);
 	stats[entry.first] += irois->second.size();
       }
@@ -160,11 +156,13 @@ IsoRoiByGroup::buildIsodepRois( const IndexVector& channels,
     rois[idx] = acd.rois;
     nsam[idx] = acd.samples.size();
     count_rois1 += rois[idx].size();
+    /*
     cout<<idx<<" "<<ich<<" "<<rois[idx].size();
     for( auto const &tmpr : rois[idx] ){
       cout<<" "<<tmpr.first<<" "<<tmpr.second;
     }
     cout<<endl;
+    */
   }
   
   Index ich_start = m_NchEz;
