@@ -75,7 +75,7 @@ IsoRoiMatcher::IsoRoiMatcher(fhicl::ParameterSet const& ps)
   m_AlignMode = ps.get<string>("AlignMode");
   m_NRoiPreSamples = ps.get<Index>("NRoiPreSamples");
   m_NRoiTotSamples = ps.get<Index>("NRoiTotSamples");
-  m_OutFile        = ps.get<Name>("OutputFile", "");
+  m_OutFile        = ps.get<Name>("OutFile", "");
 
   // detector channel info from geo service
   m_DetChInfo = std::make_unique<DetChInfo>(m_LogLevel);

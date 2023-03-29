@@ -41,7 +41,7 @@
 //                                       relevant for induction view
 //   NRoiPreSamples : number of ticks to save before tick0 (see AlignMode)
 //   NRoiTotSamples : number of total ticks in ROI windows (includes NRoiPreSample ticks)
-//   OutputFile     : output file to optionally write out grouped ROIs to TTree
+//   OutFile        : output file to optionally write out grouped ROIs with waveforms to TTree 
 //
 //
 
