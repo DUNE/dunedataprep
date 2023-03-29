@@ -353,3 +353,44 @@ tools.vdcb_RemoveBadChannels: {
   RemoveBadChs: true
   RemoveNoisyChs: true
 }
+
+
+##### tool to search for signal ROIs using pulse sums
+tools.vdcb2_sumSignalFinder: {
+  tool_type: AdcSumSignalFinder
+  LogLevel: 1
+  DefaultMethod: "sumabs"
+  DefaultThresh: 5.0
+  Groups: ["cruCu", "cruCv", "cruCz"]
+  GroupMethod: ["sumabs", "sumabs", "sum"]
+  GroupThresh: [5.5, 5.5, 5.0]
+  SamplesToSum: 50
+  SampleSumStep: 10
+}
+
+##### tool to selected isolated depositions
+# the excelusion zone (Ez) is specified in 
+# number of ticks and channels
+tools.vdcb2_isoDepRoi: {
+  tool_type: IsoRoiByGroup
+  LogLevel: 1
+  Groups: [cruCu, cruCv, cruCz]
+  NChanEz: 16
+  NTickEz: 150
+}
+
+##### tool to match isolated deposits between readout planes
+tools.vdcb2_isoDepRoiMatcher: {
+  tool_type: IsoRoiMatcher
+  LogLevel: 1
+  GroupSets: ["cruCu:cruCv:cruCz"]
+  MaxTDelta: -40  # in ticks
+  MaxDist:   1.5  # in cm
+  AlignMode: "zerocrossing" # tick alignment method between matched ROIs
+  NRoiPreSamples: 50
+  NRoiTotSamples: 150
+  OutFile: ""
+}
+##### write matched ROIs to TTree in specified output file
+tools.vdcb2_isoDepRoiMatcherWithOutput :  @local::tools.vdcb2_isoDepRoiMatcher
+tools.vdcb2_isoDepRoiMatcherWithOutput.OutFile: "isorois.root"
