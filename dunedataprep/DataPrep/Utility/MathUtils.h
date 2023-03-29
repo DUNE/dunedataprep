@@ -111,7 +111,7 @@ namespace dataprep::util {
     auto const Q3 = 3*data.size() / 4;  // 75% quanrtile
     auto sdata = data;
     std::nth_element( sdata.begin(), sdata.begin() + Q1, sdata.end() );
-    std::nth_element( sdata.begin() + q1 + 1, sdata.begin() + Q3, sdata.end() );
+    std::nth_element( sdata.begin() + Q1 + 1, sdata.begin() + Q3, sdata.end() );
 
     auto q1 = sdata[Q1];
     auto q3 = sdata[Q3];
