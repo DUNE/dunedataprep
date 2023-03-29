@@ -292,6 +292,7 @@ AdcChannelMetric::AdcChannelMetric(fhicl::ParameterSet const& ps)
 
 AdcChannelMetric::~AdcChannelMetric() {
   const string myname = "AdcChannelMetric::dtor: ";
+  m_pChannelStatusProvider = nullptr;  // This may be invalid.
   Index ncha = 0;
   Index nchaData = 0;
   Index nchaDataMax = 0;
