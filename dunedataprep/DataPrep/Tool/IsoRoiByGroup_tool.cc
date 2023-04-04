@@ -165,8 +165,8 @@ IsoRoiByGroup::buildIsodepRois( const IndexVector& channels,
     */
   }
   
-  Index ich_start = m_NchEz;
-  Index ich_end   = nch - m_NchEz + 1;
+  Index ich_start = 0; //m_NchEz;
+  Index ich_end   = nch; // - m_NchEz + 1;
   for( Index ich = ich_start;ich<ich_end;++ich ){
     if( rois[ich].empty() ) continue;
     if( nsam[ich] < 2 * m_NtickEz ) continue;
