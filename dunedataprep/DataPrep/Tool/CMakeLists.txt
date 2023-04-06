@@ -165,6 +165,7 @@ cet_build_plugin(AdcSampleFiller   art::tool
              )
 
 cet_build_plugin(SubtractBaseline   art::tool
+                canvas::canvas
                 cetlib::cetlib cetlib_except
                 ROOT_BASIC_LIB_LIST
              )
