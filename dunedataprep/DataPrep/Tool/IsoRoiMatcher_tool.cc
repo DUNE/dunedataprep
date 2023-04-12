@@ -319,6 +319,7 @@ IsoRoiMatcher::buildRoisFrame(const IndexVector& channels, const AdcChannelDataM
       //chroi.psum   = std::accumulate( it_start, it_end, 0.0 ); 
       //chroi.pheight = *it_max;
       chroi.inuse  = 0;
+      chroi.delta  = 0.0;
       chrois.push_back( chroi );
     } // channel rois
   }//channels

@@ -142,14 +142,14 @@ class IsoRoiMatcher : TpcDataTool {
   
   // structure for a given ROI info
   struct ChRoi {
-    Index chan;
-    Index rid;
-    Index tstart;
-    Index tend;
-    Index tmin;
-    Index tmax;
-    Index inuse;
-    float delta;
+    Index chan =0;
+    Index rid  =0;
+    Index tstart =0;
+    Index tend =0;
+    Index tmin =0;
+    Index tmax =0;
+    Index inuse =0;
+    float delta =0.0;
     //float psum;
     //float pheight;
     std::vector<Point2d_t> ipnts; //intersection points
