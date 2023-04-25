@@ -132,3 +132,13 @@ data.vdtcb2_dataprep_seqs.nomcal_cnr_rmbadch: [
   @sequence::data.vdtcb2_dataprep_seqs.nomcal_cnr,
   vdcb_RemoveBadChannels
 ]
+
+data.vdtcb2_dataprep_seqs.isodep_selector: [
+  digitReader,
+  adcSampleFiller,
+  vdtcb2_adcScaleAdcToKe,
+  vdtcb2_cnr,
+  vdcb2_sumSignalFinder, 
+  vdcb2_isoDepRoi,
+  vdcb2_isoDepRoiMatcherWithOutput 
+]
