@@ -1,6 +1,8 @@
 # vdcb2_tools.fcl
 
-# Dataprep tools for the 2022 vertical detector cold box tests with CRP2+.
+# Dataprep tools for the 2022 vertical detector cold box tests after CRP1:
+#   Top electronics with with CRP2 and CRP3 (vdcb2) and
+#   Bottom electronics with CRP4 and CRP5 (vdcb4)
 
 ################################################################################
 # Shared data.
