@@ -113,23 +113,53 @@ tools.onlineChannelMapVdcb: {
 tools.channelRanges: @local::tools.channelRangesVdcb2
 tools.channelGroups: @local::tools.channelGroupsVdcb2
 
+# Return FEMB index (1-16) for a bottom offline relative channel (0-3071).
+# See https://github.com/DUNE/dunedataprep/issues/28
+tools.crpChannelFemb: {
+  tool_type: TextIndexMapTool
+  LogLevel: 1
+  FileName: "$DUNEPROTOTYPES_DIR/config_data/vdcbce_chanmap_v4.txt"
+  FieldSeparators: " "
+  IndexIndex: 0
+  ValueIndex: 9
+  DefaultValue: 999999
+}
+
 ################################################################################
 # Reco tools.
 ################################################################################
 
 ############## Charge calibration ###################
 
-# Scale samples from ke to ADC count for bottom CRU
-tools.vdbcb_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
-tools.vdbcb_adcScaleAdcToKe.ScaleFactor: 0.025
-tools.vdbcb_adcScaleKeToAdc: @local::tools.adcScaleKeToAdc
-tools.vdbcb_adcScaleKeToAdc.ScaleFactor: 40.0
+# Scale samples from ke to ADC count.
+tmp.adcScaleKeToAdc: {
+  tool_type: AdcSampleScaler
+  LogLevel: 1
+  ScaleFactor: 40.0
+  InputUnit: "ke/tick"
+  OutputUnit: "ADC count"
+}
+tmp.adcScaleAdcToKe: {
+  tool_type: AdcSampleScaler
+  LogLevel: 1
+  ScaleFactor: 0.025
+  InputUnit: "ADC count"
+  OutputUnit: "ke/tick"
+}
 
-# scale samples from ke to ADC count for Top CRP2/3
-tools.vdtcb2_adcScaleAdcToKe: @local::tools.adcScaleAdcToKe
+# Scale samples from ke to ADC count for bottom CRP1
+tools.vdbcb_adcScaleAdcToKe: @local::tmp.adcScaleAdcToKe
+tools.vdbcb_adcScaleKeToAdc: @local::tmp.adcScaleKeToAdc
+
+# scale samples from ke to ADC count for Top CRP2,3
+tools.vdtcb2_adcScaleAdcToKe: @local::tmp.adcScaleAdcToKe
 tools.vdtcb2_adcScaleAdcToKe.ScaleFactor: 0.0319
-tools.vdtcb2_adcScaleKeToAdc: @local::tools.adcScaleKeToAdc
+tools.vdtcb2_adcScaleKeToAdc: @local::tmp.adcScaleKeToAdc
 tools.vdtcb2_adcScaleKeToAdc.ScaleFactor: 31.35
+
+# Scale samples from ke to ADC count for CRP4,5
+tools.vdbcb4_adcScaleAdcToKe: @local::tmp.adcScaleAdcToKe
+tools.vdbcb4_adcScaleKeToAdc: @local::tmp.adcScaleKeToAdc
 
 ################# Noise removal. ####################
 
@@ -157,11 +187,31 @@ tools.vdtcb2_cnrw: {
 
 ################# Signal finder ####################
 
-tools.vdc_thresholdSignalFinder: @local::tools.adcThresholdSignalFinder
-tools.vdc_thresholdSignalFinder.Threshold: 1.0
+# Find ADC signals with simple threshold algorithm.
+tools.vdc_thresholdSignalFinder: {
+  tool_type: AdcThresholdSignalFinder
+  LogLevel: 1
+  Threshold: 1.0
+  BinsBefore: 10
+  BinsAfter: 20
+  FlagPositive: true
+  FlagNegative: true
+}
 
-tools.vdcb_noiseSignalFinder: @local::tools.adcNoiseSignalFinder
-tools.vdcb_noiseSignalFinder.ThresholdMin: 0.2
+# Dynamic signal finder.
+tools.vdcb_noiseSignalFinder: {
+  tool_type: AdcNoiseSignalFinder
+  LogLevel: 1
+  SigFracMax: 0.80
+  ThresholdMin: 0.2
+  ThresholdRatio: 4.0
+  ThresholdRatioTol: 0.1
+  MaxLoop: 20.0
+  BinsBefore: 10
+  BinsAfter: 20
+  FlagPositive: true
+  FlagNegative: true
+}
 
 ################################################################################
 # Performance tools.
@@ -396,3 +446,5 @@ tools.vdcb2_isoDepRoiMatcher: {
 ##### write matched ROIs to TTree in specified output file
 tools.vdcb2_isoDepRoiMatcherWithOutput :  @local::tools.vdcb2_isoDepRoiMatcher
 tools.vdcb2_isoDepRoiMatcherWithOutput.OutFile: "isorois.root"
+
+tmp: @erase

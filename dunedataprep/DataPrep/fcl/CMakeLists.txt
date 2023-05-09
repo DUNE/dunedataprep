@@ -4,3 +4,4 @@
 # August 2016
 
 install_fhicl()
+add_subdirectory(test)
