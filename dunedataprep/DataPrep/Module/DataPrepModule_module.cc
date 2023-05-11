@@ -3,6 +3,7 @@
 // David Adams
 // July 2016
 // November 2016 - Add option to group channels.
+// March 2023 - Add optional producer and name labels for the RDStatus.
 //
 // Module that reads RawData and writes Wire and their associations.
 // It uses RawDigitPrepService to build the wires.
@@ -22,6 +23,18 @@
 // Configuration parameters:
 //             LogLevel - Usual logging level.
 //           DigitLabel - Full label for the input digit container, e.g. daq
+//                        Can be either "name" or "producer:name"
+//                        Default value is "daq".
+//          StatusLabel - Full label for the input RDStatus container, e.g. daq
+//                        Can be either "name" or "producer:name"
+//                        "none" - Do not open RDStatus container.
+//                        "same-as-digit" - Use the value from DigitLabel.
+//                        Default value is "same-as-digit".
+//         TriggerLabel - Full label for the input trigger/timing (RDTimeStamp) container
+//                        Can be either "name" or "producer:name"
+//                        "none" - Do not open RDTimeStamp container.
+//                        "same-as-digit" - Use the value from DigitLabel.
+//                        Default value is "same-as-digit".
 //             WireName - Name for the output wire container. Use "NOSAVE" to not save wires.
 //   IntermediateStates - Names of intermediate states to record.
 //             DoGroups - Process channels in groups obtained from ChannelGroupService
@@ -92,6 +105,8 @@ private:
   int m_LogLevel;
   Name m_DecoderTool; // Name for the decoder tool
   Name m_DigitLabel;  ///< Full label for the input digit container, e.g. daq:
+  Name m_StatusLabel;  ///< Full label for the input RDStatus container, e.g. daq:
+  Name m_TriggerLabel;  ///< Full label for the input RDStatus container, e.g. daq:
   Name m_TimeStampName;    // Label for the output RDTimeStamp conainer
   Name m_OutputDigitName;  // Label for the output raw::RawDigit conainer
   Name m_WireName;    ///< Second field in full label for the output wire container.
@@ -108,6 +123,10 @@ private:
   // Split label into producer and name: PRODUCER or PRODUCER:NAME
   std::string m_DigitProducer;
   std::string m_DigitName;
+  std::string m_StatusProducer;
+  std::string m_StatusName;
+  std::string m_TriggerProducer;
+  std::string m_TriggerName;
 
   // Accessed services.
   const lariov::ChannelStatusProvider* m_pChannelStatusProvider;
@@ -185,6 +204,8 @@ void DataPrepModule::reconfigure(fhicl::ParameterSet const& pset) {
   m_LogLevel           = pset.get<int>("LogLevel");
   m_DecoderTool        = pset.get<Name>("DecoderTool");
   m_DigitLabel         = pset.get<Name>("DigitLabel", "daq");
+  m_StatusLabel        = pset.get<Name>("StatusLabel", "same-as-digit");
+  m_TriggerLabel       = pset.get<Name>("TriggerLabel", "same-as-digit");
   m_TimeStampName      = pset.get<Name>("TimeStampName");
   m_OutputDigitName    = pset.get<Name>("OutputDigitName");
   m_WireName           = pset.get<Name>("WireName", "");
@@ -208,6 +229,32 @@ void DataPrepModule::reconfigure(fhicl::ParameterSet const& pset) {
   } else {
     m_DigitProducer = m_DigitLabel.substr(0, ipos);
     m_DigitName = m_DigitLabel.substr(ipos + 1);
+  }
+
+  if ( m_StatusLabel == "same-as-digit" ) {
+    m_StatusProducer = m_DigitProducer;
+    m_StatusName = m_DigitName;
+  } else {
+    ipos = m_StatusLabel.find(":");
+    if ( ipos == std::string::npos ) {
+      m_StatusProducer = m_StatusLabel;
+    } else {
+      m_StatusProducer = m_StatusLabel.substr(0, ipos);
+      m_StatusName = m_StatusLabel.substr(ipos + 1);
+    }
+  }
+
+  if ( m_TriggerLabel == "same-as-digit" ) {
+    m_TriggerProducer = m_DigitProducer;
+    m_TriggerName = m_DigitName;
+  } else {
+    ipos = m_TriggerLabel.find(":");
+    if ( ipos == std::string::npos ) {
+      m_TriggerProducer = m_TriggerLabel;
+    } else {
+      m_TriggerProducer = m_TriggerLabel.substr(0, ipos);
+      m_TriggerName = m_TriggerLabel.substr(ipos + 1);
+    }
   }
 
   m_pChannelStatusProvider = &art::ServiceHandle<lariov::ChannelStatusService>()->GetProvider();
@@ -241,6 +288,10 @@ void DataPrepModule::reconfigure(fhicl::ParameterSet const& pset) {
     cout << myname << "          DecoderTool: " << m_DecoderTool << endl;
     cout << myname << "           DigitLabel: " << m_DigitLabel << " (" << m_DigitProducer
                    << ", " << m_DigitName << ")" << endl;
+    cout << myname << "          StatusLabel: " << m_StatusLabel << " (" << m_StatusProducer
+                   << ", " << m_StatusName << ")" << endl;
+    cout << myname << "          TriggerLabel: " << m_TriggerLabel << " (" << m_TriggerProducer
+                   << ", " << m_TriggerName << ")" << endl;
     cout << myname << "        TimeStampName: " << m_TimeStampName << endl;
     cout << myname << "      OutputDigitName: " << m_OutputDigitName << endl;
     cout << myname << "             WireName: " << m_WireName << endl;
@@ -325,6 +376,9 @@ void DataPrepModule::produce(art::Event& evt) {
     itim = beginTime.timeLow();
   }
 
+  bool useDecoderTool = bool(m_pDecoderTool);
+  bool readTriggerContainer = m_TriggerLabel != "none";
+
   // Log event processing header.
   if ( logInfo ) {
     cout << myname << "Run " << evt.run();
@@ -333,7 +387,26 @@ void DataPrepModule::produce(art::Event& evt) {
     cout << ", nproc=" << m_nproc;
     if ( m_nskip ) cout << ", nskip=" << m_nskip;
     cout << endl;
-    if ( m_LogLevel >= 3 ) cout << myname << "Reading raw digits for producer, name: " << m_DigitProducer << ", " << m_DigitName << endl;
+    if ( m_LogLevel >= 3 ) {
+      if ( useDecoderTool ) {
+        cout << myname << "Reading raw digits and status with decoder tool " << m_DecoderTool << "." << endl;
+      } else {
+        cout << myname << "Reading raw digits from container with producer, name: "
+             << m_DigitProducer << ", " << m_DigitName << endl;
+        if ( m_StatusLabel == "none" ) {
+          cout << myname << "Not reading raw digit status." << endl;
+        } else {
+          cout << myname << "Reading raw digit status from container with producer, name: "
+               << m_StatusProducer << ", " << m_StatusName << endl;
+        }
+        if ( m_TriggerLabel == "none" ) {
+          cout << myname << "Not reading raw digit status." << endl;
+        } else {
+          cout << myname << "Reading raw digit status from container with producer, name: "
+               << m_TriggerProducer << ", " << m_TriggerName << endl;
+        }
+      }
+    }
     if ( evt.isRealData() ) {
       TTimeStamp rtim(itim, itimrem);
       string stim = string(rtim.AsString("s")) + " UTC";
@@ -348,11 +421,11 @@ void DataPrepModule::produce(art::Event& evt) {
 
   // Fetch the event trigger and timing clock.
   AdcIndex trigFlag = 0;
-  AdcLongIndex timingClock = 0;
+  AdcLongIndex triggerClock = 0;
   using TimeVector  = std::vector<raw::RDTimeStamp>;
   const TimeVector* ptims = nullptr;
-  if ( true ) {
-    art::InputTag itag1("timingrawdecoder", "daq");
+  if ( readTriggerContainer ) {
+    art::InputTag itag1(m_TriggerProducer, m_TriggerName);
     auto htims = evt.getHandle<TimeVector>(itag1);
     if ( htims ) {
       ptims = &*htims;
@@ -364,7 +437,10 @@ void DataPrepModule::produce(art::Event& evt) {
       } else {
         const raw::RDTimeStamp& tim = ptims->at(0);
         if ( logInfo ) cout << myname << "Timing clock: " << tim.GetTimeStamp() << endl;
-        timingClock = tim.GetTimeStamp();
+        triggerClock = tim.GetTimeStamp();
+        if ( triggerClock <= 0 ) {
+          cout << myname << "WARNING: Invalid trigger time:" << triggerClock << '.' << endl;
+        }
         // See https://twiki.cern.ch/twiki/bin/view/CENF/TimingSystemAdvancedOp#Reference_info
         trigFlag = tim.GetFlags();
         if ( m_LogLevel >= 2 ) cout << myname << "Trigger flag: " << trigFlag << " (";
@@ -388,7 +464,6 @@ void DataPrepModule::produce(art::Event& evt) {
 
   // If the decoder tool is used, use it to retrive the raw digits, their status
   // and the channelclocks.
-  bool useDecoderTool = bool(m_pDecoderTool);
   using StatVector  = std::vector<raw::RDStatus>;
   using DigitVector = std::vector<raw::RawDigit>;
   std::unique_ptr<TimeVector>  ptimsFromTool;
@@ -419,6 +494,7 @@ void DataPrepModule::produce(art::Event& evt) {
   vector<AdcLongIndex> channelClocks;
   vector<ULong64_t> tzeroClockCandidates;   // Candidates for t0 = 0.
   float trigTickOffset = -500.5;
+  bool checkClockDiffs = readTriggerContainer;
   if ( ptimsFromTool ) {
     using ClockCounter = std::map<ULong64_t, AdcIndex>;
     ClockCounter clockCounts;
@@ -428,53 +504,55 @@ void DataPrepModule::produce(art::Event& evt) {
     for ( raw::RDTimeStamp chts : *ptimsFromTool ) {
       chClock = chts.GetTimeStamp();
       channelClocks.push_back(chClock);
-      chClockDiff = chClock > timingClock ?  (chClock - timingClock)
-                                               : -(timingClock - chClock);
-      bool nearTrigger = fabs(tickdiff - trigTickOffset) < 1.0;
-      tickdiff = chClockDiff/triggerPerTick;
-      if ( clockCounts.find(chClock) == clockCounts.end() ) {
-        clockCounts[chClock] = 1;
-        if ( nearTrigger ) tzeroClockCandidates.push_back(chClock);
-      } else {
-        ++clockCounts[chClock];
-      }
-      if ( ! nearTrigger ) {
-        if ( m_LogLevel >= 3 ) {
+      if ( checkClockDiffs ) {
+        chClockDiff = chClock > triggerClock ?  (chClock - triggerClock)
+                                                 : -(triggerClock - chClock);
+        bool nearTrigger = fabs(tickdiff - trigTickOffset) < 1.0;
+        tickdiff = chClockDiff/triggerPerTick;
+        if ( clockCounts.find(chClock) == clockCounts.end() ) {
+          clockCounts[chClock] = 1;
+          if ( nearTrigger ) tzeroClockCandidates.push_back(chClock);
+        } else {
+          ++clockCounts[chClock];
+        }
+        if ( ! nearTrigger ) {
           cout << myname << "WARNING: Channel timing difference: " << chClockDiff
-               << " (" << tickdiff << " ticks)." << endl;
+               << " (" << tickdiff << " ticks)";
+          cout << " [" << chClock << " - " << triggerClock << "]";
+          cout << "." << endl;
         }
       }
     }
-    if ( clockCounts.size() > 1 ) {
-      if ( logInfo ) {
-        cout << myname << "WARNING: Channel clocks are not consistent." << endl;
-        cout << myname << "WARNING:     Clock     ticks   count" << endl;
-      }
-      for ( ClockCounter::value_type iclk : clockCounts ) {
-        ULong64_t chClock = iclk.first;
-        AdcIndex count = iclk.second;
-        long chClockDiff = chClock > timingClock ?  (chClock - timingClock)
-                                                 : -(timingClock - chClock);
-        float tickdiff = chClockDiff/triggerPerTick;
+    if ( checkClockDiffs ) {
+      if ( clockCounts.size() > 1 ) {
         if ( logInfo ) {
-          cout << myname << "WARNING:" << setw(10) << chClockDiff << setw(10) << tickdiff
-               << setw(8) << count << endl;
+          cout << myname << "WARNING: Channel clocks are not consistent." << endl;
+          cout << myname << "WARNING:     Clock     ticks   count" << endl;
         }
+        for ( ClockCounter::value_type iclk : clockCounts ) {
+          ULong64_t chClock = iclk.first;
+          AdcIndex count = iclk.second;
+          long chClockDiff = chClock > triggerClock ?  (chClock - triggerClock)
+                                                   : -(triggerClock - chClock);
+          float tickdiff = chClockDiff/triggerPerTick;
+          if ( logInfo ) {
+            cout << myname << "WARNING:" << setw(10) << chClockDiff << setw(10) << tickdiff
+                 << setw(8) << count << endl;
+          }
+        }
+      } else {
+        if ( logInfo ) cout << myname << "Channel counts are consistent with an offset of "
+                            << tickdiff << " ticks." << endl;
       }
-    } else {
-      if ( logInfo ) cout << myname << "Channel counts are consistent with an offset of "
-                          << tickdiff << " ticks." << endl;
     }
-  } else {
-    if ( logInfo ) cout << myname << "Channel clocks not checked for data retrieval from stroe." << endl;
   }
 
   // Read the raw digit status.
   const std::vector<raw::RDStatus>* pstats = nullptr;
   if ( useDecoderTool ) {
     pstats = pstatsFromTool.get();
-  } else {
-    art::InputTag itag2(m_DigitProducer, m_DigitName);
+  } else if ( m_StatusLabel != "none" ) {
+    art::InputTag itag2(m_StatusProducer, m_StatusName);
     auto hstats = evt.getHandle<std::vector<raw::RDStatus>>(itag2);
     if ( hstats ) {
       pstats = &*hstats;
@@ -593,7 +671,7 @@ void DataPrepModule::produce(art::Event& evt) {
   pevt->event = evt.event();
   pevt->time = itim;
   pevt->timerem = itimrem;
-  pevt->triggerClock = timingClock;
+  pevt->triggerClock = triggerClock;
   pevt->trigger = trigFlag;
   AdcChannelData::EventInfoPtr pevtShared(pevt);
   for ( unsigned int idig=0; idig<ndigi; ++idig ) {
@@ -715,8 +793,8 @@ void DataPrepModule::produce(art::Event& evt) {
   devt.event = evt.event();
   devt.time = itim;
   devt.timerem = itimrem;
-  devt.triggerClock = timingClock;
-  devt.triggerTick0 = timingClock/triggerPerTick;
+  devt.triggerClock = triggerClock;
+  devt.triggerTick0 = triggerClock/triggerPerTick;
   int bstat = m_pRawDigitPrepService->beginEvent(devt);
   if ( bstat ) cout << myname << "WARNING: Event initialization failed." << endl;
 
