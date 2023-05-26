@@ -1,0 +1,61 @@
+//usr/bin/env root.exe -l -q $0; exit $?
+
+// test_tool_crpChannelFemb
+//
+// David Adams
+// May 2023
+//
+// This is an example of a Root script that can be excuted directly
+// from the command line.
+
+#include "dunecore/DuneInterface/Tool/IndexMapTool.h"
+#include "dunecore/ArtSupport/DuneToolManager.h"
+
+using Index = unsigned int;
+
+int test_tool_crpChannelFemb() {
+
+  string line = "-------------------------------------------------------";
+  string fclnam = "vdcb2_tools.fcl";
+  string tnam = "crpChannelFemb";
+  cout << "Testing tool " << tnam << " in fcl file " << fclnam << endl;
+
+  cout << line << endl;
+  cout << "Creating tool manager from fcl " << fclnam << endl;
+  DuneToolManager* ptm = DuneToolManager::instance(fclnam);
+
+  cout << line << endl;
+  cout << "Fetching tool " << tnam << " from tool manager." << endl;
+  auto ptoo = ptm->getPrivate<IndexMapTool>(tnam);
+  if ( ptoo == nullptr ) return 1;
+
+  cout << line << endl;
+  cout << "Looping over channels." << endl;
+  Index nchan = 3072;
+  map<Index, Index> fembChanCount;
+  Index fmin = 1;
+  Index fmax = 24;
+  for ( Index icha=0; icha<nchan; ++icha ) {
+    Index ifmb = ptoo->get(icha);
+    if ( fembChanCount.count(ifmb) == 0 ) {
+      cout << "Adding FEMB " << ifmb << endl;
+      fembChanCount[ifmb] = 0;
+    }
+    if ( ifmb < fmin ) return 2;
+    if ( ifmb > fmax ) return 3;
+    ++fembChanCount[ifmb];
+  }
+
+  cout << line << endl;
+  cout << "Checking FEMB channel counts." << endl;
+  for ( auto ent : fembChanCount ) {
+    Index ifmb = ent.first;
+    Index count = ent.second;
+    cout << "FEMB " << ifmb << " has " << count << " channels." << endl;
+    if ( count != 128 ) return 4;
+  }
+
+  cout << line << endl;
+  cout << "All tests pass." << endl;
+  return 0;
+}
