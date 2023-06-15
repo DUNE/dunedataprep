@@ -119,7 +119,7 @@ tools.channelGroups: @local::tools.channelGroupsVdcb2
 tools.crpChannelFemb: {
   tool_type: TextIndexMapTool
   LogLevel: 1
-  FileName: "$DUNEPROTOTYPES_DIR/config_data/vdcbce_chanmap_v4.txt"
+  FileName: "vdcbce_chanmap_v4.txt"
   FieldSeparators: " "
   IndexIndex: 0
   ValueIndex: 9
