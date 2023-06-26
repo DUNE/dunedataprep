@@ -22,32 +22,33 @@ tools.tickRanges.plotTicks10000.end:  10000
 # See https://github.com/DUNE/duneprototypes/issues/14.
 
 # Planes: u, v z, extra channels
-data.vdtcb2_planeBounds: [952, 1904, 3072, 3200]
+tmp: @erase
+tmp.vdtcb2_planeBounds: [952, 1904, 3072, 3200]
 
 # group channels by adapter board for CNR filter
-data.crpcb_tde_adau: ["ADA4_U:0:62",       "ADA5_U:62:126",      "ADA6_U:126:190",    "ADA7_U:190:254",
+tmp.crpcb_tde_adau: ["ADA4_U:0:62",       "ADA5_U:62:126",      "ADA6_U:126:190",    "ADA7_U:190:254",
                       "ADA8_U:254:318",    "ADA9_U:318:380",     "ADA10_U:380:412",   "ADA11_U:412:444",
                       "ADA12_U:444:476",   "ADA24_U:476:508",    "ADA23_U:508:540",   "ADA22_U:540:572",
                       "ADA21_U:572:634",   "ADA20_U:634:698",    "ADA19_U:698:762",   "ADA18_U:762:826",
                       "ADA17_U:826:890",   "ADA16_U:890:952"]
 
-data.crpcb_tde_adav: ["ADA1_V:952:984",    "ADA2_V:984:1016",   "ADA3_V:1016:1048", 
+tmp.crpcb_tde_adav: ["ADA1_V:952:984",    "ADA2_V:984:1016",   "ADA3_V:1016:1048", 
                       "ADA4_V:1048:1110",  "ADA5_V:1110:1174",  "ADA6_V:1174:1238", 
                       "ADA7_V:1238:1302",  "ADA8_V:1302:1366",  "ADA9_V:1366:1428",
                       "ADA21_V:1428:1490", "ADA20_V:1490:1554", "ADA19_V:1554:1618",
                       "ADA18_V:1618:1682", "ADA17_V:1682:1746", "ADA16_V:1746:1808",
                       "ADA15_V:1808:1840", "ADA14_V:1840:1872", "ADA13_V:1872:1904"]
 
-data.crpcb_tde_adaz: ["ADA3_Z:1904:2004",  "ADA2_Z:2004:2100",  "ADA1_Z:2100:2196",
+tmp.crpcb_tde_adaz: ["ADA3_Z:1904:2004",  "ADA2_Z:2004:2100",  "ADA1_Z:2100:2196",
                       "ADA10_Z:2196:2296", "ADA11_Z:2296:2392", "ADA12_Z:2392:2488",
                       "ADA24_Z:2488:2584", "ADA23_Z:2584:2680", "ADA22_Z:2680:2780",
                       "ADA13_Z:2780:2876", "ADA14_Z:2876:2972", "ADA15_Z:2972:3072"]
 
-data.crpcb_tde_ada: [ @sequence::data.crpcb_tde_adau,
-                      @sequence::data.crpcb_tde_adav,
-                      @sequence::data.crpcb_tde_adaz ]
+tmp.crpcb_tde_ada: [ @sequence::tmp.crpcb_tde_adau,
+                      @sequence::tmp.crpcb_tde_adav,
+                      @sequence::tmp.crpcb_tde_adaz ]
 
-data.vdtcb2_adaBounds: [ 
+tmp.vdtcb2_adaBounds: [ 
      0,   61,  125,  189,  253,  317,  379,  411,  443,  475,  507,  539,  571,  633,  697,  761,  825,  889,  951,
    983, 1015, 1047, 1109, 1173, 1237, 1301, 1365, 1427, 1489, 1553, 1617, 1681, 1745, 1807, 1839, 1871, 1903,
   2003, 2099, 2195, 2295, 2391, 2487, 2583, 2679, 2779, 2875, 2971, 3071 ]
@@ -71,8 +72,8 @@ tmp.vdcb_chmet_template: {
   MetricBins: 0
   ChannelRanges: [cruC]
   ChannelLineModulus: 0
-  ChannelLinePattern: @local::data.vdtcb2_adaBounds
-  ChannelLinePatternSolid: @local::data.vdtcb2_planeBounds
+  ChannelLinePattern: @local::tmp.vdtcb2_adaBounds
+  ChannelLinePatternSolid: @local::tmp.vdtcb2_planeBounds
   HistName: ""
   HistTitle: ""
   MetricLabel: ""
@@ -118,7 +119,7 @@ tools.channelGroups: @local::tools.channelGroupsVdcb2
 tools.crpChannelFemb: {
   tool_type: TextIndexMapTool
   LogLevel: 1
-  FileName: "$DUNEPROTOTYPES_DIR/config_data/vdcbce_chanmap_v4.txt"
+  FileName: "vdcbce_chanmap_v4.txt"
   FieldSeparators: " "
   IndexIndex: 0
   ValueIndex: 9
@@ -174,7 +175,7 @@ tools.vdtcb2_cnr: {
   tool_type: CnrByGroup
   LogLevel: 1
   Options: ["median"]
-  Groups: @local::data.crpcb_tde_ada
+  Groups: @local::tmp.crpcb_tde_ada
 }
 
 tools.vdtcb2_cnrw: {
@@ -182,7 +183,7 @@ tools.vdtcb2_cnrw: {
   LogLevel: 1
   Weight: "rawRms"
   Options: ["median"]
-  Groups: @local::data.crpcb_tde_ada
+  Groups: @local::tmp.crpcb_tde_ada
 }
 
 ################# Signal finder ####################
@@ -234,7 +235,7 @@ tools.cht_vdcb2_raw: {
   SkipChannelStatus: []
   EmptyColor: 18
   ChannelLineModulus: 3200
-  ChannelLinePattern: @local::data.vdtcb2_adaBounds
+  ChannelLinePattern: @local::tmp.vdtcb2_adaBounds
   Palette: 2020
   HistName: "hadcraw_%CRNAME%_run%0RUN%_evt%0EVENT%"
   HistTitle: "Pedestal subtracted ADC %CRLABEL%"
