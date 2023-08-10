@@ -65,7 +65,7 @@ DataMap AcdDigitReader::update(AdcChannelData& acd) const {
   } else {
     unsigned int nsig = dig.Samples();
     acd.raw.resize(nsig, -999);  // See https://cdcvs.fnal.gov/redmine/issues/11572.
-    if ( nsig < dig.ADCs().size() ) {
+    if ( nsig < dig.ADCs().size() && m_LogLevel >= 4) {
       cout << myname << "WARNING: " << "Uncompressed size is smaller than compressed: "
            << nsig << " < " << dig.ADCs().size() << endl;
     }
