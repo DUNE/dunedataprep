@@ -147,13 +147,13 @@ tools.onlineChannelMapVdcb: {
 
 ##### Channel ranges, groups and map (not yet) for CRP2+
 
-tools.channelRangesVdcb2: {
+tools.channelRangesVdcb1: {
   tool_type: VDColdboxChannelRanges
   LogLevel: 0     # To remove noise in pdChannelRange
   GhostRange: [3200, 3392]
 }
 
-tools.channelGroupsVdcb2: {
+tools.channelGroupsVdcb1: {
   tool_type: VDColdboxChannelGroups
   LogLevel: 0     # To remove noise in pdChannelRange
 }

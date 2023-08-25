@@ -91,16 +91,28 @@ tmp.vdcb_chmet_template: {
 
 ##### Channel ranges, groups and map (not yet) for CRP2+
 
-tools.channelRangesVdcb2: {
+tools.channelRangesCBCrp2: {
   tool_type: CrpChannelRanges
   LogLevel: 1
   Detector: cb2022
 }
 
-tools.channelGroupsVdcb2: {
+tools.channelGroupsCBCrp2: {
   tool_type: CrpChannelGroups
   LogLevel: 1
   Detector: cb2022
+}
+
+tools.channelRangesCBCrp4: {
+  tool_type: CrpChannelRanges
+  LogLevel: 1
+  Detector: "cb2022:fembs"
+}
+
+tools.channelGroupsCBCrp4: {
+  tool_type: CrpChannelGroups
+  LogLevel: 1
+  Detector: "cb2022:fembs"
 }
 
 ### This is the wrong channel map!!
@@ -111,20 +123,30 @@ tools.onlineChannelMapVdcb: {
 
 ##### Default channel ranges and groups
 
-tools.channelRanges: @local::tools.channelRangesVdcb2
-tools.channelGroups: @local::tools.channelGroupsVdcb2
+tools.channelRanges: @local::tools.channelRangesCBCrp2
+tools.channelGroups: @local::tools.channelGroupsCBCrp2
 
 # Return FEMB index (1-16) for a bottom offline relative channel (0-3071).
 # See https://github.com/DUNE/dunedataprep/issues/28
 tools.crpChannelFemb: {
   tool_type: TextIndexMapTool
-  LogLevel: 1
+  LogLevel: 0
   FileName: "vdcbce_chanmap_v4.txt"
   FieldSeparators: " "
   IndexIndex: 0
   ValueIndex: 9
   DefaultValue: 999999
 }
+
+# Return ASIC index (0-7) for a bottom offline relative channel (0-3071).
+# See https://github.com/DUNE/dunedataprep/issues/28
+tools.crpChannelAsic: @local::tools.crpChannelFemb
+tools.crpChannelAsic.ValueIndex: 10
+
+# Return ASIC channel index (0-63) for a bottom offline relative channel (0-3071).
+# See https://github.com/DUNE/dunedataprep/issues/28
+tools.crpChannelAsicChannel: @local::tools.crpChannelFemb
+tools.crpChannelAsic.ValueIndex: 11
 
 ################################################################################
 # Reco tools.
