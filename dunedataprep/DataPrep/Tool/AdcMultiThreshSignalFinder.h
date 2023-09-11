@@ -53,6 +53,7 @@ private:
   AdcIndex  m_BinsAfter;
 
   //
+  // c14: struct is non C compatible for linkage due to void init() member
   typedef struct 
   {
     bool      isRoi;
