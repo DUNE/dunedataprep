@@ -433,8 +433,8 @@ void DataPrepByApaModule::produce(art::Event& evt) {
   unsigned long triggerPerTick = 25;
 
   // Control flags.
-  bool skipAllEvents = false;
-  bool skipEventsWithCorruptDataDropped = false;
+  // bool skipAllEvents = false; // unused
+  // bool skipEventsWithCorruptDataDropped = false; // unused
 
   // Decode the event time.
   Timestamp beginTime = evt.time();
@@ -631,7 +631,7 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     }
     // Check read status.
     string srdstat;
-    bool skipEvent = skipAllEvents;
+    // bool skipEvent = skipAllEvents; // unused
     if ( statsCrn.size() != 1 ) cout << myname << "WARNING: Read status has unexpected size: "
                                      << statsCrn.size() << endl;
     const RDStatus rdstat = statsCrn.at(0);
@@ -643,7 +643,7 @@ void DataPrepByApaModule::produce(art::Event& evt) {
     }
     cout << myname << "Raw data read status: " << std::to_string(rdstat.GetStatWord()) << endl;
     srdstat = "rdstat=" + std::to_string(rdstat.GetStatWord());
-    skipEvent |= skipEventsWithCorruptDataDropped && rdstat.GetCorruptDataDroppedFlag();
+    // skipEvent |= skipEventsWithCorruptDataDropped && rdstat.GetCorruptDataDroppedFlag(); // unused
     // Check the channel clocks from the tool.
     vector<AdcLongIndex> channelClocks;
     vector<ULong64_t> tzeroClockCandidates;   // Candidates for t0 = 0.
