@@ -13,4 +13,5 @@ a sequence of tools for processing.
 If the call also cotains a recob::Wire container, than that container is filled using the channel data.
 
 StandardAdcWireBuildingService ([header](StandardAdcWireBuildingService.h), [source](StandardAdcWireBuildingService_service.cc))
+is used for that last step.
 
