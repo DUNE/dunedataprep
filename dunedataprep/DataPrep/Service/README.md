@@ -15,3 +15,20 @@ If the call also cotains a recob::Wire container, than that container is filled 
 StandardAdcWireBuildingService ([header](StandardAdcWireBuildingService.h), [source](StandardAdcWireBuildingService_service.cc))
 is used for that last step.
 
+Here are some example configurations for these services:
+<pre>
+  RawDigitPrepService: {
+    CallgrindToolNames: []
+    DoWires: "false"
+    LogLevel: 3
+    ToolNames: ["digitReader", "adcSampleFiller", "adcScaleAdcToKe", "cht_vdcb2u_prp", "cht_vdcb2v_prp", "cht_vdcb2z_prp", "vdcb2_adcChannelSamRmsPlotter", "vdcb2_adcChannelSamRms30Plotter", "vdcb2_adcChannelSamRms50Plotter", "adcKeepAllSignalFinder"]
+    service_provider: "ToolBasedRawDigitPrepService"
+  }
+  
+  AdcWireBuildingService: {
+    LogLevel: 1
+    service_provider: "StandardAdcWireBuildingService"
+  }
+</pre>
+Note each is referenced by the name of its base class.
+
