@@ -7,5 +7,10 @@ Most are obsolete and were replaced by tools many years ago whe dataprep was upg
 The exceptions are:
 
 ToolBasedRawDigitPrepService ([header](ToolBasedRawDigitPrepService.h), [source](ToolBasedRawDigitPrepService_service.cc))
-is called by the dataprep modules (see [../Modules](../Modules))
+is called by the dataprep modules (see [../Modules](../Modules)).
+It provides method _prepare_ which is passed dataprep channel (_AdcChannelDataMap_) which it passes to
+a sequence of tools for processing.
+If the call also cotains a recob::Wire container, than that container is filled using the channel data.
+
+StandardAdcWireBuildingService ([header](StandardAdcWireBuildingService.h), [source](StandardAdcWireBuildingService_service.cc))
 
