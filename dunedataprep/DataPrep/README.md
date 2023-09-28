@@ -1,4 +1,6 @@
 # DataPrep
+David Adams  
+Updated: September 2023
 
 DUNE dataprep is a collection of utilities, tools, services and modules that aid in the reconstruction of DUNE TPC data.
 All but the utilities follow the art conventions and are fcl configured at run time and are dynamically loaded.
@@ -27,5 +29,5 @@ Those implementing only the AdcChannelTool interface are contained in and descri
 while those that implement other parts of the interface are in [DataPrep/TpcTool](TpcTool).
 Modules that make it possible to incorporate a dataprep sequence in the larsoft event processing sequence
 are in [DataPrep/Module](Module).
-Services are in [DataPrep/Service] but most of these are obsolete and have been replaced by tools.
+Services are in [DataPrep/Service(Service)] but most of these are obsolete and have been replaced by tools.
 Supporting utility classes, i.e. ordinary classes without fcl configuration or dynamic loading, are in [DataPrep/Utilities](Utilities).
