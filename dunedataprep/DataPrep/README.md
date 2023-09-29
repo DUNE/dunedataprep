@@ -13,9 +13,9 @@ part of that interface.
 The heart of low-level dataprep processing is the
 [AdcChannelData](https://github.com/DUNE/dunecore/blob/develop/dunecore/DuneInterface/Data/AdcChannelData.h)
 data class whichh holds the raw and *prepared* data, i.e. the waveforms, for a single readout channel.
-It also hold a collection of 2D (channel-tick) ROI (region of interest) objects.
 The higher-level [TpcData](https://github.com/DUNE/dunecore/blob/develop/dunecore/DuneInterface/Data/TpcData.h)
 holds channel-indexed maps of these channel data objects each typically describing a wire plane.
+It also hold a collection of 2D (channel-tick) ROI (region of interest) objects.
 The TpcDataTool interface receives a TpcData object and the implementing class may modify the data, typically updating the prepared waveform,
 and/or use that data to fill histograms or create displays.
 
