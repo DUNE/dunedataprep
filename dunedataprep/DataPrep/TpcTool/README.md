@@ -10,4 +10,4 @@ For more information, follow the links to the header files.
 
 [Roi2dToAdc](Roi2dToAdc.h) - The signals from each 2D ROI are added to the correponding ADC channel map.
 
-[Tpc2dDeconvolute](Tpc2dDeconvolute) - Use DFT to deconvolute each 2D ROI.
+[Tpc2dDeconvolute](Tpc2dDeconvolute.h) - Use DFT to deconvolute each 2D ROI.
