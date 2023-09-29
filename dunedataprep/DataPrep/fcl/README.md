@@ -1,6 +1,9 @@
-## dunedataprep/dunedataprep/DataPrep/fcl
+# DataPrep/fcl
+David Adams  
+Updated: September 2023
 
-Fcl configuration files for dataprep. These are not top-level config
+This directory contains fcl configuration files for dataprep. These are not top-level.
+Many are specific to specific prototype detectors and might be better located in the correponding repositories.
 
 * [dataprep_dune.fcl](dataprep_dune.fcl) - Generic prolog including dataprep module configs.
 * [dataprep_tools.fcl](dataprep_tools.fcl) - Generic tool configs.
