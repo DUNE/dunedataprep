@@ -12,8 +12,11 @@ It provides method _prepare_ which is passed dataprep channel (_AdcChannelDataMa
 a sequence of tools for processing.
 If the call also cotains a recob::Wire container, than that container is filled using the channel data.
 
+TpcToolBasedRawDigitPrepService ([header](TpcToolBasedRawDigitPrepService.h), [source](TpcToolBasedRawDigitPrepService_service.cc))
+is an alternative that calls a sequence of tools to process _TpcData_ instead e.g. to process an APA instead of an APA plane.
+
 StandardAdcWireBuildingService ([header](StandardAdcWireBuildingService.h), [source](StandardAdcWireBuildingService_service.cc))
-is used for that last step.
+is used by the above to construct recob::Wire containers from the dataprep data. 
 
 Here are some example configurations for these services:
 <pre>
