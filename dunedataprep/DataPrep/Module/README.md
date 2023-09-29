@@ -16,3 +16,26 @@ to read the raw digits for selected APAs using a tool.
 This was used for ProtoDUNE-SP and intended for it and other detectors where dataprep can be run one APA at a time
 to reduce memory consumption.
 
+Here is an example fcl configuration of the second tool:
+<pre>
+  producers: {
+    caldata: {
+      ApaChannelCounts: [2560]
+      BeamEventLabel: ""
+      ChannelGroups: ["all"]
+      DecoderTool: "vdtool"
+      DeltaTickCount: 0.005
+      DigitLabel: "tpcrawdecoder:daq"
+      KeepChannels: []
+      LogLevel: 3
+      OnlineChannelMapTool: "onlineChannelMapVdcb"
+      OutputDigitName: ""
+      OutputTimeStampName: ""
+      OutputWireName: ""
+      SkipChannels: []
+      SkipEmptyChannels: "true"
+      module_type: "DataModule"
+    }
+    ...
+  }
+</pre>
