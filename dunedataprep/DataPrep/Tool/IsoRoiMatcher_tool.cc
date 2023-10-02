@@ -99,7 +99,7 @@ IsoRoiMatcher::IsoRoiMatcher(fhicl::ParameterSet const& ps)
     cout << "]" << endl;
     
     if ( m_GroupSets.size() ) {
-      for( auto const gset : m_GroupSets ){
+      for( auto const &gset : m_GroupSets ){
 	cout << myname << "     Group   #chan" << endl;
 	for ( const auto& ient : gset ) {
 	  cout << myname << setw(10) << ient.name << setw(3) << ient.ropid
@@ -119,7 +119,7 @@ IsoRoiMatcher::IsoRoiMatcher(fhicl::ParameterSet const& ps)
   }
   
   // loop over intercept maps
-  for( auto const gset : m_GroupSets ){
+  for( auto const &gset : m_GroupSets ){
     auto const &col   = gset.back();
     auto const &chans = col.channels;
     for( auto const &ch: chans ){ // loop over collection channels
@@ -165,7 +165,7 @@ DataMap IsoRoiMatcher::updateMap(AdcChannelDataMap& acds) const {
   //
   //ChRoiVector2d matched_iso_rois;
   ChRoiVector2d matchedIsoRois;
-  for( auto const gset : m_GroupSets ){
+  for( auto const &gset : m_GroupSets ){
     if( gset.size() != nsrops + 1 ){
       cout<<myname<<"ERROR : bad number of channel groups : "<<gset.size()<<endl;
       continue;
@@ -597,7 +597,7 @@ void IsoRoiMatcher::buildInterceptsMap(){
   size_t nsrops = nrops - 1;
 
   m_ChIntercepts.resize(nsrops);
-  for( auto const gset : m_GroupSets ){
+  for( auto const &gset : m_GroupSets ){
     auto const &col = gset.back();
     IndexRange idxrange = std::make_pair( col.channels[0], col.channels.back()+1 );
     for( size_t idx = 0;idx < nsrops; ++idx ){

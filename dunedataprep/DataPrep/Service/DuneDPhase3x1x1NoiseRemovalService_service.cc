@@ -432,10 +432,12 @@ void DuneDPhase3x1x1NoiseRemovalService::removeSlope(AdcChannelDataMap& datamap)
         }
     }
 
-    double y, sx = 0, sy = 0, sxy = 0, sx2 = 0, sy2 = 0;
+    // double y, sx = 0, sy = 0, sxy = 0, sx2 = 0, sy2 = 0; // sy2 unused
+    double y, sx = 0, sy = 0, sxy = 0, sx2 = 0;
     for (size_t s = 0; s < n_samples; ++s)
     {
-        y = slope[s]; sx += s; sy += y; sxy += s*y; sx2 += s*s; sy2 += y*y;
+        // y = slope[s]; sx += s; sy += y; sxy += s*y; sx2 += s*s; sy2 += y*y; // sy2 unused
+        y = slope[s]; sx += s; sy += y; sxy += s*y; sx2 += s*s;
     }
 
     double ssx = sx2 - ((sx * sx) / n_samples);
