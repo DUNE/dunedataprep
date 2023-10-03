@@ -66,7 +66,7 @@ DataMap AcdWireReader::update(AdcChannelData& acd) const {
   acd.samples.resize(nsig, 0.0);
   acd.signal.resize(nsig, false);
   const lar::sparse_vector<float>& inRois = pwir->SignalROI();
-  for ( const lar::sparse_vector<double>::datarange_t& range : inRois.get_ranges()) {
+  for ( const lar::sparse_vector<double>::datarange_t range : inRois.get_ranges()) {
     unsigned int isig1 = range.begin_index();
     unsigned int isig2 = isig1 + range.size();
     for ( unsigned int isig=isig1; isig<isig2; ++isig ) {

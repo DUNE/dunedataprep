@@ -372,7 +372,7 @@ tools.vdcb2_adcChannelSamRmsGetter: @local::tmp.vdcb_chmet_template
 tools.vdcb2_adcChannelSamRmsGetter.Metric: samRms
 
 tools.vdcb2_adcChannelSamRmsPlotter: @local::tools.vdcb2_adcChannelSamRmsGetter
-tools.vdcb2_adcChannelSamRmsPlotter.MetricMax: 0.4
+tools.vdcb2_adcChannelSamRmsPlotter.MetricMax: 0.5
 tools.vdcb2_adcChannelSamRmsPlotter.HistName: "hchmet%CRNAME%_samrms_%0RUN%_%0EVENT%"
 tools.vdcb2_adcChannelSamRmsPlotter.HistTitle: "Sample RMS for run %RUN% event %EVENT% %CRLABEL%"
 tools.vdcb2_adcChannelSamRmsPlotter.MetricLabel: "RMS [ke]"

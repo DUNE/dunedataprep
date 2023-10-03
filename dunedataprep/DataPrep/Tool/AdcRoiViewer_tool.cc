@@ -1139,7 +1139,7 @@ void AdcRoiViewer::fillSumHists(const AdcChannelData& acd, const DataMap& dm) co
   // Loop over summary histogram templates.
   Index nhst = 0;
   Index nhstGood = 0;
-  for ( const HistInfoMap::value_type ish : getState().sumHistTemplates ) {
+  for ( const HistInfoMap::value_type &ish : getState().sumHistTemplates ) {
     const HistInfo& hin0 = ish.second;
     ++nhst;
     Name varx = hin0.varx;
@@ -1526,7 +1526,7 @@ void AdcRoiViewer::writeSumPlots(const DataMap* pdmin) const {
   if ( npad == 0 ) return;
   if (  m_LogLevel >= 1 ) cout << myname << "Plotting " << nvec << " set"
                                << (nvec == 1 ? "" : "s") << " of summary histograms " << endl;
-  for ( const HistVectorMap::value_type ihv : getState().sumPlotHists ) {
+  for ( const HistVectorMap::value_type &ihv : getState().sumPlotHists ) {
     Name plotNameTemplate = ihv.first;
     const HistVector& hsts = ihv.second;
     TPadManipulator* pmantop = nullptr;
