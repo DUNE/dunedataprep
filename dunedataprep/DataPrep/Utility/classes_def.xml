@@ -1,3 +1,4 @@
 <lcgdict>
   <class name="TickModTreeData" classVersion="1"/>
+  <class name="std::pair<TString,int>"/>
 </lcgdict>
