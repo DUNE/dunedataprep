@@ -8,6 +8,7 @@
 #include <boost/functional/hash.hpp>
 
 // larsoft
+#include "larcore/Geometry/WireReadout.h"
 #include "larcore/Geometry/Geometry.h"
 #include "canvas/Utilities/Exception.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
@@ -44,24 +45,19 @@ DetectorChannelInfo::DetectorChannelInfo( int loglevel ) : m_LogLevel(loglevel)
   const string myname = "DetectorChannelInfo::ctor: ";
   
   //
-  // get geometry
-  art::ServiceHandle<geo::Geometry> geo;
+  geo::WireReadoutGeom const& wireReadout = art::ServiceHandle<geo::WireReadout>()->Get();
 
   
   // get drift axis for this geometry
-  m_DriftAxis = getDriftDir( geo->TPC() );
+  m_DriftAxis = art::ServiceHandle<geo::Geometry>()->TPC().DriftAxisWithSign().coordinate;
   if( m_LogLevel > 1 ){
     cout<<myname<<"Drift coordinate is "<<m_DriftAxis<<endl;
-  }
-  if( m_DriftAxis >= 2 ){
-    cout<<myname<<"ERROR drift coordinate "<<m_DriftAxis<<" is not supported\n";
-    throw art::Exception(art::errors::Configuration, "InvalidDriftCoordinate");
   }
 
 
   //
-  m_Chans   = geo->Nchannels();
-  m_MaxRop  = geo->MaxROPs(); 
+  m_Chans   = wireReadout.Nchannels();
+  m_MaxRop  = wireReadout.MaxROPs(); 
   if( m_MaxRop > 3 ){ 
     cout<<myname<<"ERROR number of readout planes > 3 is not supported\n";
     throw art::Exception(art::errors::Configuration, "InvalidNumberOfROPs");
@@ -74,10 +70,10 @@ DetectorChannelInfo::DetectorChannelInfo( int loglevel ) : m_LogLevel(loglevel)
   
   //
   m_RopChRanges.resize( m_MaxRop );
-  for( auto const& rop : geo->Iterate<readout::ROPID>() ){
+  for( auto const& rop : wireReadout.Iterate<readout::ROPID>() ){
     Index ropid = rop.ROP;
-    Index fch   = geo->FirstChannelInROP( rop );
-    Index nch   = geo->Nchannels( rop );
+    Index fch   = wireReadout.FirstChannelInROP( rop );
+    Index nch   = wireReadout.Nchannels( rop );
     Index lch   = fch + nch;
     for( Index i = fch;i<lch; ++i ){
       m_ChanToRop.insert( std::make_pair( i, ropid ) );
@@ -88,10 +84,10 @@ DetectorChannelInfo::DetectorChannelInfo( int loglevel ) : m_LogLevel(loglevel)
   //
   Index wid_cnt = 0;
   
-  for (auto const& wid : geo->Iterate<geo::WireID>()) {
-    Index  chan = geo->PlaneWireToChannel(wid);
+  for (auto const& wid : wireReadout.Iterate<geo::WireID>()) {
+    Index  chan = wireReadout.PlaneWireToChannel(wid);
     size_t hash = wid_hash( wid );
-    auto   rop  = geo->ChannelToROP( chan );
+    auto   rop  = wireReadout.ChannelToROP( chan );
     
     // wire to channel
     {
@@ -105,7 +101,7 @@ DetectorChannelInfo::DetectorChannelInfo( int loglevel ) : m_LogLevel(loglevel)
       ch_geo_info.chan  = chan;
       ch_geo_info.ropid = rop.ROP;
       ch_geo_info.wid   = wid;
-      auto ends = geo->WireEndPoints(wid);
+      auto ends = wireReadout.WireEndPoints(wid);
       ch_geo_info.endpnt1 = makeCoord2d( ends.first );
       ch_geo_info.endpnt2 = makeCoord2d( ends.second );
       m_ChGeoInfo.insert( std::make_pair( hash, ch_geo_info ) );
@@ -137,29 +133,11 @@ DetectorChannelInfo::~DetectorChannelInfo()
 {;}
 
 //
-//
-short int dataprep::util::
-DetectorChannelInfo::getDriftDir( const geo::TPCGeo &tpc ){
-
-  const string myname = "DetectorChannelInfo::getDriftDir: ";
-  
-  short int val   = std::abs(tpc.DetectDriftDirection());
-  
-  if( val == 0 ){
-    if( m_LogLevel > 0 ){
-      cout<<myname<<"WARNING could not get drift direction assuming X\n";
-    }
-  } else { val = val - 1; }
-
-  return val;
-}
-
-//
 // reduce 3D to 2D by removing the drift coordinate
 Point2d_t dataprep::util::
 DetectorChannelInfo::makeCoord2d( const geo::Point_t &pnt ){
   Point2d_t p;
-  if( m_DriftAxis == 1 ){
+  if( m_DriftAxis == geo::Coordinate::Y ){
     p.SetXY( pnt.X(), pnt.Z() );
   } else { //default to X drift
     p.SetXY( pnt.Y(), pnt.Z() );
