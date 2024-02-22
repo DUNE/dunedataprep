@@ -5,18 +5,18 @@
 
 # Add plugin for each service.
 
-include_directories(AFTER $ENV{VALGRIND_INC})
+include_directories(AFTER $ENV{VALGRIND_INC}) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.22.02) - avoid directory-scope functions: use target_link_libraries() with target semantics or target_include_directories() whenever possible
 
 cet_build_plugin(ConfigurableAdcChannelDataCopyService   art::service
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(InterpolatingAdcMitigationService   art::service
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(StandardRawDigitExtractService   art::service
@@ -24,20 +24,20 @@ cet_build_plugin(StandardRawDigitExtractService   art::service
                 lardataobj_RawData
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(ThresholdNoiseRemovalService   art::service
                 larcorealg_Geometry
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(MultiChannelNoiseRemovalService   art::service
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(DuneDPhase3x1x1NoiseRemovalService   art::service
@@ -45,28 +45,28 @@ cet_build_plugin(DuneDPhase3x1x1NoiseRemovalService   art::service
                 larcorealg_Geometry
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
-                ROOT_FFTW
+                ROOT::Core
+                ROOT::FFTW
                 lardataobj_RawData
              )
 
 cet_build_plugin(MedianPedestalService   art::service
-		ART_FRAMEWORK_SERVICES_REGISTRY
+		art::Framework_Services_Registry
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(AdcSuppressSignalFindingService art::service
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(DuneDeconvolutionService art::service
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
                 dunecore::SignalShapingServiceDUNE_service
              )
 
@@ -74,27 +74,27 @@ cet_build_plugin(DuneDPhaseDeconvolutionService art::service
 		lardata_Utilities
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
                 dunecore::SignalShapingServiceDUNEDPhase_service
              )
 
 cet_build_plugin(KeepAllRoiBuildingService art::service
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(DuneRoiBuildingService art::service
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
                 dunecore::SignalShapingServiceDUNE_service
              )
 
 cet_build_plugin(DuneDPhaseRoiBuildingService art::service
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
                 dunecore::SignalShapingServiceDUNEDPhase_service
              )
 
@@ -103,7 +103,7 @@ cet_build_plugin(StandardAdcWireBuildingService art::service
                 lardata_ArtDataHelper
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(ToolBasedRawDigitPrepService   art::service
@@ -112,7 +112,7 @@ cet_build_plugin(ToolBasedRawDigitPrepService   art::service
                 lardataobj_RecoBase
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(TpcToolBasedRawDigitPrepService   art::service
@@ -122,7 +122,7 @@ cet_build_plugin(TpcToolBasedRawDigitPrepService   art::service
                 lardataobj_RecoBase
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 cet_build_plugin(StandardRawDigitPrepService   art::service
@@ -131,7 +131,7 @@ cet_build_plugin(StandardRawDigitPrepService   art::service
                 lardataobj_RecoBase
                 art::Utilities canvas
                 cetlib::cetlib cetlib_except
-                ROOT_BASIC_LIB_LIST
+                ROOT::Core
              )
 
 add_subdirectory(test)

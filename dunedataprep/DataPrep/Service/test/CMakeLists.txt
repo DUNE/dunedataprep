@@ -13,94 +13,93 @@ cet_test(test_ConfigurableAdcChannelDataCopyService
   SOURCES
     test_ConfigurableAdcChannelDataCopyService.cxx
   LIBRARIES
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
+    art::Framework_Services_Registry
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_StandardRawDigitExtractService
   SOURCES
     test_StandardRawDigitExtractService.cxx
   LIBRARIES
-    dunecore_ArtSupport
-    lardataobj_RawData
+    dunecore::ArtSupport
+    lardataobj::RawData
     art::Utilities
+    art::Framework_Services_Registry
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_InterpolatingAdcMitigationService
   SOURCES
     test_InterpolatingAdcMitigationService.cxx
   LIBRARIES
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
+    art::Framework_Services_Registry
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_ThresholdNoiseRemovalService
   SOURCES
     test_ThresholdNoiseRemovalService.cxx
   LIBRARIES
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
+    art::Framework_Services_Registry
     cetlib::cetlib
-    cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_MultiChannelNoiseRemovalService
   SOURCES
     test_MultiChannelNoiseRemovalService.cxx
   LIBRARIES
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
+    art::Framework_Services_Registry
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_MedianPedestalService
   SOURCES
     test_MedianPedestalService.cxx
   LIBRARIES
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
+    art::Framework_Services_Registry
     canvas::canvas
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_AdcSuppressSignalFindingService
   SOURCES
     test_AdcSuppressSignalFindingService.cxx
   LIBRARIES
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
+    art::Framework_Services_Registry
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_DuneDeconvolutionService
@@ -108,26 +107,25 @@ cet_test(test_DuneDeconvolutionService
     test_DuneDeconvolutionService.cxx
   LIBRARIES
     dunecore::SignalShapingServiceDUNE_service
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_KeepAllRoiBuildingService
   SOURCES
     test_KeepAllRoiBuildingService.cxx
   LIBRARIES
-    dunecore_ArtSupport
+    dunecore::ArtSupport
+    art::Framework_Services_Registry
     art::Utilities
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_DuneRoiBuildingService
@@ -135,69 +133,68 @@ cet_test(test_DuneRoiBuildingService
     test_DuneRoiBuildingService.cxx
   LIBRARIES
     dunedataprep_DataPrep_Service_DuneRoiBuildingService_service
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_StandardAdcWireBuildingService
   SOURCES
     test_StandardAdcWireBuildingService.cxx
   LIBRARIES
-    dunecore_ArtSupport
-    lardataobj_RawData
+    dunecore::ArtSupport
+    art::Framework_Services_Registry
+    lardataobj::RawData
     art::Utilities
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_StandardRawDigitPrepService
   SOURCES
     test_StandardRawDigitPrepService.cxx
   LIBRARIES
-    dunecore_ArtSupport
-    lardataobj_RawData
+    dunecore::ArtSupport
+    lardataobj::RawData
     art::Utilities
+    art::Framework_Services_Registry
     canvas::canvas
-    ART_FRAMEWORK_SERVICES_REGISTRY
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_ToolBasedRawDigitPrepService
   SOURCES
     test_ToolBasedRawDigitPrepService.cxx
   LIBRARIES
-    dunecore_ArtSupport
-    lardataobj_RawData
+    dunecore::ArtSupport
+    lardataobj::RawData
     art::Utilities
+    art::Framework_Services_Registry
     canvas::canvas
-    ROOT_HIST
-    ART_FRAMEWORK_SERVICES_REGISTRY
+    ROOT::Hist
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )
 
 cet_test(test_TpcToolBasedRawDigitPrepService
   SOURCES
     test_TpcToolBasedRawDigitPrepService.cxx
   LIBRARIES
-    dunecore_ArtSupport
-    lardataobj_RawData
+    dunecore::ArtSupport
+    lardataobj::RawData
     art::Utilities
+    art::Framework_Services_Registry
     canvas::canvas
-    ROOT_HIST
-    ART_FRAMEWORK_SERVICES_REGISTRY
+    ROOT::Hist
     cetlib::cetlib
     cetlib_except::cetlib_except
-    ROOT_BASIC_LIB_LIST
+    ROOT::Core
 )

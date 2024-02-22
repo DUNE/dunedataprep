@@ -9,37 +9,8 @@ include(CetTest)
 
 cet_test(test_AdcToRoi2d SOURCES test_AdcToRoi2d.cxx
   LIBRARIES
-    dunecore_DuneInterface_Data
-    dunecore_ArtSupport
-    art::Utilities
-    canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
-    cetlib_except::cetlib_except
-    SQLITE3
-    Boost::filesystem
-    ROOT_BASIC_LIB_LIST
-)
-
-cet_test(test_Roi2dToAdc SOURCES test_Roi2dToAdc.cxx
-  LIBRARIES
-    dunecore_DuneInterface_Data
-    dunecore_ArtSupport
-    art::Utilities
-    canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
-    cetlib_except::cetlib_except
-    SQLITE3
-    Boost::filesystem
-    ROOT_BASIC_LIB_LIST
-)
-
-cet_test(test_Tpc2dDeconvolute SOURCES test_Tpc2dDeconvolute.cxx
-  LIBRARIES
-    dunecore_DuneCommon_Utility
-    dunecore_DuneInterface_Data
-    dunecore_ArtSupport
+    dunecore::DuneInterface_Data
+    dunecore::ArtSupport
     art::Utilities
     canvas::canvas
     fhiclcpp
@@ -47,7 +18,36 @@ cet_test(test_Tpc2dDeconvolute SOURCES test_Tpc2dDeconvolute.cxx
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
-    ${ROOT_BASIC_LIB_LIST}
+    ROOT::Core
+)
+
+cet_test(test_Roi2dToAdc SOURCES test_Roi2dToAdc.cxx
+  LIBRARIES
+    dunecore::DuneInterface_Data
+    dunecore::ArtSupport
+    art::Utilities
+    canvas::canvas
+    fhiclcpp
+    cetlib::cetlib cetlib_except
+    cetlib_except::cetlib_except
+    SQLite::SQLite3
+    Boost::filesystem
+    ROOT::Core
+)
+
+cet_test(test_Tpc2dDeconvolute SOURCES test_Tpc2dDeconvolute.cxx
+  LIBRARIES
+    dunecore::DuneCommon_Utility
+    dunecore::DuneInterface_Data
+    dunecore::ArtSupport
+    art::Utilities
+    canvas::canvas
+    fhiclcpp
+    cetlib::cetlib cetlib_except
+    cetlib_except::cetlib_except
+    SQLite::SQLite3
+    Boost::filesystem
+    ROOT::Core
 )
 
 cet_enable_asserts()

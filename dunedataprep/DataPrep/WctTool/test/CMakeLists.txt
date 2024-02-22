@@ -11,7 +11,7 @@ foreach (_variableName ${_variableNames})
     message(STATUS "${_variableName}=${${_variableName}}")
 endforeach()
 
-include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories(${EIGEN3_INCLUDE_DIR}) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.22.02) - avoid directory-scope functions: use target_link_libraries() with target semantics or target_include_directories() whenever possible
 
 include(CetTest)
 
@@ -20,17 +20,18 @@ cet_test(test_wirecell
   SOURCES
     test_wirecell.cxx
   LIBRARIES
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
     canvas::canvas
     fhiclcpp
     cetlib::cetlib cetlib_except
     cetlib_except::cetlib_except
-    SQLITE3
+    SQLite::SQLite3
     Boost::filesystem
-    ROOT_BASIC_LIB_LIST
-    WIRECELL_LIBS
-    JSONCPP_LIBS
+    ROOT::Core
+    ${WIRECELL_LIBS}
+    jsoncpp::jsoncpp
+    Eigen3::Eigen
 )
 
 get_target_property(myincs test_wirecell INCLUDE_DIRECTORIES)
