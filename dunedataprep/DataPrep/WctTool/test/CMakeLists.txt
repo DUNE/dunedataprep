@@ -30,7 +30,6 @@ cet_test(test_wirecell
     Boost::filesystem
     ROOT_BASIC_LIB_LIST
     WIRECELL_LIBS
-    JSONCPP_LIBS
 )
 
 get_target_property(myincs test_wirecell INCLUDE_DIRECTORIES)
