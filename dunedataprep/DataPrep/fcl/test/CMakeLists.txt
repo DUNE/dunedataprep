@@ -6,7 +6,7 @@
 #cet_test(test_tool_crpChannelFemb_root HANDBUILT TEST_EXEC root.exe DATAFILES test_tool_crpChannelFemb)
 
 #cet_test(test_tool_crpChannelFemb
-#  SOURCES
+#  SOURCE
 #    test_tool_crpChannelFemb.cxx
 #  LIBRARIES
 #    dunecore_ArtSupport
