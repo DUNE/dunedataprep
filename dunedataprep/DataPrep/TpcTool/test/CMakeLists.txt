@@ -7,43 +7,43 @@
 
 include(CetTest)
 
-cet_test(test_AdcToRoi2d SOURCES test_AdcToRoi2d.cxx
+cet_test(test_AdcToRoi2d SOURCE test_AdcToRoi2d.cxx
   LIBRARIES
     dunecore::DuneInterface_Data
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
 )
 
-cet_test(test_Roi2dToAdc SOURCES test_Roi2dToAdc.cxx
+cet_test(test_Roi2dToAdc SOURCE test_Roi2dToAdc.cxx
   LIBRARIES
     dunecore::DuneInterface_Data
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
 )
 
-cet_test(test_Tpc2dDeconvolute SOURCES test_Tpc2dDeconvolute.cxx
+cet_test(test_Tpc2dDeconvolute SOURCE test_Tpc2dDeconvolute.cxx
   LIBRARIES
     dunecore::DuneCommon_Utility
     dunecore::DuneInterface_Data
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem

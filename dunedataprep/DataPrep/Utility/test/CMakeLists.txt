@@ -7,12 +7,12 @@
 
 include(CetTest)
 
-cet_test(test_StickyCodeMetrics SOURCES test_StickyCodeMetrics.cxx
+cet_test(test_StickyCodeMetrics SOURCE test_StickyCodeMetrics.cxx
   LIBRARIES
     dunedataprep_DataPrep_Utility
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem

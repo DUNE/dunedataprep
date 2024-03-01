@@ -8,14 +8,14 @@
 include(CetTest)
 
 cet_test(test_StandardAdcChannelStringTool
-  SOURCES
+  SOURCE
     test_StandardAdcChannelStringTool.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -23,14 +23,14 @@ cet_test(test_StandardAdcChannelStringTool
 )
 
 cet_test(test_AdcResultDumper
-  SOURCES
+  SOURCE
     test_AdcResultDumper.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -38,14 +38,14 @@ cet_test(test_AdcResultDumper
 )
 
 cet_test(test_AdcChannelDumper
-  SOURCES
+  SOURCE
     test_AdcChannelDumper.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -53,14 +53,14 @@ cet_test(test_AdcChannelDumper
 )
 
 cet_test(test_AdcChannelPlotter
-  SOURCES
+  SOURCE
     test_AdcChannelPlotter.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -68,15 +68,15 @@ cet_test(test_AdcChannelPlotter
 )
 
 cet_test(test_AdcTickModViewer
-  SOURCES
+  SOURCE
     test_AdcTickModViewer.cxx
   LIBRARIES
     dunedataprep_DataPrep_Utility
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -84,14 +84,14 @@ cet_test(test_AdcTickModViewer
 )
 
 cet_test(test_AdcChannelTrimmer
-  SOURCES
+  SOURCE
      test_AdcChannelTrimmer.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -99,14 +99,14 @@ cet_test(test_AdcChannelTrimmer
 )
 
 cet_test(test_AdcChannelSplitter
-  SOURCES
+  SOURCE
     test_AdcChannelSplitter.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -114,14 +114,14 @@ cet_test(test_AdcChannelSplitter
 )
 
 cet_test(test_AdcPedestalFitter
-  SOURCES
+  SOURCE
     test_AdcPedestalFitter.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -129,14 +129,14 @@ cet_test(test_AdcPedestalFitter
 )
 
 cet_test(test_AdcCodeMitigator
-  SOURCES
+  SOURCE
     test_AdcCodeMitigator.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -144,15 +144,15 @@ cet_test(test_AdcCodeMitigator
 )
 
 cet_test(test_ExpTailRemover
-  SOURCES
+  SOURCE
     test_ExpTailRemover.cxx
   LIBRARIES
     dunecore::ArtSupport
     dunecore::DuneCommon_Utility
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -160,15 +160,15 @@ cet_test(test_ExpTailRemover
 )
 
 cet_test(test_ExpTailPedRemover
-  SOURCES
+  SOURCE
     test_ExpTailPedRemover.cxx
   LIBRARIES
     dunecore::ArtSupport
     dunecore::DuneCommon_Utility
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -176,14 +176,14 @@ cet_test(test_ExpTailPedRemover
 )
 
 cet_test(test_VintageDeconvoluter
-  SOURCES
+  SOURCE
     test_VintageDeconvoluter.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -191,14 +191,14 @@ cet_test(test_VintageDeconvoluter
 )
 
 cet_test(test_AdcSampleScaler
-  SOURCES
+  SOURCE
     test_AdcSampleScaler.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -206,14 +206,14 @@ cet_test(test_AdcSampleScaler
 )
 
 cet_test(test_AdcRangeSampleScaler
-  SOURCES
+  SOURCE
     test_AdcRangeSampleScaler.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -221,14 +221,14 @@ cet_test(test_AdcRangeSampleScaler
 )
 
 cet_test(test_AdcDataDumper
-  SOURCES
+  SOURCE
     test_AdcDataDumper.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -236,14 +236,14 @@ cet_test(test_AdcDataDumper
 )
 
 cet_test(test_AdcEventViewer
-  SOURCES
+  SOURCE
 test_AdcEventViewer.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -252,14 +252,14 @@ test_AdcEventViewer.cxx
 )
 
 cet_test(test_AdcDataPlotter
-  SOURCES
+  SOURCE
     test_AdcDataPlotter.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -268,17 +268,17 @@ cet_test(test_AdcDataPlotter
 )
 
 cet_test(test_AdcDetectorPlotter
-  SOURCES
+  SOURCE
     test_AdcDetectorPlotter.cxx
   LIBRARIES
     art::Framework_Services_Registry
     dunecore::ArtSupport
     dunecore::Geometry
-    larcorealg_Geometry
+    larcorealg::Geometry
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -287,16 +287,16 @@ cet_test(test_AdcDetectorPlotter
 )
 
 cet_test(test_AdcChannelMetric
-  SOURCES
+  SOURCE
     test_AdcChannelMetric.cxx
   LIBRARIES
     dunecore::ArtSupport
     dunecore::Geometry
-    larcorealg_Geometry
+    larcorealg::Geometry
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -304,15 +304,16 @@ cet_test(test_AdcChannelMetric
 )
 
 cet_test(test_AcdDigitReader
-  SOURCES
+  SOURCE
     test_AcdDigitReader.cxx
   LIBRARIES
-    lardataobj_RawData
+    lardataobj::RawData
     dunecore::ArtSupport
+    lardataobj::RawData
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -320,14 +321,14 @@ cet_test(test_AcdDigitReader
 )
 
 cet_test(test_AdcSampleFiller
-  SOURCES
+  SOURCE
     test_AdcSampleFiller.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -335,14 +336,14 @@ cet_test(test_AdcSampleFiller
 )
 
 cet_test(test_FclStickyCodeFlagger
-  SOURCES
+  SOURCE
     test_FclStickyCodeFlagger.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -350,14 +351,14 @@ cet_test(test_FclStickyCodeFlagger
 )
 
 cet_test(test_AdcKeepAllSignalFinder
-  SOURCES
+  SOURCE
     test_AdcKeepAllSignalFinder.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -365,14 +366,14 @@ cet_test(test_AdcKeepAllSignalFinder
 )
 
 cet_test(test_AdcThresholdSignalFinder
-  SOURCES
+  SOURCE
     test_AdcThresholdSignalFinder.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -380,14 +381,14 @@ cet_test(test_AdcThresholdSignalFinder
 )
 
 cet_test(test_AdcNoiseSignalFinder
-  SOURCES
+  SOURCE
     test_AdcNoiseSignalFinder.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -395,14 +396,14 @@ cet_test(test_AdcNoiseSignalFinder
 )
 
 cet_test(test_AdcRoiShifter
-  SOURCES
+  SOURCE
     test_AdcRoiShifter.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -410,14 +411,14 @@ cet_test(test_AdcRoiShifter
 )
 
 cet_test(test_AdcRegularSignalFinder
-  SOURCES
+  SOURCE
     test_AdcRegularSignalFinder.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -425,14 +426,14 @@ cet_test(test_AdcRegularSignalFinder
 )
 
 cet_test(test_DuneAdcSignalFinder
-  SOURCES
+  SOURCE
     test_DuneAdcSignalFinder.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -440,16 +441,17 @@ cet_test(test_DuneAdcSignalFinder
 )
 
 cet_test(test_AcdWireReader
-  SOURCES
+  SOURCE
     test_AcdWireReader.cxx
   LIBRARIES
     art::Framework_Services_Registry
-    lardataobj_RawData
+    lardataobj::RawData
+    lardata::Utilities
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -457,15 +459,15 @@ cet_test(test_AcdWireReader
 )
 
 cet_test(test_AdcRoiViewer
-  SOURCES
+  SOURCE
     test_AdcRoiViewer.cxx
   LIBRARIES
-    lardataobj_RawData
+    lardataobj::RawData
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     ROOT::Core
     ROOT::MathCore
@@ -474,14 +476,14 @@ cet_test(test_AdcRoiViewer
 )
 
 cet_test(test_FembLinearCalibration
-  SOURCES
+  SOURCE
     test_FembLinearCalibration.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -489,14 +491,14 @@ cet_test(test_FembLinearCalibration
 )
 
 cet_test(test_FloatArrayGainCalibration
-  SOURCES
+  SOURCE
     test_FloatArrayGainCalibration.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -504,14 +506,14 @@ cet_test(test_FloatArrayGainCalibration
 )
 
 cet_test(test_AdcChannelFFT
-  SOURCES
+  SOURCE
     test_AdcChannelFFT.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -519,7 +521,7 @@ cet_test(test_AdcChannelFFT
 )
 
 cet_test(test_Adc2dConvolute
-  SOURCES
+  SOURCE
     test_Adc2dConvolute.cxx
   LIBRARIES
     dunecore::ArtSupport
@@ -535,7 +537,7 @@ cet_test(test_Adc2dConvolute
 )
 
 cet_test(test_AdcDeconvoluteFFT
-  SOURCES
+  SOURCE
     test_AdcDeconvoluteFFT.cxx
   LIBRARIES
     dunecore::ArtSupport
@@ -551,7 +553,7 @@ cet_test(test_AdcDeconvoluteFFT
 )
 
 cet_test(test_AdcChannelDftPlotter
-  SOURCES
+  SOURCE
     test_AdcChannelDftPlotter.cxx
   LIBRARIES
     dunecore::ArtSupport
@@ -566,7 +568,7 @@ cet_test(test_AdcChannelDftPlotter
 )
 
 cet_test(test_FembMappedAdcModifier
-  SOURCES
+  SOURCE
     test_FembMappedAdcModifier.cxx
   LIBRARIES
     dunecore::ArtSupport
@@ -581,7 +583,7 @@ cet_test(test_FembMappedAdcModifier
 )
 
 cet_test(test_AdcRoiSlicer
-  SOURCES
+  SOURCE
     test_AdcRoiSlicer.cxx
   LIBRARIES
     dunecore::ArtSupport
@@ -596,14 +598,14 @@ cet_test(test_AdcRoiSlicer
 )
 
 cet_test(test_AdcRoiToTree
-  SOURCES
+  SOURCE
     test_AdcRoiToTree.cxx
   LIBRARIES
     dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib cetlib_except::cetlib_except
     cetlib_except::cetlib_except
     SQLite::SQLite3
     Boost::filesystem
@@ -611,7 +613,7 @@ cet_test(test_AdcRoiToTree
 )
 
 cet_test(test_CnrByGroup
-  SOURCES
+  SOURCE
     test_CnrByGroup.cxx
   LIBRARIES
     dunecore::ArtSupport
@@ -627,7 +629,7 @@ cet_test(test_CnrByGroup
 )
 
 cet_test(test_CnrGroupWeighted
-  SOURCES
+  SOURCE
     test_CnrGroupWeighted.cxx
   LIBRARIES
     dunecore::ArtSupport
