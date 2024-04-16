@@ -47,6 +47,7 @@ find_ups_product( wirecell )
 find_ups_product( jsoncpp )
 find_ups_product( spdlog )
 find_ups_product( eigen )
+find_ups_product( dunepdlegacy )
 
 include(MakeDuneToolBuilder)
 include(dunecore::ToolTypes) # Enable simpler building of tools.
