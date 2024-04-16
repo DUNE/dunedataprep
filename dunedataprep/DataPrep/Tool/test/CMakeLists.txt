@@ -35,6 +35,7 @@ cet_test(test_AdcResultDumper
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcChannelDumper
@@ -50,6 +51,7 @@ cet_test(test_AdcChannelDumper
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcChannelPlotter
@@ -65,6 +67,7 @@ cet_test(test_AdcChannelPlotter
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcTickModViewer
@@ -96,6 +99,7 @@ cet_test(test_AdcChannelTrimmer
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcChannelSplitter
@@ -111,6 +115,7 @@ cet_test(test_AdcChannelSplitter
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcPedestalFitter
@@ -126,6 +131,7 @@ cet_test(test_AdcPedestalFitter
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcCodeMitigator
@@ -141,6 +147,7 @@ cet_test(test_AdcCodeMitigator
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_ExpTailRemover
@@ -188,6 +195,7 @@ cet_test(test_VintageDeconvoluter
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcSampleScaler
@@ -203,6 +211,7 @@ cet_test(test_AdcSampleScaler
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3    
 )
 
 cet_test(test_AdcRangeSampleScaler
@@ -218,6 +227,7 @@ cet_test(test_AdcRangeSampleScaler
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcDataDumper
@@ -233,6 +243,7 @@ cet_test(test_AdcDataDumper
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcEventViewer
@@ -249,6 +260,7 @@ test_AdcEventViewer.cxx
     Boost::filesystem
     ROOT::Core
     ROOT::MathCore
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcDataPlotter
@@ -265,6 +277,7 @@ cet_test(test_AdcDataPlotter
     Boost::filesystem
     ROOT::Core
     ROOT::MathCore
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcDetectorPlotter
@@ -283,7 +296,7 @@ cet_test(test_AdcDetectorPlotter
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
-
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcChannelMetric
@@ -301,6 +314,7 @@ cet_test(test_AdcChannelMetric
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AcdDigitReader
@@ -318,6 +332,7 @@ cet_test(test_AcdDigitReader
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcSampleFiller
@@ -333,6 +348,7 @@ cet_test(test_AdcSampleFiller
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_FclStickyCodeFlagger
@@ -348,6 +364,7 @@ cet_test(test_FclStickyCodeFlagger
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcKeepAllSignalFinder
@@ -363,6 +380,7 @@ cet_test(test_AdcKeepAllSignalFinder
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcThresholdSignalFinder
@@ -378,6 +396,7 @@ cet_test(test_AdcThresholdSignalFinder
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcNoiseSignalFinder
@@ -393,6 +412,7 @@ cet_test(test_AdcNoiseSignalFinder
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcRoiShifter
@@ -408,6 +428,7 @@ cet_test(test_AdcRoiShifter
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AdcRegularSignalFinder
@@ -423,6 +444,7 @@ cet_test(test_AdcRegularSignalFinder
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_DuneAdcSignalFinder
@@ -438,6 +460,7 @@ cet_test(test_DuneAdcSignalFinder
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3
 )
 
 cet_test(test_AcdWireReader
@@ -456,6 +479,7 @@ cet_test(test_AcdWireReader
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3    
 )
 
 cet_test(test_AdcRoiViewer
@@ -473,6 +497,7 @@ cet_test(test_AdcRoiViewer
     ROOT::MathCore
     SQLite::SQLite3
     Boost::filesystem
+    FFTW3::FFTW3    
 )
 
 cet_test(test_FembLinearCalibration
@@ -488,6 +513,7 @@ cet_test(test_FembLinearCalibration
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3    
 )
 
 cet_test(test_FloatArrayGainCalibration
@@ -503,6 +529,7 @@ cet_test(test_FloatArrayGainCalibration
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3    
 )
 
 cet_test(test_AdcChannelFFT
@@ -518,6 +545,7 @@ cet_test(test_AdcChannelFFT
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3    
 )
 
 cet_test(test_Adc2dConvolute
@@ -565,6 +593,7 @@ cet_test(test_AdcChannelDftPlotter
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3    
 )
 
 cet_test(test_FembMappedAdcModifier
@@ -580,6 +609,7 @@ cet_test(test_FembMappedAdcModifier
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3    
 )
 
 cet_test(test_AdcRoiSlicer
@@ -595,6 +625,7 @@ cet_test(test_AdcRoiSlicer
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3    
 )
 
 cet_test(test_AdcRoiToTree
@@ -610,6 +641,7 @@ cet_test(test_AdcRoiToTree
     SQLite::SQLite3
     Boost::filesystem
     ROOT::Core
+    FFTW3::FFTW3    
 )
 
 cet_test(test_CnrByGroup
@@ -626,6 +658,7 @@ cet_test(test_CnrByGroup
     Boost::filesystem
     ROOT::Core
     ROOT::MathCore
+    FFTW3::FFTW3    
 )
 
 cet_test(test_CnrGroupWeighted
@@ -642,6 +675,7 @@ cet_test(test_CnrGroupWeighted
     Boost::filesystem
     ROOT::Core
     ROOT::MathCore
+    FFTW3::FFTW3    
 )
 
 cet_enable_asserts()

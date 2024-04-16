@@ -11,7 +11,7 @@ foreach (_variableName ${_variableNames})
     message(STATUS "${_variableName}=${${_variableName}}")
 endforeach()
 
-include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories( $ENV{EIGEN_INC} )
 
 include(CetTest)
 

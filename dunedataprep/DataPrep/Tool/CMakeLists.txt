@@ -25,6 +25,7 @@ cet_build_plugin(AdcResultDumper   art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcChannelDumper   art::tool LIBRARIES
@@ -32,6 +33,7 @@ cet_build_plugin(AdcChannelDumper   art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcChannelTrimmer  art::tool LIBRARIES
@@ -39,6 +41,8 @@ cet_build_plugin(AdcChannelTrimmer  art::tool LIBRARIES
                 art::Utilities canvas::canvas LIBRARIES
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
+
              )
 
 cet_build_plugin(AdcChannelSplitter  art::tool LIBRARIES
@@ -46,6 +50,7 @@ cet_build_plugin(AdcChannelSplitter  art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcChannelPlotter  art::tool LIBRARIES
@@ -72,6 +77,7 @@ cet_build_plugin(AdcCodeMitigator  art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcSampleScaler   art::tool LIBRARIES
@@ -80,6 +86,7 @@ cet_build_plugin(AdcSampleScaler   art::tool LIBRARIES
                 dunecore::DuneCommon_Utility
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcRangeSampleScaler   art::tool LIBRARIES
@@ -88,6 +95,7 @@ cet_build_plugin(AdcRangeSampleScaler   art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcTimingMitigator  art::tool LIBRARIES
@@ -105,6 +113,7 @@ cet_build_plugin(AdcDataDumper   art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcTickModViewer   art::tool LIBRARIES
@@ -123,6 +132,7 @@ cet_build_plugin(AdcDataPlotter   art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcDetectorPlotter   art::tool LIBRARIES
@@ -134,6 +144,7 @@ cet_build_plugin(AdcDetectorPlotter   art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcChannelMetric   art::tool LIBRARIES
@@ -144,6 +155,7 @@ cet_build_plugin(AdcChannelMetric   art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcEventViewer   art::tool LIBRARIES
@@ -152,6 +164,7 @@ cet_build_plugin(AdcEventViewer   art::tool LIBRARIES
                 art::Utilities canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AcdDigitReader   art::tool LIBRARIES
@@ -221,6 +234,7 @@ cet_build_plugin(VintageDeconvoluter   art::tool LIBRARIES
                 canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
              )
 
 cet_build_plugin(PddpVintageDeconvoluter   art::tool LIBRARIES
@@ -231,6 +245,7 @@ cet_build_plugin(PddpVintageDeconvoluter   art::tool LIBRARIES
                 canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
              )
 
 
@@ -238,42 +253,49 @@ cet_build_plugin(AdcUnderflowFlagger   art::tool LIBRARIES
                 dunecore::SignalShapingServiceDUNEDPhase_service
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
              )
 
 cet_build_plugin(FclStickyCodeFlagger   art::tool LIBRARIES
                 dunecore::SignalShapingServiceDUNEDPhase_service
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcKeepAllSignalFinder   art::tool LIBRARIES
                 dunecore::SignalShapingServiceDUNEDPhase_service
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcNoiseSignalFinder   art::tool LIBRARIES
                 dunecore::SignalShapingServiceDUNEDPhase_service
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+		FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcRoiShifter   art::tool LIBRARIES
                 dunecore::SignalShapingServiceDUNEDPhase_service
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(DuneAdcSignalFinder   art::tool LIBRARIES
                 dunecore::SignalShapingServiceDUNEDPhase_service
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcRegularSignalFinder   art::tool LIBRARIES
                 dunecore::SignalShapingServiceDUNEDPhase_service
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcRoiViewer   art::tool LIBRARIES
@@ -314,6 +336,7 @@ cet_build_plugin(FembMappedAdcModifier   art::tool LIBRARIES
 		canvas::canvas
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcChannelFFT   art::tool LIBRARIES
@@ -334,6 +357,7 @@ cet_build_plugin(Adc2dConvolute   art::tool LIBRARIES
                 dunecore::ArtSupport
                 cetlib::cetlib cetlib_except::cetlib_except
                 ROOT::Core
+                FFTW3::FFTW3
              )
 
 cet_build_plugin(AdcChannelDftPlotter   art::tool LIBRARIES
