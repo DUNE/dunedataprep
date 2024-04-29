@@ -15,21 +15,24 @@ include_directories( $ENV{EIGEN_INC} )
 
 include(CetTest)
 
-
 cet_test(test_wirecell
-  SOURCES
+  SOURCE
     test_wirecell.cxx
   LIBRARIES
-    dunecore_ArtSupport
+    dunecore::ArtSupport
     art::Utilities
     canvas::canvas
-    fhiclcpp
-    cetlib::cetlib cetlib_except
+    fhiclcpp::fhiclcpp
+    cetlib::cetlib
     cetlib_except::cetlib_except
-    SQLITE3
+    SQLite::SQLite3
     Boost::filesystem
-    ROOT_BASIC_LIB_LIST
-    WIRECELL_LIBS
+    ROOT::Core
+    WireCell::SigProc
+    WireCell::Iface
+    WireCell::Util
+    WireCell::Apps
+    Eigen3::Eigen
 )
 
 get_target_property(myincs test_wirecell INCLUDE_DIRECTORIES)
