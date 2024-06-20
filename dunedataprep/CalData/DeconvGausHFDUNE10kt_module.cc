@@ -34,7 +34,7 @@
 
 #include "dunecore/Utilities/SignalShapingServiceDUNE.h"
 #include "larcoreobj/SimpleTypesAndConstants/RawTypes.h" // raw::ChannelID_t
-#include "larcore/Geometry/Geometry.h"
+#include "larcore/Geometry/WireReadout.h"
 #include "larevt/Filters/ChannelFilter.h"
 #include "lardataobj/RawData/RawDigit.h"
 #include "lardataobj/RawData/raw.h"
@@ -204,7 +204,7 @@ namespace deconvgaushf {
   void DeconvGausHFDUNE10kt::produce(art::Event& evt)
   {      
     // get the geometry
-    art::ServiceHandle<geo::Geometry> geom;
+    auto const& wireReadout = art::ServiceHandle<geo::WireReadout>()->Get();
 
     // get the FFT service to have access to the FFT size
     art::ServiceHandle<util::LArFFT> fFFT;
@@ -363,8 +363,8 @@ namespace deconvgaushf {
 	  //for(wire=wirecol->begin(); wire != wirecol->end(); wire++){
 	  // --- Setting Channel Number and Wire Number as well as signal type ---
 	  //channel = wire->RawDigit()->Channel();
-	  sigType = geom->SignalType(channel);
-	  view = geom->View(channel);
+          sigType = wireReadout.SignalType(channel);
+          view = wireReadout.View(channel);
 	  
 	  // -----------------------------------------------------------
 	  // -- Clearing variables at the start of looping over wires --
@@ -720,7 +720,7 @@ namespace deconvgaushf {
 	    if(FitGoodnes > fChi2NDF){continue;}
 	    
 	    // get the WireID for this hit
-	    std::vector<geo::WireID> wids = geom->ChannelToWire(channel);
+            std::vector<geo::WireID> wids = wireReadout.ChannelToWire(channel);
 	    ///\todo need to have a disambiguation algorithm somewhere in here
 	    // for now, just take the first option returned from ChannelToWire
 	    geo::WireID wid = wids[0];
