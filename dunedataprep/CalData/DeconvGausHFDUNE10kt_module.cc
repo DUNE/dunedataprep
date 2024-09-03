@@ -734,8 +734,10 @@ namespace deconvgaushf {
 	      RMS,                     // rms,
 	      Amp,                     // peak_amplitude,
 	      AmpError,                // sigma_peak_amplitude
-	      std::accumulate          // summedADC
+	      std::accumulate          // summedADC ROI
 	        (signal.begin() + TempStartTime, signal.begin() + TempEndTime, 0.),
+	      std::accumulate          // summedADC HIT TO BE FIXED
+	      (signal.begin() + TempStartTime, signal.begin() + TempEndTime, 0.),
 	      Charge,                  // hit_integral
 	      ChargeError,             // hit_sigma_integral
 	      NumOfHits,               // multiplicity
