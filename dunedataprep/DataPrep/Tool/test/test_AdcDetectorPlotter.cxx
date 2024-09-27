@@ -14,6 +14,7 @@
 #include "dunecore/ArtSupport/DuneToolManager.h"
 #include "dunecore/ArtSupport/ArtServiceHelper.h"
 #include "dunecore/Geometry/AdcChannelDataTester.h"
+#include "larcore/Geometry/WireReadout.h"
 #include "larcore/Geometry/Geometry.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "TRandom.h"
@@ -50,7 +51,7 @@ int test_AdcDetectorPlotter(bool useExistingFcl =false) {
     std::ofstream config{fclfile};
     config << "#include \"geometry_dune.fcl\"" << endl;
     config << "services.Geometry:                   @local::" + gname << endl;
-    config << "services.ExptGeoHelperInterface:     @local::dune_geometry_helper" << endl;
+    config << "services.WireReadout:     @local::dune_wire_readout" << endl;
     config << "#include \"dataprep_tools.fcl\"" << endl;  // Need adcStringBuilder
     config << "tools.mytool: {" << endl;
     config << "    tool_type: AdcDetectorPlotter" << endl;
@@ -105,7 +106,7 @@ int test_AdcDetectorPlotter(bool useExistingFcl =false) {
   Index icry = 0;
   const geo::CryostatGeo& gcry = pgeo->Cryostat(geo::CryostatID{icry});
   Index ntpc = gcry.NTPC();
-  Index ncha = pgeo->Nchannels();
+  Index ncha = art::ServiceHandle<geo::WireReadout>()->Get().Nchannels();
   // Loop over events.
   AdcChannelDataTester tester;
   tester.run = 123;

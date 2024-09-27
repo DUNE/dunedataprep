@@ -33,6 +33,7 @@
 #include <optional>
 #include <tuple>
 
+#include "larcorealg/Geometry/fwd.h"
 #include "larcorealg/Geometry/TPCGeo.h"
 #include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
 #include "larcoreobj/SimpleTypesAndConstants/geo_vectors.h"
@@ -105,8 +106,6 @@ class DetectorChannelInfo
   MapROPIntercept getROPInterceptMap( IndexRange irange, Index ropid_other ) const;
   
  private:
-  // find guessed drift direction from TPC volume
-  short int getDriftDir( const geo::TPCGeo &tpc );
   // remove drift coordinate
   Point2d_t makeCoord2d( const geo::Point_t &pnt );
 
@@ -117,7 +116,7 @@ class DetectorChannelInfo
   int m_LogLevel;
 
   // drift coordinate
-  short int  m_DriftAxis; // 0 - X, 1 - Y, 2 - Z
+  geo::Coordinate m_DriftAxis;
   
   // map of a wire to channel
   //  i.e., hashed WireID to ChannelID
