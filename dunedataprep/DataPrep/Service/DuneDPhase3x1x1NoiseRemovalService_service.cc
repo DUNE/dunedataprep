@@ -7,7 +7,7 @@
 #include <algorithm>
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "art/Framework/Services/Registry/ServiceDefinitionMacros.h"
-#include "larcore/Geometry/Geometry.h"
+#include "larcore/Geometry/WireReadout.h"
 #include "lardata/Utilities/LArFFT.h"
 
 #include "larevt/CalibrationDBI/Interface/ChannelStatusService.h"
@@ -40,7 +40,7 @@ DuneDPhase3x1x1NoiseRemovalService(fhicl::ParameterSet const& pset, art::Activit
     fRoiPadLow = pset.get<int>("RoiPadLow");
     fRoiPadHigh = pset.get<int>("RoiPadHigh");
     fBinsToSkip = pset.get<AdcIndex>("BinsToSkip");
-    fGeometry = &*art::ServiceHandle<geo::Geometry>();
+    fWireReadoutGeom = &art::ServiceHandle<geo::WireReadout>()->Get();
     fFFT = &*art::ServiceHandle<util::LArFFT>();
 
     // Retrieve tools
@@ -737,7 +737,7 @@ GroupChannelMap DuneDPhase3x1x1NoiseRemovalService::makeDaqGroups(size_t gsize, 
 
   auto const & chStatus = art::ServiceHandle< lariov::ChannelStatusService >()->GetProvider();
 
-  const unsigned int nchan = fGeometry->Nchannels();
+  const unsigned int nchan = fWireReadoutGeom->Nchannels();
   for (unsigned int ch = 0; ch < nchan; ++ch)
   {
     size_t g = get311Chan(ch) / gsize;
@@ -758,7 +758,7 @@ GroupChannelMap DuneDPhase3x1x1NoiseRemovalService::makeGroups(size_t gsize, con
 
   auto const & chStatus = art::ServiceHandle< lariov::ChannelStatusService >()->GetProvider();
 
-  const unsigned int nchan = fGeometry->Nchannels();
+  const unsigned int nchan = fWireReadoutGeom->Nchannels();
   for (unsigned int ch = 0; ch < nchan; ++ch)
   {
     size_t g = ch / gsize;

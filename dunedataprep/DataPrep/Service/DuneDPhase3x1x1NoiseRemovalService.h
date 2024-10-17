@@ -15,9 +15,10 @@
 #include "dunecore/DuneInterface/Service/AdcNoiseRemovalService.h"
 #include "dunecore/DuneInterface/Data/AdcTypes.h"
 
+#include "larcorealg/Geometry/fwd.h"
+
 class AdcChannelTool;
 
-namespace geo { class Geometry; }
 namespace util { class LArFFT; }
 
 using GroupChannelMap = std::unordered_map<unsigned int, std::vector<unsigned int> >;
@@ -95,7 +96,7 @@ private:
   AdcChannelToolPtr m_pROIBuilderToolFinal;
 
   // Services.
-  const geo::Geometry* fGeometry;
+  const geo::WireReadoutGeom* fWireReadoutGeom;
   mutable util::LArFFT* fFFT;
 };
 

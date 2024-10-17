@@ -45,8 +45,9 @@
 #include "TFFTRealComplex.h"
 #include "TFFTComplexReal.h"
 #include "dunepdlegacy/Services/ChannelMap/PdspChannelMapService.h"
+#include "larcorealg/Geometry/fwd.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
-namespace geo { class Geometry; }
+
 namespace util { class LArFFT; }
 using GroupChannelMap = std::unordered_map<unsigned int, std::vector<unsigned int> >;
 	
@@ -77,7 +78,7 @@ private:
   float fCutoffFrequency;
   
   // Services.
-  const geo::Geometry* fGeometry;
+  const geo::WireReadoutGeom* fWireReadoutGeom;
   mutable util::LArFFT* fFFT;
   	
   // Functions

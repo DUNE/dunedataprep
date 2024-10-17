@@ -77,9 +77,9 @@ DataMap UndershootCorr::update(AdcChannelData& acd) const {
     }
   }
 
-  art::ServiceHandle<dune::PdspChannelMapService> channelMap;
+  art::ServiceHandle<dune::PdspChannelMapService> wireReadout;
   size_t offlineChannel = acd.channel();
-  size_t plane = channelMap->PlaneFromOfflineChannel(offlineChannel);
+  size_t plane = wireReadout->PlaneFromOfflineChannel(offlineChannel);
   if (plane >= m_CorrectFlag.size()) return ret;  
   double pedfit = 0;
   double csifit = 0;
