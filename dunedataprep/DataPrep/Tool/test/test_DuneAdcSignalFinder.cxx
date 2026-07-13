@@ -77,14 +77,14 @@ int test_DuneAdcSignalFinder(bool useExistingFcl =false) {
   data.samples[30] = 150.0;
   assert( data.signal.size() == 0 );
   assert( data.rois.size() == 0 );
-  assert( data.samples[30] = 150 );
-  assert( data.samples[31] = 130 );
-  assert( data.samples[32] =  90 );
-  assert( data.samples[33] =  70 );
-  assert( data.samples[34] =  45 );
-  assert( data.samples[35] =  30 );
-  assert( data.samples[36] =  20 );
-  assert( data.samples[37] =  15 );
+  assert( data.samples[30] == 150 );
+  assert( data.samples[31] == 130 );
+  assert( data.samples[32] ==  90 );
+  assert( data.samples[33] ==  70 );
+  assert( data.samples[34] ==  45 );
+  assert( data.samples[35] ==  30 );
+  assert( data.samples[36] ==  20 );
+  assert( data.samples[37] ==  15 );
 
   cout << myname << line << endl;
   cout << myname << "Running tool." << endl;
