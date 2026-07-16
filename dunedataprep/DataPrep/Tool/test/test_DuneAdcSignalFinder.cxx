@@ -69,22 +69,24 @@ int test_DuneAdcSignalFinder(bool useExistingFcl =false) {
   cout << myname << line << endl;
   cout << myname << "Create data and call tool." << endl;
   AdcChannelData data;
+  srand(615015); // for reproducibility
   for ( AdcIndex itic=0; itic<100; ++itic ) {
     float xadc = rand()%20 - 10.0;
     data.samples.push_back(xadc);
   }
   data.sampleNoise = 40.0;
   data.samples[30] = 150.0;
+
   assert( data.signal.size() == 0 );
   assert( data.rois.size() == 0 );
-  assert( data.samples[30] == 150 );
-  assert( data.samples[31] == 130 );
-  assert( data.samples[32] ==  90 );
-  assert( data.samples[33] ==  70 );
-  assert( data.samples[34] ==  45 );
-  assert( data.samples[35] ==  30 );
-  assert( data.samples[36] ==  20 );
-  assert( data.samples[37] ==  15 );
+  data.samples[30] = 150;
+  data.samples[31] = 130;
+  data.samples[32] =  90;
+  data.samples[33] =  70;
+  data.samples[34] =  45;
+  data.samples[35] =  30;
+  data.samples[36] =  20;
+  data.samples[37] =  15;
 
   cout << myname << line << endl;
   cout << myname << "Running tool." << endl;
