@@ -81,7 +81,7 @@ int test_MedianPedestalService(bool useExistingFcl) {
   cout << myname << "Checking odd data." << endl;
   AdcSignal ped = 0.0;
   assert( hpev->evaluate(oddData, &ped) == 0 );
-  assert( ped = 3.0 );
+  assert( ped == 3.0 );
 
   cout << myname << line << endl;
   cout << myname << "Checking even data." << endl;
@@ -93,7 +93,7 @@ int test_MedianPedestalService(bool useExistingFcl) {
   cout << myname << "Checking flagged data." << endl;
   ped = 0.0;
   assert( hpev->evaluate(flgData, &ped) == 0 );
-  assert( ped = 3.0 );
+  assert( ped == 3.0 );
 
   cout << myname << line << endl;
   cout << myname << "Done." << endl;
