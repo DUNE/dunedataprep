@@ -74,11 +74,11 @@ int test_DuneAdcSignalFinder(bool useExistingFcl =false) {
     float xadc = rand()%20 - 10.0;
     data.samples.push_back(xadc);
   }
-  data.sampleNoise = 40.0;
-  data.samples[30] = 150.0;
 
   assert( data.signal.size() == 0 );
   assert( data.rois.size() == 0 );
+
+  data.sampleNoise = 40.0;
   data.samples[30] = 150;
   data.samples[31] = 130;
   data.samples[32] =  90;
