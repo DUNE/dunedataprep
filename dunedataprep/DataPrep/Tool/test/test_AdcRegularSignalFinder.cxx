@@ -78,7 +78,7 @@ int test_AdcRegularSignalFinder(bool useExistingFcl =false) {
   assert( data.signal.size() == 0 );
   assert( data.rois.size() == 0 );
   assert( data.samples.size() == nsam );
-  assert( data.samples[30] = 150 );
+  assert( data.samples[30] == 150 );
 
   cout << myname << line << endl;
   cout << myname << "Running tool." << endl;
