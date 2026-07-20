@@ -72,7 +72,7 @@ int test_AdcKeepAllSignalFinder(bool useExistingFcl =false) {
   data.samples[30] = 150.0;
   assert( data.signal.size() == 0 );
   assert( data.rois.size() == 0 );
-  assert( data.samples[30] = 150 );
+  assert( data.samples[30] == 150 );
 
   cout << myname << line << endl;
   cout << myname << "Running tool." << endl;
