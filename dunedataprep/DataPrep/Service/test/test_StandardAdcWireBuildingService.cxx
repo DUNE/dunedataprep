@@ -194,7 +194,12 @@ int main(int argc, char* argv[]) {
     istringstream ssarg(argv[1]);
     ssarg >> a_LogLevel;
   }
-  return test_StandardAdcWireBuildingService(a_LogLevel);
+  int rstat = test_StandardAdcWireBuildingService(a_LogLevel);
+  // Destroy the art services while ROOT/Cling is still alive; otherwise
+  // they are destroyed at program exit when the interpreter state they
+  // rely on may already be gone, causing a crash.
+  ArtServiceHelper::unload_services();
+  return rstat;
 }
 
 //**********************************************************************

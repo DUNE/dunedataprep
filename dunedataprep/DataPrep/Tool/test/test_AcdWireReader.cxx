@@ -165,7 +165,12 @@ int main(int argc, char* argv[]) {
     }
     useExistingFcl = sarg == "true" || sarg == "1";
   }
-  return test_AcdWireReader(useExistingFcl);
+  int rstat = test_AcdWireReader(useExistingFcl);
+  // Destroy the art services while ROOT/Cling is still alive; otherwise
+  // they are destroyed at program exit when the interpreter state they
+  // rely on may already be gone, causing a crash.
+  ArtServiceHelper::unload_services();
+  return rstat;
 }
 
 //**********************************************************************

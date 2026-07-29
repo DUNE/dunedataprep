@@ -132,7 +132,12 @@ int main(int argc, char* argv[]) {
   }
   cout << "     LogLevel: " << a_LogLevel << endl;
   cout << "  explicitFcl: " << explicitFcl << endl;
-  return test_KeepAllRoiBuildingService(a_LogLevel, explicitFcl);
+  int rstat = test_KeepAllRoiBuildingService(a_LogLevel, explicitFcl);
+  // Destroy the art services while ROOT/Cling is still alive; otherwise
+  // they are destroyed at program exit when the interpreter state they
+  // rely on may already be gone, causing a crash.
+  ArtServiceHelper::unload_services();
+  return rstat;
 }
 
 //**********************************************************************
