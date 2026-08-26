@@ -395,7 +395,12 @@ int main(int argc, char* argv[]) {
     string sarg(argv[2]);
     useFclFile = sarg == "true" || sarg == "1";
   }
-  return test_StandardRawDigitPrepService(useExistingFcl, useFclFile);
+  int rstat = test_StandardRawDigitPrepService(useExistingFcl, useFclFile);
+  // Destroy the art services while ROOT/Cling is still alive; otherwise
+  // they are destroyed at program exit when the interpreter state they
+  // rely on may already be gone, causing a crash.
+  ArtServiceHelper::unload_services();
+  return rstat;
 }
 
 //**********************************************************************
