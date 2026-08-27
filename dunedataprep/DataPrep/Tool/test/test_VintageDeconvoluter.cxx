@@ -78,7 +78,7 @@ int test_VintageDeconvoluter(bool useExistingFcl =false) {
   data.samples[30] = 150.0;
   assert( data.signal.size() == 0 );
   assert( data.rois.size() == 0 );
-  assert( data.samples[30] = 150 );
+  assert( data.samples[30] == 150 );
   AdcChannelData data0 = data;
   data0.signal  = data.signal;
   data0.rois    = data.rois;
