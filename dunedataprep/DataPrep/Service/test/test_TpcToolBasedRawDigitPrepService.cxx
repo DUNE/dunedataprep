@@ -329,7 +329,12 @@ int main(int argc, char* argv[]) {
     useExistingFcl = sarg == "true" || sarg == "1";
   }
   TH1::AddDirectory(false);
-  return test_TpcToolBasedRawDigitPrepService(useExistingFcl);
+  int rstat = test_TpcToolBasedRawDigitPrepService(useExistingFcl);
+  // Destroy the art services while ROOT/Cling is still alive; otherwise
+  // they are destroyed at program exit when the interpreter state they
+  // rely on may already be gone, causing a crash.
+  ArtServiceHelper::unload_services();
+  return rstat;
 }
 
 //**********************************************************************

@@ -78,7 +78,7 @@ int test_VintageDeconvoluter(bool useExistingFcl =false) {
   data.samples[30] = 150.0;
   assert( data.signal.size() == 0 );
   assert( data.rois.size() == 0 );
-  assert( data.samples[30] = 150 );
+  assert( data.samples[30] == 150 );
   AdcChannelData data0 = data;
   data0.signal  = data.signal;
   data0.rois    = data.rois;
@@ -114,7 +114,12 @@ int main(int argc, char* argv[]) {
     }
     useExistingFcl = sarg == "true" || sarg == "1";
   }
-  return test_VintageDeconvoluter(useExistingFcl);
+  int rstat = test_VintageDeconvoluter(useExistingFcl);
+  // Destroy the art services while ROOT/Cling is still alive; otherwise
+  // they are destroyed at program exit when the interpreter state they
+  // rely on may already be gone, causing a crash.
+  ArtServiceHelper::unload_services();
+  return rstat;
 }
 
 //**********************************************************************

@@ -5,8 +5,11 @@
 //
 // Test DuneDeconvolutionService.
 //
-// This test crashes in cleanup until this problem is resolved:
-// https://cdcvs.fnal.gov/redmine/issues/10618
+// This test previously crashed during cleanup (larsoft issue
+// https://cdcvs.fnal.gov/redmine/issues/10618) because the art services
+// were destroyed at program exit, after the ROOT/Cling interpreter they
+// rely on had already been torn down.  It now tears the services down
+// explicitly (ArtServiceHelper::unload_services()) before main returns.
 
 #include <string>
 #include <iostream>
@@ -120,6 +123,10 @@ int main(int argc, char* argv[]) {
     ssarg >> a_LogLevel;
   }
   int rstat = test_DuneDeconvolutionService(a_LogLevel);
+  // Destroy the art services while ROOT/Cling is still alive; otherwise
+  // they are destroyed at program exit when the interpreter state they
+  // rely on may already be gone, causing a crash (larsoft issue 10618).
+  ArtServiceHelper::unload_services();
   cout << myname << "Exiting." << endl;
   return rstat;
 }
