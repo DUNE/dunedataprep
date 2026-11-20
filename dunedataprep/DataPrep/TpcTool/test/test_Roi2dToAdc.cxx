@@ -172,7 +172,15 @@ int test_Roi2dToAdc(bool useExistingFcl =false) {
         acdchk.rois.back().second = ktck;
       }
     }
-    acdchk.signal.resize(ntck, false);
+    // initializing this resized vector causes gcc with c++20 to fail.
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=125863
+    //
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+    acdchk.signal.resize(ntck,false);
+#pragma GCC diagnostic pop
+    
     Index isig1 = tckoff > kcha ? tckoff - kcha : 0;
     Index isig2 = std::min(8 - kcha, ntck);
     for ( Index ktck=isig1; ktck<isig2; ++ktck ) {
