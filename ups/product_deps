@@ -87,7 +87,7 @@
 #>  define_pythonpath
 ####################################
 parent		dunedataprep
-defaultqual	e26
+defaultqual	e28
 ####################################
 
 ####################################
@@ -246,7 +246,7 @@ defaultqual	e26
 #
 ####################################
 product		version		qual	flags		<table_format=2>
-dunecore v10_32_00d01
+dunecore v11_00_00d00
 cetmodules	v3_27_04	-	only_for_build
 end_product_list
 ####################################
@@ -303,10 +303,8 @@ end_product_list
 #
 ####################################
 qualifier	dunecore	notes
-c14:debug	c14:debug
-c14:prof	c14:prof
-e26:debug	e26:debug
-e26:prof	e26:prof
+e28:debug	e28:debug
+e28:prof	e28:prof
 end_qualifier_list
 ####################################
 
